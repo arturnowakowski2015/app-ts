@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import { fileURLToPath } from "url";
-import { load, sortData } from "./controller/post.js";
+import { load, sortData, paginate } from "./controller/post.js";
 import cors from "cors";
 import path from "path";
 /* CONFIGURATIONS */
@@ -21,8 +21,14 @@ app.use(
 );
 /* REGISTER USER */
 
-app.get("/:database", load);
-app.get("/:database/sort/:actcategory/:column/:sortDirection", sortData);
+app.get(
+  "/:database/sort/:actcategory/:column/:sortDirection/:from/:to",
+  //http://localhost:3001/comments/sort/new/id/ASC/1/11
+
+  sortData
+);
+app.get("/:database/paginate/:actcategory/:from/:to", paginate);
+//http://localhost:3001/comments/paginate/new/1/11
 const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, () => console.log(`Server Port: ${PORT}`));

@@ -19,6 +19,9 @@ export interface DataTable {
 export interface Record {
   rec: Array<string | number | Boolean | undefined>;
 }
+export interface Enabled {
+  e: boolean[];
+}
 export interface Data {
   [category: string]: DataTable[];
 }

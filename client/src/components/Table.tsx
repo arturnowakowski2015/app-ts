@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSort } from "../hooks/useSort";
-import { Set, IMenuItems } from "./Interface";
+import { Set, IMenuItems, Enabled } from "./Interface";
 import { useBuildChevron } from "../hooks/useBuildChevron";
 import ColumnHeaderButton from "./ColumnHeaderButton";
 import Pagination from "./Pagination";
@@ -26,30 +26,49 @@ export default function Table({
 
   pageSize,
 }: IProps) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [selectedColumn, setSelectedColumn] = useState<number>(0);
-  let { data, isLoading, error } = useQuery(["database"], async () => {
-    const data = await fetch(set.host + set.database, {
-      method: "GET",
-    });
-    return await data.json();
-  });
-  const [d, setD] = useState<any>(data);
+  const [len, setLen] = useState<number>();
+  const [enabled, setEnabled] = useState<Enabled>({
+    e: [true, false],
+  } as Enabled);
+  ////localhost:3001/comments/paginate/new/1/11
+  const [d, setD] = useState<any>({} as any);
+  let { data, isLoading, error, refetch } = useQuery(
+    ["paginate", currentPage],
+    async () => {
+      const data = await fetch(
+        set.host +
+          set.database +
+          "/paginate/" +
+          actcategory +
+          "/" +
+          10 * currentPage +
+          "/" +
+          (currentPage * 10 + 10),
+        {
+          method: "GET",
+        }
+      );
+      return await data.json();
+    },
+    { cacheTime: 0 }
+  );
+
   const onSort = (columnId: number) => {
     setSelectedColumn(columnId);
   };
   const [columns, selectRecord] = useTempTable(set.actcategory, data, treedata);
   const [buildchevron, chevron, setChevron] = useBuildChevron(columns);
-  const [now, setNow] = useState<boolean>(false);
+  const [now, setNow] = useState<boolean>(true);
 
   const {
     data: sorted_data,
     isLoading: sorted_isLoading,
     error: sorted_error,
-    isPreviousData,
-    refetch,
+    refetch: r,
   } = useQuery(
-    ["sort", selectedColumn],
+    ["sort", enabled.e[1]],
     async () => {
       const data = await fetch(
         set.host +
@@ -61,26 +80,35 @@ export default function Table({
             columns[selectedColumn] &&
             columns[selectedColumn].col.title) +
           "/" +
-          (chevron.down ? "ASC" : "DESC"),
+          (chevron.down ? "DESC" : "ASC") +
+          "/" +
+          currentPage +
+          "/" +
+          (currentPage + 10),
         {
           method: "GET",
         }
       );
       return await data.json();
     },
-    { keepPreviousData: true }
+    {}
   );
-
   useEffect(() => {
     setD(sorted_data);
+    setSelectedColumn((selectedColumn) => -1);
+    setNow(false);
+    setEnabled({ ...enabled, e: [false, false] });
   }, [sorted_data]);
+  useEffect(() => {
+    setD([]);
+    setD(data);
+    setLen(data && data.len);
+  }, [data]);
 
-  // useEffect(() => setDataLength(datalength), []);
-  if (isLoading) return <div>"Loading..."</div>;
+  if (isLoading || sorted_isLoading) return <div>"Loading..."</div>;
   if (error) return <div>"An error has occurred: " </div>;
   return (
     <>
-      /\\\{isPreviousData}\\
       {d && d[actcategory].length > 0 ? (
         <table className="table">
           <thead>
@@ -101,10 +129,14 @@ export default function Table({
                             title: column.col.title,
                             class: chevron.class,
                           });
-                          setSelectedColumn((selectedColumn) => i);
 
+                          setSelectedColumn((selectedColumn) => i);
+                          const e: Enabled = { ...enabled, e: [false, true] };
+                          setEnabled(e);
                           d[actcategory] = sorted_data;
+
                           setD(d[actcategory]);
+                          setNow(true);
                           refetch();
                         }}
                         onMouseOver={() => {
@@ -133,20 +165,26 @@ export default function Table({
           <tbody>
             <Rows
               selectRecord={selectRecord}
-              data={d[actcategory]}
+              data={d && d["new"]}
               columns={columns}
             />
           </tbody>
         </table>
       ) : (
         <div className="norecords">"no records avaible!!"</div>
-      )}{" "}
+      )}
+      {len}
       <Pagination
         siblingCount={1}
-        currentPage={currentPage}
-        totalCount={d && d[actcategory].length}
+        currentPage={currentPage == 0 ? 1 : currentPage}
+        totalCount={len}
         pageSize={pageSize}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page) => {
+          const e: Enabled = { ...enabled, e: [true, false] };
+          setEnabled(e);
+          let i: number = page;
+          setCurrentPage(i);
+        }}
       />
     </>
   );

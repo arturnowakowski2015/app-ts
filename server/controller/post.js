@@ -11,7 +11,7 @@ export const load = async (req, res) => {
 };
 
 export const sortData = (req, res) => {
-  const { database, actcategory, column, sortDirection } = req.params;
+  const { database, actcategory, column, sortDirection, from, to } = req.params;
   try {
     console.log(sortDirection);
     sortDirection === "DESC"
@@ -27,7 +27,28 @@ export const sortData = (req, res) => {
             ? b[column].localeCompare(a[column])
             : b[column] - a[column];
         });
-    res.status(200).json(baza[database]);
+    let ss = baza[database][actcategory].filter((t, i) => {
+      return i >= from && i < to && t;
+    });
+    console.log(actcategory + ":::" + JSON.stringify(ss));
+    res.status(200).json({ [actcategory]: ss });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+export const paginate = async (req, res) => {
+  const { database, actcategory, from, to } = req.params;
+  console.log(9999);
+  try {
+    let ss = baza[database][actcategory].filter((t, i) => {
+      return i >= from && i < to && t;
+    });
+    console.log(from + ":::" + to);
+    res.status(200).json({
+      len: baza[database][actcategory].length,
+
+      [actcategory]: ss,
+    });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
