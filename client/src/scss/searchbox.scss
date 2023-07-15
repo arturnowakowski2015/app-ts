@@ -1,0 +1,16 @@
+.searchlabel {
+  width: 150px;
+}
+.searchbox {
+  display: inline-block;
+}
+
+.searchbox .options {
+  visibility: visible;
+  position: absolute;
+  left: 337px;
+  z-index: 2;
+  width: 100px;
+  overflow-y: auto;
+  background-color: rgb(255, 255, 255);
+}

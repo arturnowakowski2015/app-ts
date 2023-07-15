@@ -1,0 +1,67 @@
+$colors1: (green, blue, red);
+.nav {
+  display: flex;
+  flex-direction: row;
+  padding-left: 500px;
+  padding-bottom: 30px;
+  div {
+    padding-left: 5px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+a {
+  padding-left: 5px;
+}
+.dropdown {
+  padding-left: 5px;
+  position: relative;
+  display: inline-block;
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+  @each $v in 1, 2, 3 {
+    .colorprobe-#{$v} {
+      padding-top: 5px;
+      width: 20px;
+      height: 20px;
+      background-color: nth($colors1, $v);
+    }
+  }
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+.colorid {
+  padding: 5px;
+  cursor: pointer;
+}
+.colorid:hover {
+  background-color: rgb(158, 191, 191);
+}

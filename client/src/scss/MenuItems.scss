@@ -1,0 +1,55 @@
+@use "set";
+@use "sass:map";
+.item {
+  cursor: pointer;
+  background-color: antiquewhite;
+  width: 100%;
+  transition: background-color 0.5s;
+}
+.menuitem {
+  cursor: pointer;
+}
+.minus,
+.plus {
+  padding-right: 5px;
+  cursor: pointer;
+}
+span {
+  cursor: pointer;
+  height: 20px;
+  text-align: right;
+  padding-left: 30px;
+} // Generate Button Modifiers
+
+@mixin colorSet($v) {
+  background-color: nth($selected-1, 1);
+}
+@mixin basic-menuitem($v, $f) {
+  background-color: nth(map.get(set.$colors, "selected-#{$v}"), $f);
+  width: 100%;
+  transition: background-color 1s;
+  cursor: pointer;
+  padding-left: 10px;
+  border-radius: 20px 1px 4px 20px;
+}
+.node {
+  padding: 5px;
+  @each $v in 1, 2, 3 {
+    .selected-#{$v} {
+      color: white;
+      @include basic-menuitem($v, 3);
+    }
+    .over-#{$v} {
+      @include basic-menuitem($v, 2);
+    }
+    .item-#{$v} {
+      @include basic-menuitem($v, 1);
+    }
+  }
+}
+.over {
+  cursor: pointer;
+  background-color: rgb(30, 222, 43);
+  width: 100%;
+  transition: background-color 0.5s;
+}
