@@ -5,7 +5,7 @@ import { useBuildChevron } from "../hooks/useBuildChevron";
 import ColumnHeaderButton from "./ColumnHeaderButton";
 import Pagination from "./Pagination";
 import Rows from "./Rows";
-import { useQuery, QueryCache } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTempTable } from "../hooks/useTempTable";
 
 import { Column } from "../components/Interface";
@@ -58,7 +58,11 @@ export default function Table({
   const onSort = (columnId: number) => {
     setSelectedColumn(columnId);
   };
-  const [columns, selectRecord] = useTempTable(set.actcategory, data, treedata);
+  const [columns, urls, selectRecord] = useTempTable(
+    set.actcategory,
+    data,
+    treedata
+  );
   const [buildchevron, chevron, setChevron] = useBuildChevron(columns);
   const [now, setNow] = useState<boolean>(true);
 
@@ -82,9 +86,9 @@ export default function Table({
           "/" +
           (chevron.down ? "DESC" : "ASC") +
           "/" +
-          currentPage +
+          10 * currentPage +
           "/" +
-          (currentPage + 10),
+          (10 * currentPage + 10),
         {
           method: "GET",
         }
@@ -93,6 +97,40 @@ export default function Table({
     },
     {}
   );
+  const queryClient = useQueryClient();
+  const resolveIssueMutation = useMutation(
+    async (id: number) =>
+      await fetch(
+        set.host +
+          set.database +
+          "/" +
+          set.actcategory +
+          "/remove/" +
+          (id + currentPage * 10),
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      ),
+    {
+      onSuccess: () => {
+        // flag the query with key ["issues"] as invalidated
+        // this causes a refetch of the issues data
+        // queryClient.invalidateQueries(["paginate"]);
+
+        queryClient.invalidateQueries({ queryKey: ["paginate"] });
+      },
+    }
+  );
+  /*
+      const current = queryClient.getQueryData<{ items:any }>([
+          "paginate",
+          currentPage,
+        ]);
+        alert(JSON.stringify(current));
+*/
   useEffect(() => {
     setD(sorted_data);
     setSelectedColumn((selectedColumn) => -1);
@@ -101,14 +139,18 @@ export default function Table({
   }, [sorted_data]);
   useEffect(() => {
     setD([]);
+
     setD(data);
+
     setLen(data && data.len);
+    refetch();
   }, [data]);
 
   if (isLoading || sorted_isLoading) return <div>"Loading..."</div>;
   if (error) return <div>"An error has occurred: " </div>;
   return (
     <>
+      {JSON.stringify(d && d[actcategory])}
       {d && d[actcategory].length > 0 ? (
         <table className="table">
           <thead>
@@ -137,7 +179,6 @@ export default function Table({
 
                           setD(d[actcategory]);
                           setNow(true);
-                          refetch();
                         }}
                         onMouseOver={() => {
                           buildchevron(columns);
@@ -167,6 +208,9 @@ export default function Table({
               selectRecord={selectRecord}
               data={d && d["new"]}
               columns={columns}
+              remove={(ii: number) => {
+                resolveIssueMutation.mutate(ii);
+              }}
             />
           </tbody>
         </table>

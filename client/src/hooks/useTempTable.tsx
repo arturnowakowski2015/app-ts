@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   Column,
   Data,
@@ -96,7 +97,7 @@ const useTempTable = (
     //setDatalengths(g && g.length);
   }, [data]);
 
-  return [columns, selectRecord] as const;
+  return [columns, urls, selectRecord] as const;
 };
 
 export { useTempTable };
