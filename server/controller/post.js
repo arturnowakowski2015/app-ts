@@ -1,4 +1,14 @@
 import { baza } from "../model/baza1.js";
+export const increase = async (req, res) => {
+  for (let i = baza["comments"]["new"].length; i < 11530000; i++)
+    baza["comments"]["new"].push({
+      postId: 1,
+      id: baza["comments"]["new"].length + i,
+      name: "id labore ex et quam laborum",
+      email: "Eliseo@gardner.biz",
+      body: "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",
+    });
+};
 export const load = async (req, res) => {
   const { database } = req.params;
   try {

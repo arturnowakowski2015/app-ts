@@ -3,12 +3,12 @@ import { Record, DataTable, Column } from "../components/Interface";
 import { useRec } from "../hooks/useRec";
 interface IProps {
   record?: Record[];
-  categoryurl: string;
+
   columns: Column[];
   deleteRec: (cat: string, str: DataTable) => void;
   update: (url: string, record?: DataTable) => void;
 }
-const Rec = ({ record, categoryurl, columns, deleteRec, update }: IProps) => {
+const Rec = ({ record, columns, deleteRec, update }: IProps) => {
   const [data, setData] = useRec(record as Record[], columns);
   return (
     <>
@@ -48,20 +48,8 @@ const Rec = ({ record, categoryurl, columns, deleteRec, update }: IProps) => {
       <br />
       <br />
       <br />
-      <button
-        onClick={() => {
-          update(categoryurl, data);
-        }}
-      >
-        update
-      </button>
-      <button
-        onClick={() => {
-          deleteRec(categoryurl, data);
-        }}
-      >
-        delete
-      </button>
+      <button>update</button>
+      <button>delete</button>
     </>
   );
 };

@@ -1,13 +1,10 @@
 import { IMenuItems } from "../components/Interface";
-import { DataTable, Lenghts } from "../components/Interface";
 import TreeNode from "../components/TreeNode";
 import { useMenuItems } from "../hooks/useMenuItems";
 import { useGlobalContext } from "../ctx/MyGlobalContext";
-import { useEffect, useRef } from "react";
 
 import "../scss/MenuItems.scss";
 interface IProps {
-  datalengths: Lenghts;
   treedata: IMenuItems[];
   length: number;
   selected: string;
@@ -15,10 +12,8 @@ interface IProps {
   onmouseover: (str: string) => void;
   onmouseout: (str: string) => void;
   onClick: (title: string) => void;
-  datalegth: number;
 }
 const MenuItems = ({
-  datalegth,
   treedata,
   length,
   selected,
@@ -26,26 +21,10 @@ const MenuItems = ({
   onClick,
   onmouseover,
   onmouseout,
-  datalengths,
 }: IProps) => {
-  const [itemsonlevel, flag, setFlag, recquantity, set] = useMenuItems(
-    0,
-    treedata
-  );
+  const [itemsonlevel, flag, set] = useMenuItems(0, treedata);
   const { sets, i } = useGlobalContext();
-  const ret = (str: string) => {
-    for (const [key, value] of Object.entries(datalengths)) {
-      if (key === str) return value;
-    }
-  };
-  const ref = useRef<Function>();
-  const sFlag = () => {
-    console.log(recquantity);
-  };
-  ref.current = sFlag;
-  useEffect(() => {
-    if (ref.current) ref.current();
-  }, []);
+
   return (
     <>
       {itemsonlevel.map((t, ii) => {
@@ -102,7 +81,6 @@ const MenuItems = ({
                 selected={selected}
                 pid={t.id}
                 onClick={onClick}
-                datalengths={datalengths}
                 length={length}
               />
             )}

@@ -1,18 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 
-import {
-  Column,
-  Data,
-  DataTable,
-  Record,
-  fetchActionSet,
-  IMenuItems,
-} from "../components/Interface";
-const urls: string[] = [
-  "http://localhost:3000/comments",
-  "http://localhost:3000/photos",
-];
+import { Column, Data, DataTable, IMenuItems } from "../components/Interface";
+
 interface Lenghts {
   [id: string]: number;
 }
@@ -22,9 +11,6 @@ const useTempTable = (
   data: Data,
   treedata: IMenuItems[]
 ) => {
-  const navigate = useNavigate();
-  const [tableflag, setTableflag] = useState(1);
-  const [selectedRecord, setSelectedRecord] = useState<Record[]>();
   const [categoryurl, setCategoryurl] = useState("");
   let columns: Column[] = [];
 
@@ -72,12 +58,6 @@ const useTempTable = (
     navigate("/" + actualcategory);
   };
   */
-  const [d, setD] = useState<any>({} as any);
-  const loadDatabase = async (idurl: number): Promise<any> => {};
-
-  const selectRecord = (rec: Record[]) => {
-    setSelectedRecord(rec);
-  };
 
   columns = useMemo(() => {
     return data && data["new"]
@@ -91,13 +71,8 @@ const useTempTable = (
         ]
       : [];
   }, [data]);
-  useEffect(() => {
-    const g: DataTable[] = data && data.length;
-    //alert("//////////////   " + JSON.stringify(data));
-    //setDatalengths(g && g.length);
-  }, [data]);
 
-  return [columns, urls, selectRecord] as const;
+  return [columns] as const;
 };
 
 export { useTempTable };

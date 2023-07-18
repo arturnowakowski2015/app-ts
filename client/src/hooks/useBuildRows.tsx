@@ -20,15 +20,16 @@ const useBuildRows = () => {
     };
 
     data && data.map(buildRows);
-
-    temprows.map((t, i) => {
-      if (columns && i !== 0 && i % columns.length === 0) {
-        ii++;
-        temp.push([]);
-      }
-      temp[ii] && temp[ii].push(t);
-      return t;
-    });
+    if (columns && columns.length > 0)
+      temprows.map((t, i) => {
+        if (columns && i !== 0 && i % columns.length === 0) {
+          ii++;
+          temp.push([]);
+        }
+        console.log("op     " + JSON.stringify(temp));
+        temp[ii] && temp[ii].push(t);
+        return t;
+      });
     setRows(temp);
   };
 

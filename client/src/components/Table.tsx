@@ -1,14 +1,13 @@
-import { useState, useMemo, useEffect } from "react";
-import { useSort } from "../hooks/useSort";
+import { useState, useEffect } from "react";
+
 import { Set, IMenuItems, Enabled } from "./Interface";
 import { useBuildChevron } from "../hooks/useBuildChevron";
 import ColumnHeaderButton from "./ColumnHeaderButton";
 import Pagination from "./Pagination";
 import Rows from "./Rows";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { useTempTable } from "../hooks/useTempTable";
 
-import { Column } from "../components/Interface";
 import "../scss/Table.scss";
 //import Pagination from "./Pagination";
 interface IProps {
@@ -26,104 +25,38 @@ export default function Table({
 
   pageSize,
 }: IProps) {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedColumn, setSelectedColumn] = useState<number>(0);
   const [len, setLen] = useState<number>();
+  ////localhost:3001/comments/paginate/new/1/11
+  const [d, setD] = useState<any>({} as any);
+
+  const [sorted_data, setSorted_data] = useState<any>([] as any);
+  const [data, setData] = useState<any>([] as any);
+
   const [enabled, setEnabled] = useState<Enabled>({
     e: [true, false],
   } as Enabled);
-  ////localhost:3001/comments/paginate/new/1/11
-  const [d, setD] = useState<any>({} as any);
-  let { data, isLoading, error, refetch } = useQuery(
-    ["paginate", currentPage],
-    async () => {
-      const data = await fetch(
-        set.host +
-          set.database +
-          "/paginate/" +
-          actcategory +
-          "/" +
-          10 * currentPage +
-          "/" +
-          (currentPage * 10 + 10),
-        {
-          method: "GET",
-        }
-      );
-      return await data.json();
-    },
-    { cacheTime: 0 }
-  );
-
-  const onSort = (columnId: number) => {
-    setSelectedColumn(columnId);
+  const datas = (data1: any, sorted_data: any) => {
+    let r = data1;
+    setData(r);
+    if (sorted_data) setSorted_data(data);
   };
-  const [columns, urls, selectRecord] = useTempTable(
-    set.actcategory,
-    data,
-    treedata
-  );
+  const [columns] = useTempTable(set.actcategory, data, treedata);
   const [buildchevron, chevron, setChevron] = useBuildChevron(columns);
-  const [now, setNow] = useState<boolean>(true);
+  useEffect(() => {
+    setSelectedColumn((selectedColumn) => -1);
 
-  const {
-    data: sorted_data,
-    isLoading: sorted_isLoading,
-    error: sorted_error,
-    refetch: r,
-  } = useQuery(
-    ["sort", enabled.e[1]],
-    async () => {
-      const data = await fetch(
-        set.host +
-          set.database +
-          "/sort/" +
-          actcategory +
-          "/" +
-          (columns &&
-            columns[selectedColumn] &&
-            columns[selectedColumn].col.title) +
-          "/" +
-          (chevron.down ? "DESC" : "ASC") +
-          "/" +
-          10 * currentPage +
-          "/" +
-          (10 * currentPage + 10),
-        {
-          method: "GET",
-        }
-      );
-      return await data.json();
-    },
-    {}
-  );
-  const queryClient = useQueryClient();
-  const resolveIssueMutation = useMutation(
-    async (id: number) =>
-      await fetch(
-        set.host +
-          set.database +
-          "/" +
-          set.actcategory +
-          "/remove/" +
-          (id + currentPage * 10),
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ),
-    {
-      onSuccess: () => {
-        // flag the query with key ["issues"] as invalidated
-        // this causes a refetch of the issues data
-        // queryClient.invalidateQueries(["paginate"]);
+    setEnabled({ ...enabled, e: [false, false] });
+  }, [chevron]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setD([]);
 
-        queryClient.invalidateQueries({ queryKey: ["paginate"] });
-      },
-    }
-  );
+    setD(data);
+
+    setLen(data && data.len);
+  }, [data]); // eslint-disable-next-line react-hooks/exhaustive-deps
+
   /*
       const current = queryClient.getQueryData<{ items:any }>([
           "paginate",
@@ -131,27 +64,12 @@ export default function Table({
         ]);
         alert(JSON.stringify(current));
 */
-  useEffect(() => {
-    setD(sorted_data);
-    setSelectedColumn((selectedColumn) => -1);
-    setNow(false);
-    setEnabled({ ...enabled, e: [false, false] });
-  }, [sorted_data]);
-  useEffect(() => {
-    setD([]);
 
-    setD(data);
-
-    setLen(data && data.len);
-    refetch();
-  }, [data]);
-
-  if (isLoading || sorted_isLoading) return <div>"Loading..."</div>;
-  if (error) return <div>"An error has occurred: " </div>;
+  const setEnabledSet = (arr: Enabled) => setEnabled(arr);
   return (
     <>
-      {JSON.stringify(d && d[actcategory])}
-      {d && d[actcategory].length > 0 ? (
+      {JSON.stringify(columns)}
+      {
         <table className="table">
           <thead>
             <tr>
@@ -175,10 +93,6 @@ export default function Table({
                           setSelectedColumn((selectedColumn) => i);
                           const e: Enabled = { ...enabled, e: [false, true] };
                           setEnabled(e);
-                          d[actcategory] = sorted_data;
-
-                          setD(d[actcategory]);
-                          setNow(true);
                         }}
                         onMouseOver={() => {
                           buildchevron(columns);
@@ -205,22 +119,23 @@ export default function Table({
           </thead>
           <tbody>
             <Rows
-              selectRecord={selectRecord}
-              data={d && d["new"]}
+              setEnabledSet={setEnabledSet}
+              currentPage={currentPage}
+              set={set}
+              chevron={chevron}
+              selectedColumn={selectedColumn}
               columns={columns}
-              remove={(ii: number) => {
-                resolveIssueMutation.mutate(ii);
-              }}
+              actcategory={actcategory}
+              enabled={enabled}
+              datas={datas}
             />
           </tbody>
         </table>
-      ) : (
-        <div className="norecords">"no records avaible!!"</div>
-      )}
+      }
       {len}
       <Pagination
         siblingCount={1}
-        currentPage={currentPage == 0 ? 1 : currentPage}
+        currentPage={currentPage === 0 ? 1 : currentPage}
         totalCount={len}
         pageSize={pageSize}
         onPageChange={(page) => {

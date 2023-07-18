@@ -4,7 +4,6 @@ const useSort = () => {
   const [sortDirection, setSortDirection] = useState(false);
   const [sortedData, setSortedData] = useState<DataTable[] | undefined>([]);
   const sortData = (i: number, data?: DataTable[]) => {
-    alert("ffff   " + JSON.stringify(data));
     setSortDirection(!sortDirection);
     let r: string[] = [];
     if (data)
@@ -25,7 +24,6 @@ const useSort = () => {
             : b[r[i]] - a[r[i]];
         });
     setSortedData(data);
-    alert("fff              f   " + JSON.stringify(data));
     return sortData;
   };
   return { sortedData, sortData };

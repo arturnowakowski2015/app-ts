@@ -1,27 +1,15 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  Column,
-  Data,
-  Lenghts,
-  DataTable,
-  Record,
-  fetchActionSet,
-} from "../components/Interface";
-const urls: string[] = [
-  "http://localhost:3000/comments",
-  "http://localhost:3000/photos",
-];
+import { Column, Data, DataTable, Record } from "../components/Interface";
 
 const useTable = (actualcategory: string) => {
   const navigate = useNavigate();
   const [tableflag, setTableflag] = useState(1);
   const [selectedRecord, setSelectedRecord] = useState<Record[]>();
   const [data, setData] = useState<Data | undefined>();
-  const [categoryurl, setCategoryurl] = useState("");
+
   let columns: Column[] = [];
-  const [datalengths, setDatalengths] = useState<Lenghts>({} as Lenghts);
   const filterData = (str: string): DataTable[] | undefined => {
     if (data && (actualcategory === "new" || actualcategory === "postponed")) {
       return data[actualcategory].filter((t) => {
@@ -65,7 +53,7 @@ const useTable = (actualcategory: string) => {
     setData({ ...data, actualcategory: arr as DataTable[] });
     navigate("/" + actualcategory);
   };
-  const [d, setD] = useState<any>({} as any);
+
   const loadDatabase = async (idurl: number): Promise<any> => {};
 
   const selectRecord = (rec: Record[]) => {
@@ -81,14 +69,13 @@ const useTable = (actualcategory: string) => {
           }),
         ]
       : [];
-  }, [data]);
+  }, [actualcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return [
-    data ? data[actualcategory] : [],
     columns,
-    datalengths,
+
     selectedRecord,
-    categoryurl,
+
     tableflag,
     deleteRec,
     loadDatabase,

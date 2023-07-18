@@ -33,6 +33,6 @@ const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
     });
     setFlag(flag);
   }, [itemsonlevel]);
-  return [itemsonlevel, flag, setFlag, recquantity, set] as const;
+  return [itemsonlevel, flag, set] as const;
 };
 export { useMenuItems };

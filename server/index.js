@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import { fileURLToPath } from "url";
-import { remove, sortData, paginate } from "./controller/post.js";
+import { remove, sortData, paginate, increase } from "./controller/post.js";
 import cors from "cors";
 import path from "path";
 /* CONFIGURATIONS */
@@ -28,7 +28,7 @@ app.get(
   sortData
 );
 app.get("/:database/paginate/:actcategory/:from/:to", paginate);
-app.patch("/:database/:actcategory/remove/:id", remove);
+app.delete("/:database/:actcategory/remove/:id", remove);
 
 const PORT = process.env.PORT || 3001;
 

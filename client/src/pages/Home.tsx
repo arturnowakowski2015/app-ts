@@ -21,7 +21,12 @@ export interface IMenuItems {
   pid: number;
   children?: any[];
 }
-
+interface Comments {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 const Home = () => {
   const [getHost] = useGlobalApi();
   let initialstep = useRef<Function>();
@@ -35,11 +40,10 @@ const Home = () => {
   let { flattenarr, zerotreetoarr } = useConvertTree();
 
   const [
-    data1,
     columns,
-    datalengths,
+
     selectedRecord,
-    categoryurl,
+
     tableflag,
     deleteRec,
     loadDatabase,
@@ -50,7 +54,7 @@ const Home = () => {
   ] = useTable(actcategory);
   const [pageSize, setPageSize] = useState(5);
   const [datalength, setDatalength] = useState<number>(0);
-  const [dd, setDd] = useState<any>({} as any);
+
   const [set, setSet] = useState<Set>({
     host: getHost(),
     actcategory: "new",
@@ -103,6 +107,15 @@ const Home = () => {
     navigate("new");
   };
   initialstep.current = initialstepfunktion;
+
+  interface Photos {
+    postId: number;
+    id: number;
+    name: string;
+    email: string;
+    body: string;
+  }
+
   useEffect(() => {
     initialstep.current && initialstep.current();
   }, []);
@@ -112,7 +125,6 @@ const Home = () => {
 
   return (
     <>
-      {" "}
       <Nav
         one={(str) => {
           if (str === "settings") setMenuItems(false);
@@ -128,8 +140,6 @@ const Home = () => {
                 onmouseout={(str) => onmouseout(str)}
                 onmouseover={(str) => onmouseover(str)}
                 selected={actcategory}
-                datalengths={datalengths}
-                datalegth={datalength}
                 length={datalength}
                 treedata={treedata}
                 onClick={(str) => {
@@ -182,12 +192,11 @@ const Home = () => {
               <div className="record">
                 <Rec
                   update={(index, record) => {
-                    update(index, record as DataTable);
+                    // update(index, record as DataTable);
                   }}
                   deleteRec={(str, rec) => deleteRec(str, rec as DataTable)}
                   columns={columns}
                   record={selectedRecord}
-                  categoryurl={categoryurl}
                 />
               </div>
             }

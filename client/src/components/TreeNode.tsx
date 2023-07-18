@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react";
 
 import "../scss/MenuItems.scss";
 interface IProps {
-  datalengths: Lenghts;
   treedata: IMenuItems[];
   length: number;
   pid: number;
@@ -26,12 +25,8 @@ const TreeNode = ({
   onmouseout,
   onmouseover,
   onClick,
-  datalengths,
 }: IProps) => {
-  const [itemsonlevel, flag, setFlag, recquantity, set] = useMenuItems(
-    pid,
-    treedata
-  );
+  const [itemsonlevel, flag, set] = useMenuItems(pid, treedata);
   const { sets, i } = useGlobalContext();
   console.log(itemsonlevel);
   const fl = useRef<Function>();
@@ -105,7 +100,6 @@ const TreeNode = ({
                   treedata={treedata}
                   pid={t.id}
                   onClick={onClick}
-                  datalengths={datalengths}
                   length={length}
                 />
               )}
