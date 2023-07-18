@@ -14,7 +14,7 @@ interface IProps {
   currentPage: number;
   columns?: Column[];
   set: Set;
-  datas: (data: any, sorted_data: any) => void;
+  datas: (data: any, sorted_data: any, now: boolean) => void;
   setEnabledSet: (arr: Enabled) => void;
 }
 const Rows = ({
@@ -30,12 +30,14 @@ const Rows = ({
 }: IProps) => {
   const [rows, build] = useBuildRows();
   const ref = useRef<Function>();
+  const [now1, setNow1] = useState<boolean[]>([true, false]);
   const location = useLocation();
   ref.current = build;
 
   let { data, isLoading, error, refetch } = useQuery(
     ["paginate", currentPage],
     async () => {
+      setNow1([true, false]);
       const data = await fetch(
         set.host +
           set.database +
@@ -62,6 +64,7 @@ const Rows = ({
   } = useQuery(
     ["sort", enabled.e[1]],
     async () => {
+      setNow1([false, false]);
       const data = await fetch(
         set.host +
           set.database +
@@ -117,15 +120,25 @@ const Rows = ({
     setEnabledSet({ e: [true, false] });
     if (ref.current) ref.current(data && data[actcategory], columns);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    datas(data, sorted_data);
+
+    console.log("t");
+    datas(data, sorted_data, now1[0]);
+    setNow1([true, false]);
   }, [columns]);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    datas(data, sorted_data, now1[0]);
+    if (ref.current) ref.current(data && data[actcategory], columns);
+  }, [data]);
   useEffect(() => {
     if (ref.current)
       ref.current(sorted_data && sorted_data[actcategory], columns);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    datas(data, sorted_data);
-  }, [sorted_data]);
 
+    datas(data, sorted_data, now1[1]);
+    setNow1([true, false]);
+  }, [sorted_data]);
   const navigate = useNavigate();
   const { sets, i } = useGlobalContext();
   return (
@@ -153,7 +166,7 @@ const Rows = ({
               <div
                 onClick={() => (ii: number) => {
                   resolveIssueMutation.mutate(ii);
-                  datas(data, sorted_data);
+                  datas(data, sorted_data, now1[0]);
                 }}
               >
                 x

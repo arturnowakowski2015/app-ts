@@ -6,6 +6,9 @@ table {
   .columns {
     margin: 0 auto;
   }
+  tr th {
+    width: 100px;
+  }
 
   @each $v in 1, 2, 3 {
     .row-#{$v}:nth-child(odd) {

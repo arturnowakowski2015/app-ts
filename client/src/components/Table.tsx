@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { Set, IMenuItems, Enabled } from "./Interface";
 import { useBuildChevron } from "../hooks/useBuildChevron";
@@ -28,6 +28,7 @@ export default function Table({
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedColumn, setSelectedColumn] = useState<number>(0);
   const [len, setLen] = useState<number>();
+  const [now, setNow] = useState<boolean>(false);
   ////localhost:3001/comments/paginate/new/1/11
   const [d, setD] = useState<any>({} as any);
 
@@ -37,12 +38,20 @@ export default function Table({
   const [enabled, setEnabled] = useState<Enabled>({
     e: [true, false],
   } as Enabled);
-  const datas = (data1: any, sorted_data: any) => {
+  const datas = (data1: any, sorted_data: any, now1: boolean) => {
     let r = data1;
+
     setData(r);
+
+    if (now1 === true) setNow((now) => !now);
+
     if (sorted_data) setSorted_data(data);
   };
-  const [columns] = useTempTable(set.actcategory, data, treedata);
+
+  let now2 = useMemo(() => {
+    return now ? true : false;
+  }, [data]);
+  const [columns] = useTempTable(set.actcategory, data, now2, treedata);
   const [buildchevron, chevron, setChevron] = useBuildChevron(columns);
   useEffect(() => {
     setSelectedColumn((selectedColumn) => -1);
@@ -68,7 +77,6 @@ export default function Table({
   const setEnabledSet = (arr: Enabled) => setEnabled(arr);
   return (
     <>
-      {JSON.stringify(columns)}
       {
         <table className="table">
           <thead>

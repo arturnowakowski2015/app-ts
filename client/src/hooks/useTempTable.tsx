@@ -9,6 +9,7 @@ interface Lenghts {
 const useTempTable = (
   actualcategory: string,
   data: Data,
+  now: boolean,
   treedata: IMenuItems[]
 ) => {
   const [categoryurl, setCategoryurl] = useState("");
@@ -70,7 +71,7 @@ const useTempTable = (
           ),
         ]
       : [];
-  }, [data]);
+  }, [now]);
 
   return [columns] as const;
 };
