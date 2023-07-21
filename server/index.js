@@ -22,13 +22,13 @@ app.use(
 /* REGISTER USER */
 
 app.get(
-  "/:database/sort/:actcategory/:column/:sortDirection/:from/:to",
-  //http://localhost:3001/comments/sort/new/id/ASC/1/11
+  "/:database/sort/:actcategory/:column/:sortDirection/:page/:limit",
+  //http://localhost:3001/comments/sort/new/email/ASC/1/10
 
   sortData
 );
-app.get("/:database/paginate/:actcategory/:from/:to", paginate);
-app.delete("/:database/:actcategory/remove/:id", remove);
+app.get("/:database/paginate/:actcategory/:page/:limit", paginate);
+app.patch("/:database/:actcategory/remove/:id", remove);
 
 const PORT = process.env.PORT || 3001;
 

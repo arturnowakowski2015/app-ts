@@ -1,6 +1,6 @@
 import { baza } from "../model/baza1.js";
 export const increase = async (req, res) => {
-  for (let i = baza["comments"]["new"].length; i < 11530000; i++)
+  for (let i = baza["comments"]["new"].length; i < 5030000; i++)
     baza["comments"]["new"].push({
       postId: 1,
       id: baza["comments"]["new"].length + i,
@@ -19,7 +19,8 @@ export const load = async (req, res) => {
 };
 
 export const sortData = (req, res) => {
-  const { database, actcategory, column, sortDirection, from, to } = req.params;
+  const { database, actcategory, column, sortDirection, page, limit } =
+    req.params;
   try {
     sortDirection === "DESC"
       ? baza &&
@@ -34,28 +35,29 @@ export const sortData = (req, res) => {
             ? b[column].localeCompare(a[column])
             : b[column] - a[column];
         });
-    let ss = baza[database][actcategory].filter((t, i) => {
-      return i >= from && i < to && t;
-    });
+    const startIndex = (Number(page) - 1) * Number(limit);
+    const endIndex = startIndex + Number(limit);
+    console.log(startIndex + ":::" + endIndex);
+    const p = baza[database][actcategory].slice(startIndex, endIndex);
 
-    res.status(200).json({ [actcategory]: ss });
+    res.status(200).json(p);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
 };
 export const paginate = async (req, res) => {
-  const { database, actcategory, from, to } = req.params;
+  increase();
+
+  const { database, actcategory, page, limit } = req.params;
   console.log("llllllllllllllllllllllllllll");
+
+  const startIndex = (Number(page) - 1) * Number(limit);
+  const endIndex = startIndex + Number(limit);
+  console.log(startIndex + ":::" + endIndex);
+  const p = baza[database][actcategory].slice(startIndex, endIndex);
+
   try {
-    let ss = baza[database][actcategory].filter((t, i) => {
-      return i >= from && i < to && t;
-    });
-
-    res.status(200).json({
-      len: baza[database][actcategory].length,
-
-      [actcategory]: ss,
-    });
+    res.status(200).json(p);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -72,7 +74,7 @@ export const remove = async (req, res) => {
     });
     console.log("ggg                      gggggg" + y.length);
     baza[database][actcategory] = y;
-    res.status(200).json({ [actcategory]: y });
+    res.status(200).json({ len: y.length, [actcategory]: y });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

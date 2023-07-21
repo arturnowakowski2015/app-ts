@@ -1,0 +1,77 @@
+@use "set";
+@use "sass:map";
+.paginationContainer {
+  display: flex;
+  flex-direction: row;
+  .pagination {
+    flex: 1;
+  }
+  .len {
+    position: relative;
+    left: 0px;
+  }
+}
+table {
+  border: black solid 1px;
+  .columns {
+    margin: 0 auto;
+  }
+  tr th {
+    width: 100px;
+  }
+
+  @each $v in 1, 2, 3 {
+    .row-#{$v}:nth-child(odd) {
+      background: nth(map.get(set.$colors, "selected-#{$v}"), 4);
+      transition: background-color 0.5s;
+    }
+  }
+
+  .string {
+    width: 100px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .columns {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    padding-left: 30%;
+  }
+
+  tr:hover th {
+    cursor: pointer;
+    background: rgb(235, 226, 226);
+  }
+  .norecords {
+    position: absolute;
+    left: 400px;
+  }
+  .gray {
+    background-color: gray;
+  }
+  .red {
+    background-color: red;
+  }
+
+  .rotate {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    transform: rotate(180deg);
+    transition: transform 0.5s;
+  }
+  .withoutrotate {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    transform: rotate(360deg);
+    transition: transform 0.5s;
+  }
+}
+.norecords {
+  position: relative;
+  left: 300px;
+}
