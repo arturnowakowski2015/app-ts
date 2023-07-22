@@ -7,10 +7,10 @@ import { useGlobalContext } from "../../../ctx/MyGlobalContext";
 
 interface IProps {
   columns?: Column[];
-
+  deleteRow: () => void;
   result: any;
 }
-export const Rows = ({ columns, result }: IProps) => {
+export const Rows = ({ columns, result, deleteRow }: IProps) => {
   const [rows, build] = useBuildRows(result);
   const ref = useRef<Function>();
   const location = useLocation();
@@ -42,7 +42,7 @@ export const Rows = ({ columns, result }: IProps) => {
                   </th>
                 );
               })}
-              <div onClick={() => {}}>xaaaaa</div>
+              <div onClick={deleteRow}>xaaaaa</div>
             </tr>
           );
         })}

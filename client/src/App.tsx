@@ -72,6 +72,7 @@ function App() {
     setOverItem("");
   };
   let {
+    display,
     idroot,
     treedata,
     setTreedata,
@@ -79,6 +80,7 @@ function App() {
     handleDragStart,
     enableDropping,
     handleDrop,
+    handleDragEnd,
   } = useTreeSettings();
 
   const initialstepfunktion = () => {
@@ -160,9 +162,10 @@ function App() {
             element={
               <div>
                 <Settings
+                  handleDragEnd={handleDragEnd}
+                  display={display}
                   pageSize={pageSize}
                   datalength={datalength}
-                  columns={columns}
                   loadDatabase={loadDatabase}
                   treedata={treedata}
                   el={el}

@@ -4,8 +4,11 @@ import { IMenuItems, Set, Enabled, Chevron, Data } from "../../Interface";
 import { Table } from "../../features/layout/table";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTempTable } from "./useTempTable";
-import { useGetPaginatedData, useGetSortedData } from "./useGetTableData";
-import { useDeleteRow } from "./useDeleteRow";
+import {
+  useGetPaginatedData,
+  useGetSortedData,
+  useDeleteRow,
+} from "./useGetTableData";
 
 import "../../styles/home.scss";
 interface Datas {
@@ -68,7 +71,7 @@ export function Home({
     showQuery,
   ] = useTempTable(
     set.actcategory,
-    paginated_data && paginated_data["data"],
+    paginated_data && paginated_data["data"] && paginated_data["data"]["data"],
     treedata
   );
 
@@ -81,17 +84,31 @@ export function Home({
     selectedColumn,
     chevron
   );
-  //const mutator = useDeleteRow(set, currentPage);
 
+  const m = useDeleteRow(set, currentPage);
+
+  const deleteRow = () => m.mutate(9);
   useEffect(() => {
-    setResult(paginated_data && (paginated_data["data"] as unknown as any[]));
+    setResult(
+      paginated_data &&
+        paginated_data["data"] &&
+        (paginated_data["data"]["data"] as unknown as any[])
+    );
   }, [paginated_data]);
   useEffect(() => {
-    setResult(sorted_data && (sorted_data["data"] as unknown as any[]));
+    setResult(
+      sorted_data &&
+        sorted_data["data"] &&
+        (sorted_data["data"]["data"] as unknown as any[])
+    );
   }, [sorted_data]);
 
   useEffect(() => {
-    setLen(sorted_data && (sorted_data["data"].length as unknown as number));
+    setLen(
+      sorted_data &&
+        sorted_data["data"] &&
+        (sorted_data["data"]["len"] as unknown as number)
+    );
   }, [paginated_data, sorted_data]);
   return (
     <div className="container">
@@ -112,9 +129,10 @@ export function Home({
         </div>
       </div>
       <div className="right">
-        {JSON.stringify(sort)}
-        {isLoading && <div>isLoading</div>}
-        {isFetching && <div>fetching</div>}n{JSON.stringify(isPreviousData)}n
+        <div className="ratios" style={{ height: "30px" }}>
+          {isLoading && <div>isLoading</div>}
+          {isFetching && <div>fetching</div>}n{JSON.stringify(isPreviousData)}n
+        </div>
         <Table
           sort={() => onSort()}
           showChevron={(e: Boolean) => showChevron(e)}
@@ -127,6 +145,7 @@ export function Home({
             else setDirection(true);
             setCurrentPage(i);
           }}
+          deleteRow={() => deleteRow()}
           len={len as number}
         />
       </div>

@@ -14,7 +14,11 @@ interface ILabel {
     event: React.DragEvent<HTMLDivElement>,
     name: string
   ) => void;
-  handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+  handleDrop: (event: React.DragEvent<HTMLDivElement>, title: string) => void;
+  handleDragEnd: (
+    event: React.DragEvent<HTMLDivElement>,
+    title: string
+  ) => void;
 }
 
 export const Label = ({
@@ -25,23 +29,25 @@ export const Label = ({
   handleDragStart,
   handleDrop,
   enableDropping,
+  handleDragEnd,
 }: ILabel) => {
   const { sets, i } = useGlobalContext();
   return (
     <div
       style={{ marginLeft: level + "px" }}
       className={"node" + (title.indexOf(".X") !== -1 ? " labelold" : "")}
-      id="d1"
-      draggable="true"
-      onDragStart={(event) =>
-        title.indexOf(".X") === -1 && handleDragStart(event, title)
-      }
-      onDrop={(event) => {
-        handleDrop(event);
-      }}
-      onDragOver={(event) => enableDropping(event, title)}
     >
       <div
+        id="d1"
+        draggable="true"
+        onDragStart={(event) =>
+          title.indexOf(".X") === -1 && handleDragStart(event, title)
+        }
+        onDrop={(event) => {
+          handleDrop(event, title);
+        }}
+        onDragOver={(event) => enableDropping(event, title)}
+        onDragEnd={(e) => handleDragEnd(e, title)}
         className={
           "item-" +
           sets[i] +

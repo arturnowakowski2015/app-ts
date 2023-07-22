@@ -18,6 +18,7 @@ interface IProps {
   showSelectedColumn: (id: number) => void;
   showQuery: (enabled: number) => void;
   sort: () => void;
+  deleteRow: () => void;
 }
 export function Table({
   len,
@@ -28,6 +29,7 @@ export function Table({
   pageSize,
   result,
   sort,
+  deleteRow,
 }: IProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -47,24 +49,25 @@ export function Table({
 */
 
   return (
-    <>
+    <div className="pagecontainer">
       <div className="paginationContainer">
-        <div className="len">
+        <div className="len" style={{ position: "relative", top: "20px" }}>
           {" "}
-          {len} elements {currentPage + "::" + len + "::" + pageSize}
+          {len} elements
         </div>
-        <div className="pagination"></div>
-        <Pagination
-          siblingCount={1}
-          currentPage={currentPage === 0 ? 1 : currentPage}
-          totalCount={len}
-          pageSize={pageSize}
-          onPageChange={(page) => {
-            let i: number = page;
-            setCurrentPage(i);
-            showQuery(i);
-          }}
-        />
+        <div style={{ height: "60px" }}>
+          <Pagination
+            siblingCount={1}
+            currentPage={currentPage === 0 ? 1 : currentPage}
+            totalCount={len === 0 ? 1000 : len}
+            pageSize={pageSize === 0 ? 100 : pageSize}
+            onPageChange={(page) => {
+              let i: number = page;
+              setCurrentPage(i);
+              showQuery(i);
+            }}
+          />
+        </div>
       </div>
       <table className="table">
         <thead>
@@ -113,10 +116,10 @@ export function Table({
           </tr>
         </thead>
         <tbody>
-          <Rows columns={columns} result={result} />
+          <Rows columns={columns} result={result} deleteRow={deleteRow} />
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
 

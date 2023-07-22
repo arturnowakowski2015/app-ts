@@ -1,7 +1,9 @@
 import { Route, useNavigate, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
 import TreeSettings from "../../features/layout/tree-settings/tree-settings";
 import { IMenuItems, Set, Column } from "../../Interface";
-
+import { useTempTable } from "../../pages/home/useTempTable";
+import { useGetPaginatedData } from "../../pages/home/useGetTableData";
 import { Element } from "../../features/layout/tree-settings/useTreeSettings";
 
 import { useTable } from "../../features/layout/table/useTableView";
@@ -17,7 +19,7 @@ interface IProps {
   el: Element;
   idroot: string | null;
   treedata: IMenuItems[];
-  columns: Column[];
+  display: boolean;
   actcategory: string;
   setDataLength: (length: number) => void;
   preview: () => void;
@@ -25,13 +27,14 @@ interface IProps {
     event: React.DragEvent<HTMLDivElement>,
     name: string
   ) => void;
-  handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+  handleDrop: (event: React.DragEvent<HTMLDivElement>, name: string) => void;
   handleDragStart: (
     event: React.DragEvent<HTMLDivElement>,
     name: string
   ) => void;
   loadDatabase: (i: number) => void;
   changeSize(e: React.ChangeEvent<HTMLInputElement>): void;
+  handleDragEnd: (event: React.DragEvent<HTMLDivElement>, name: string) => void;
 }
 
 export const Settings = ({
@@ -44,13 +47,14 @@ export const Settings = ({
   el,
   idroot,
   treedata,
-  columns,
+  display,
   preview,
   enableDropping,
   handleDrop,
   handleDragStart,
   loadDatabase,
   changeSize,
+  handleDragEnd,
 }: IProps) => {
   const navigate = useNavigate();
   const [selectRecord] = useTable("");
@@ -59,86 +63,124 @@ export const Settings = ({
     const value = event.target.value;
     loadDatabase(parseInt(value));
   };
-  return (
-    <></>
-    /* <Routes>
-      <Route
-        path="tablesettings"
-        element={
-          <div className="settings1">
-            <div className="div" onClick={preview}>
-              preview
-            </div>
-            <div className="div" onClick={() => navigate("treesettings")}>
-              tree settings
-            </div>
-            <label>change database</label>
-            <select onChange={change}>
-              <option value="0">comments</option>
-              <option value="1">photos</option>
-            </select>{" "}
-            <input
-              type="range"
-              name="quantity"
-              min="1"
-              max={datalength}
-              value={pageSize}
-              onChange={changeSize}
-            />
-            <Table
-              showChevron={(e: Boolean) => showChevron(e)}
-              columns={columns}
-              pageSize={pageSize}
-              result={result}
-              showSelectedColumn={showSelectedColumn}
-              showQuery={showQuery}
-            />
-          </div>
-        }
-      />
-      <Route
-        path="treesettings"
-        element={
-          <div className="settings1">
-            <div className="div" onClick={preview}>
-              preview
-            </div>
-            <div className="div" onClick={() => navigate("tablesettings")}>
-              {" "}
-              table settings
-            </div>
-            <p
-              id="ROOT"
-              className="root"
-              draggable="true"
-              onDragOver={(event) => enableDropping(event, "sss")}
-              onDrop={(event) => handleDrop(event)}
-            >
-              ROOT
-            </p>
-            <div className="menu">
-              {idroot === "ROOT" && (
-                <PossibleLabel
-                  ifroot="ifrooty"
-                  level={1}
-                  title={el.old && el.old.name}
-                />
-              )}
+  const [result, setResult] = useState<any[] | undefined>([] as any[]);
+  const [len, setLen] = useState<number | undefined>(0);
+  const [direction, setDirection] = useState<boolean>(true);
+  const [isLoading, isFetching, isPreviousData, paginated_data] =
+    useGetPaginatedData(direction, len as number, 1, set, actcategory);
 
-              <TreeSettings
-                actLabel={el.act && el.act.name}
-                oldLabel={el.old && el.old}
-                data={treedata}
-                handleDragStart={handleDragStart}
-                enableDropping={enableDropping}
-                handleDrop={handleDrop}
+  const [
+    columns,
+    chevron,
+    selectedColumn,
+    enabled,
+    sort,
+    onSort,
+    showChevron,
+    showSelectedColumn,
+    showQuery,
+  ] = useTempTable(
+    set.actcategory,
+    paginated_data && paginated_data["data"] && paginated_data["data"]["data"],
+    treedata
+  );
+  useEffect(() => {
+    setResult(
+      paginated_data &&
+        paginated_data["data"] &&
+        (paginated_data["data"]["data"] as unknown as any[])
+    );
+  }, [paginated_data]);
+  return (
+    <>
+      {" "}
+      <Routes>
+        <Route
+          path="tablesettings"
+          element={
+            <div className="settings1">
+              <div className="div" onClick={preview}>
+                preview
+              </div>
+              <div className="div" onClick={() => navigate("treesettings")}>
+                tree settings
+              </div>
+              <label>change database</label>
+              <select onChange={change}>
+                <option value="0">comments</option>
+                <option value="1">photos</option>
+              </select>{" "}
+              <input
+                type="range"
+                name="quantity"
+                min="1"
+                max={datalength}
+                value={pageSize}
+                onChange={changeSize}
+              />
+              <Table
+                sort={() => onSort()}
+                showChevron={(e: Boolean) => showChevron(e)}
+                columns={columns}
+                pageSize={pageSize}
+                result={result}
+                showSelectedColumn={showSelectedColumn}
+                showQuery={(i) => {
+                  setDirection(false);
+                }}
+                deleteRow={() => {}}
+                len={len as number}
               />
             </div>
-            <div className="label1">1. drag'n'drop tree menu items</div>
-          </div>
-        }
-      />
-    </Routes>
-    */
+          }
+        />
+        <Route
+          path="treesettings"
+          element={
+            <div className="settings1">
+              <div className="div" onClick={preview}>
+                preview
+              </div>
+              <div className="div" onClick={() => navigate("tablesettings")}>
+                {" "}
+                table settings
+              </div>
+              <p
+                id="ROOT"
+                className="root"
+                draggable="true"
+                onDragOver={(event) => enableDropping(event, "sss")}
+                onDrop={(event) => handleDrop(event, "ddd")}
+                onMouseUp={() => console.log(999)}
+              >
+                ROOT
+              </p>
+              <div className="menu">
+                {idroot === "ROOT" && (
+                  <PossibleLabel
+                    ifroot="ifrooty"
+                    level={1}
+                    title={el.old && el.old.name}
+                    display={true}
+                  />
+                )}
+
+                <TreeSettings
+                  display={display}
+                  actLabel={el.act && el.act.name}
+                  oldLabel={el.old && el.old}
+                  data={treedata}
+                  handleDragStart={handleDragStart}
+                  enableDropping={enableDropping}
+                  handleDrop={handleDrop}
+                  handleDragEnd={handleDragEnd}
+                />
+              </div>
+              <div className="label1">1. drag'n'drop tree menu items</div>
+            </div>
+          }
+        />
+      </Routes>
+    </>
   );
 };

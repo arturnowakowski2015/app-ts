@@ -1,4 +1,6 @@
 .label {
-  background-color: aqua;
-  width: 100px;
+  background-color: rgb(178, 233, 169);
+  border-radius: 20px 1px 4px 20px;
+
+  width: 130px;
 }

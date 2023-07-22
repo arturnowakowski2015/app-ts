@@ -49,7 +49,8 @@ const getRec = async (actcategory: string, page: number, set: Set) => {
 
   return y;
 };
-
+const controller = new AbortController();
+const signal = controller.signal;
 const getRecSorted = async (
   actcategory: string,
   selectedColumn: number,
@@ -73,9 +74,7 @@ const getRecSorted = async (
       currentPage +
       "/" +
       300,
-    {
-      method: "GET",
-    }
+    { signal, method: "GET" }
   );
 };
 const useGetPaginatedData = (
@@ -136,5 +135,42 @@ const useGetSortedData = (
     sorted_data,
   ] as const;
 };
+export const useDeleteRow = (set: Set, currentPage: number) => {
+  const queryClient = useQueryClient();
+  const mutator = useMutation(
+    async (id: number) => {
+      let r = await fetch(
+        set.host +
+          set.database +
+          "/" +
+          set.actcategory +
+          "/remove/" +
+          (id + currentPage * 10 + 1),
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      let t = await r.json();
+    },
+    {
+      onMutate: async (issueId) => {
+        alert(99);
+        // cancel all queries that contain the key "issues"
+        await queryClient.cancelQueries(["paginate", "sort"]);
+      },
 
+      onSuccess: async () => {
+        alert(80);
+        // flag the query with key ["issues"] as invalidated
+        // this causes a refetch of the issues data
+        // queryClient.invalidateQueries(["paginate"]);
+        queryClient.invalidateQueries(["paginate", currentPage]);
+      },
+    }
+  );
+  return mutator;
+};
 export { useGetPaginatedData, useGetSortedData };

@@ -40,7 +40,7 @@ export const sortData = (req, res) => {
     console.log(startIndex + ":::" + endIndex);
     const p = baza[database][actcategory].slice(startIndex, endIndex);
 
-    res.status(200).json(p);
+    res.status(200).json({ data: p, len: baza[database][actcategory].length });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -57,7 +57,7 @@ export const paginate = async (req, res) => {
   const p = baza[database][actcategory].slice(startIndex, endIndex);
 
   try {
-    res.status(200).json(p);
+    res.status(200).json({ data: p, len: baza[database][actcategory].length });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

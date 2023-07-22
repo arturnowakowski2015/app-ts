@@ -1,47 +1,45 @@
 @mixin basicWrapper {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: margin .5s;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: margin 0.5s;
 }
-@mixin basicNav{
-    position: relative;
-    width: 250px;
-    height: 100%;
-    padding: 20px;
-    border-right: 2px solid rgb(47, 17, 88);
+@mixin basicNav {
+  position: relative;
+  width: 250px;
+  height: 100%;
+  padding: 210px;
+  border-right: 2px solid rgb(47, 17, 88);
 }
-@mixin baseNavIcon($color){
-    position: absolute;
-    top: 0;
-    right: -10px;
-    padding: 20px;
-    font-size: 20px;
-    cursor: pointer;
-    color:$color;
-    transition: color .3s;
-} 
-.wrapper { 
-    @include basicWrapper();
-    .nav{
-        @include basicNav();
-
-    }
-    margin: 0 0 0 -250px;
+@mixin baseNavIcon($color) {
+  position: absolute;
+  top: 0;
+  right: -10px;
+  padding: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  color: $color;
+  transition: color 0.3s;
+}
+.wrapper {
+  @include basicWrapper();
+  .nav {
+    @include basicNav();
+  }
+  margin: 0 0 0 -250px;
 }
 
-.wrapper_open { 
-    @include basicWrapper();
-    .nav{
-
-        @include basicNav();
-    }
-    margin-left: 0; 
-} 
+.wrapper_open {
+  @include basicWrapper();
+  .nav {
+    @include basicNav();
+  }
+  margin-left: 0;
+}
 .nav_icon_hover {
-    @include baseNavIcon(#5eb2ff)
+  @include baseNavIcon(#5eb2ff);
 }
 
 .nav_icon {
-    @include baseNavIcon("black")
+  @include baseNavIcon("black");
 }
