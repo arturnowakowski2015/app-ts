@@ -7,7 +7,7 @@ import { useGlobalContext } from "../../../ctx/MyGlobalContext";
 
 interface IProps {
   columns?: Column[];
-  deleteRow: () => void;
+  deleteRow: (id: number) => void;
   result: any;
 }
 export const Rows = ({ columns, result, deleteRow }: IProps) => {
@@ -42,7 +42,7 @@ export const Rows = ({ columns, result, deleteRow }: IProps) => {
                   </th>
                 );
               })}
-              <div onClick={deleteRow}>xaaaaa</div>
+              <div onClick={() => deleteRow(ii + 1)}>xaaaaa</div>
             </tr>
           );
         })}

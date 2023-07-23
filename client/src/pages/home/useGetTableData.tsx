@@ -6,6 +6,9 @@ import { data } from "../../data/dummy";
 interface Data {
   [id: string]: any[];
 }
+interface DataD {
+  data: Data;
+}
 type PageMeta = {
   currentPage: number;
   limit: number;
@@ -32,20 +35,10 @@ const urls: string[] = [
   "https://jsonplaceholder.typicode.com/comments",
   "https://jsonplaceholder.typicode.com/photos",
 ];
-const getRec = async (actcategory: string, page: number, set: Set) => {
-  let y: any = await api.get<Data>(
-    set.host +
-      set.database +
-      "/paginate/" +
-      actcategory +
-      "/" +
-      page +
-      "/" +
-      300,
-    {
-      method: "GET",
-    }
-  );
+const getRec = async (url: string) => {
+  let y: any = await api.get<Data>(url, {
+    method: "GET",
+  });
 
   return y;
 };
@@ -88,18 +81,34 @@ const useGetPaginatedData = (
     useQuery(
       ["paginate", currentPage],
       async () => {
-        return getRec(actcategory, currentPage, set);
+        let url: string =
+          set.host +
+          set.database +
+          "/paginate/" +
+          actcategory +
+          "/" +
+          currentPage +
+          "/" +
+          10;
+        return getRec(url);
       },
-      { keepPreviousData: true, staleTime: 100000000 }
+      { keepPreviousData: true, staleTime: 10000000000000 }
     );
 
   const queryClient = useQueryClient();
   let r: any;
   useEffect(() => {
-    let page: number = 0;
-
-    queryClient.prefetchQuery(["paginate", currentPage + 1], async () => {
-      return getRec(actcategory, (page = 1), set);
+    let url: string =
+      set.host +
+      set.database +
+      "/paginate/" +
+      actcategory +
+      "/" +
+      currentPage +
+      "/" +
+      10;
+    queryClient.prefetchQuery(["paginate", currentPage], async () => {
+      return getRec(url);
     });
   }, [data, currentPage, queryClient]);
 
@@ -121,14 +130,22 @@ const useGetSortedData = (
     isFetching,
     refetch: r,
   } = useQuery(["sort", sort], async () => {
-    return await getRecSorted(
-      actcategory,
-      selectedColumn,
-      currentPage,
-      columns,
-      chevron,
-      set
-    );
+    let url: string =
+      set.host +
+      set.database +
+      "/sort/" +
+      actcategory +
+      "/" +
+      (columns &&
+        columns[selectedColumn] &&
+        columns[selectedColumn].col.title) +
+      "/" +
+      (chevron ? "DESC" : "ASC") +
+      "/" +
+      currentPage +
+      "/" +
+      10;
+    return await getRec(url);
   });
   return [
     sorted_isLoading !== undefined ? sorted_isLoading : false,
@@ -138,14 +155,9 @@ const useGetSortedData = (
 export const useDeleteRow = (set: Set, currentPage: number) => {
   const queryClient = useQueryClient();
   const mutator = useMutation(
-    async (id: number) => {
+    async (id1: number) => {
       let r = await fetch(
-        set.host +
-          set.database +
-          "/" +
-          set.actcategory +
-          "/remove/" +
-          (id + currentPage * 10 + 1),
+        set.host + set.database + "/" + set.actcategory + "/remove/" + id1,
         {
           method: "PATCH",
           headers: {
@@ -156,14 +168,42 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
       let t = await r.json();
     },
     {
-      onMutate: async (issueId) => {
-        alert(99);
+      onMutate: async (id1) => {
         // cancel all queries that contain the key "issues"
         await queryClient.cancelQueries(["paginate", "sort"]);
+        /* alert(
+          "pop " +
+            JSON.stringify(
+              (queryClient.getQueryData(["paginate", currentPage]) as Data)[
+                "data"
+              ]
+            )
+        );
+        const currentPage1: any = (
+          queryClient.getQueryData(["paginate", currentPage]) as Data
+        )["data"];
+        // remove resolved issue from the cache so it immediately
+        // disappears from the UI
+        let v: any[] = (currentPage1 as Data)["data"].splice(
+          (currentPage1 as Data)["data"].findIndex((t) => {
+            return t.id === id1;
+          }),
+          1
+        );
+        queryClient.setQueryData(
+          ["paginate", currentPage],
+          {
+            ...(currentPage1 as Data),
+            data: v,
+          },
+          currentPage1
+        );
+        // save the current data in the mutation context to be able to
+        // restore the previous state in case of an error
+        return { currentPage1 };
+        */
       },
-
       onSuccess: async () => {
-        alert(80);
         // flag the query with key ["issues"] as invalidated
         // this causes a refetch of the issues data
         // queryClient.invalidateQueries(["paginate"]);

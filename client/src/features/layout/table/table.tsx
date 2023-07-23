@@ -18,7 +18,7 @@ interface IProps {
   showSelectedColumn: (id: number) => void;
   showQuery: (enabled: number) => void;
   sort: () => void;
-  deleteRow: () => void;
+  deleteRow: (id: number) => void;
 }
 export function Table({
   len,
@@ -58,9 +58,9 @@ export function Table({
         <div style={{ height: "60px" }}>
           <Pagination
             siblingCount={1}
-            currentPage={currentPage === 0 ? 1 : currentPage}
-            totalCount={len === 0 ? 1000 : len}
-            pageSize={pageSize === 0 ? 100 : pageSize}
+            currentPage={currentPage}
+            totalCount={len}
+            pageSize={pageSize}
             onPageChange={(page) => {
               let i: number = page;
               setCurrentPage(i);

@@ -87,13 +87,14 @@ export function Home({
 
   const m = useDeleteRow(set, currentPage);
 
-  const deleteRow = () => m.mutate(9);
+  const deleteRow = (id: number) => m.mutate(id);
   useEffect(() => {
     setResult(
       paginated_data &&
         paginated_data["data"] &&
         (paginated_data["data"]["data"] as unknown as any[])
     );
+    alert("lll  " + JSON.stringify(result));
   }, [paginated_data]);
   useEffect(() => {
     setResult(
@@ -145,7 +146,7 @@ export function Home({
             else setDirection(true);
             setCurrentPage(i);
           }}
-          deleteRow={() => deleteRow()}
+          deleteRow={(i) => deleteRow(i)}
           len={len as number}
         />
       </div>
