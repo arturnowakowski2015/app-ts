@@ -1,4 +1,4 @@
-import { IMenuItems } from "../../../Interface";
+import { IMenuItems } from "../../../model/Interface";
 import { TreeNode } from "../../tree-node";
 import { useMenuItems } from "./useMenuItems";
 import { useGlobalContext } from "../../../ctx/MyGlobalContext";
@@ -10,7 +10,6 @@ interface IProps {
   selected: string;
   overItem: string;
   onmouseover: (str: string) => void;
-  onmouseout: (str: string) => void;
   onClick: (title: string) => void;
 }
 export const MenuItems = ({
@@ -20,7 +19,6 @@ export const MenuItems = ({
   overItem,
   onClick,
   onmouseover,
-  onmouseout,
 }: IProps) => {
   const [itemsonlevel, flag, set] = useMenuItems(0, treedata);
   const { sets, i } = useGlobalContext();
@@ -42,14 +40,15 @@ export const MenuItems = ({
                     set(i, true);
                   }}
                 >
-                  {" "}
-                  +
+                  {}
+                  +a
                 </div>
               )}
               {flag[ii] && (
                 <div
                   className="minus"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     set(i, false);
                   }}
                 >
@@ -66,7 +65,7 @@ export const MenuItems = ({
                 }
                 onClick={() => onClick(t.name)}
                 onMouseOver={() => onmouseover(t.name)}
-                onMouseOut={() => onmouseout(t.name)}
+                onMouseOut={() => onmouseover("")}
               >
                 {t.name}
                 <span>{t.name === "new" && length}</span>
@@ -75,7 +74,6 @@ export const MenuItems = ({
             {flag[i] && (
               <TreeNode
                 overItem={overItem}
-                onmouseout={(str) => onmouseout(str)}
                 onmouseover={(str) => onmouseover(str)}
                 treedata={treedata}
                 selected={selected}

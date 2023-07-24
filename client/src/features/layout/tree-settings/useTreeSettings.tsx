@@ -1,10 +1,5 @@
 import { useState } from "react";
-import { IMenuItems } from "../../../Interface";
-
-export interface Element {
-  old?: IMenuItems;
-  act?: IMenuItems;
-}
+import { IMenuItems, Element } from "../../../model/Interface";
 
 const useTreeSettings = () => {
   const [display, setDisplay] = useState<boolean>(true);
@@ -32,7 +27,6 @@ const useTreeSettings = () => {
     event: React.DragEvent<HTMLDivElement>,
     name: string
   ) => {
-    console.log(33);
     setDisplay(true);
     treedata.map((t) => {
       let yy = t.name.indexOf(".XX");
@@ -60,8 +54,6 @@ const useTreeSettings = () => {
     event: React.DragEvent<HTMLDivElement>,
     name: string
   ) => {
-    console.log(666);
-
     event.preventDefault();
     setIfdragdrop(false);
     let str: string = ".XX  " + el.old?.name;
@@ -84,7 +76,6 @@ const useTreeSettings = () => {
     event: React.DragEvent<HTMLDivElement>,
     name: string
   ) => {
-    console.log(name + ":::" + JSON.stringify(el));
     let sections: HTMLElement[] = [];
     sections = document.querySelectorAll(".node") as unknown as HTMLElement[];
     let array: IMenuItems[] = [];
@@ -132,7 +123,6 @@ const useTreeSettings = () => {
   };
   const handleDrop = (event: React.DragEvent<HTMLDivElement>, name: string) => {
     let sections: HTMLElement[] = [];
-    console.log(999);
     sections = document.querySelectorAll(".node") as unknown as HTMLElement[];
     let array: IMenuItems[] = [];
     // 1 setting pid and id

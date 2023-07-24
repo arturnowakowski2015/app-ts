@@ -1,6 +1,6 @@
 import React from "react";
 import { usePagination, DOTS } from "./usePagination";
-import "../../../styles/pagination.scss";
+import "../../../../../styles/pagination.scss";
 interface IProps {
   onPageChange: (i: number) => void;
   totalCount?: number;
@@ -66,7 +66,8 @@ export const Pagination = ({
                 }
                 onClick={() => onPageChange(pageNumber as number)}
               >
-                {pageNumber}{" "}
+                {" "}
+                <span style={{ paddingLeft: "5px" }}>{pageNumber} </span>
               </li>
             );
           })}

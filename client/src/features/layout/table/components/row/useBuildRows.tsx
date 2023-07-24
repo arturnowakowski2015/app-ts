@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DataTable, Column, Record } from "../../../Interface";
+import { DataTable, Column, Record } from "../../../../../model/Interface";
 
 const useBuildRows = (data: any) => {
   const [rows, setRows] = useState<Array<Record[]>>([]);

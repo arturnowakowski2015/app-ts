@@ -1,18 +1,18 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Home } from "./pages/home/Home";
 import { Nav } from "./features/layout/nav";
 import { useConvertTree } from "./features/useConvertTree";
 import { useTreeSettings } from "./features/layout/tree-settings/useTreeSettings";
-import { DataTable } from "./Interface";
 import { Route, useNavigate, Routes, useLocation } from "react-router-dom";
 import { tree } from "./data/dummy";
-import { Set } from "./Interface";
+import { Set } from "./model/Interface";
 import { useTable } from "./features/layout/table/useTableView";
 import { Settings } from "./pages/settings";
 import { SearchPage } from "./pages/search";
-import { Rec } from "./features/layout/record";
+import { Recordpage } from "./pages/record";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useRecord } from "./pages/record/useRecord";
 import "./App.css";
 
 function App() {
@@ -25,20 +25,19 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   let { flattenarr, zerotreetoarr } = useConvertTree();
-
-  const [
+  const { update, deleteRec } = useRecord();
+  const {
     columns,
 
     selectedRecord,
 
     tableflag,
-    deleteRec,
     loadDatabase,
     filterData,
     selectRecord,
-    update,
+
     setTableflag,
-  ] = useTable(actcategory);
+  } = useTable(actcategory);
   const [pageSize, setPageSize] = useState(5);
   const [datalength, setDatalength] = useState<number>(0);
 
@@ -49,28 +48,17 @@ function App() {
   });
   const changeSize = (i: number) => {
     setPageSize(i);
-    console.log(tableflag);
   };
   const preview = () => {
     navigate("/" + actcategory);
     setMenuItems(!menuItems);
   };
-  const changeCategory = (str: string) => {
-    if (location.pathname) setActcategory(str);
 
-    let arr: string[] = [];
-    for (let k = 0; k < treedata.length; k++)
-      if (treedata[k].name === actcategory) arr[k] = "selected";
-      else arr[k] = "item";
-    setSelectedMenu(arr);
-    navigate(str);
-  };
   const onmouseover = (str: string) => {
-    setOverItem(str);
+    if (str == "") setOverItem("");
+    else setOverItem(str);
   };
-  const onmouseout = (str: string) => {
-    setOverItem("");
-  };
+
   let {
     display,
     idroot,
@@ -97,21 +85,25 @@ function App() {
   };
   initialstep.current = initialstepfunktion;
 
-  interface Photos {
-    postId: number;
-    id: number;
-    name: string;
-    email: string;
-    body: string;
-  }
-
   useEffect(() => {
     initialstep.current && initialstep.current();
   }, []);
   const onChange = (str: string) => {
     setQuery(str);
   };
+  const change = (str: string) => {
+    if (location.pathname) setActcategory(str);
 
+    let arr: string[] = [];
+    for (let k = 0; k < treedata.length; k++)
+      if (treedata[k].name === actcategory) arr[k] = "selected";
+      else arr[k] = "item";
+    setSelectedMenu(arr);
+    navigate(str);
+  };
+  const changeCategory = (str: string) => {
+    change(str);
+  };
   const queryClient = new QueryClient({});
   return (
     <QueryClientProvider client={queryClient}>
@@ -128,7 +120,6 @@ function App() {
             element={
               <Home
                 overItem={overItem}
-                onmouseout={(str) => onmouseout(str)}
                 onmouseover={(str) => onmouseover(str)}
                 selected={actcategory}
                 length={datalength}
@@ -188,13 +179,21 @@ function App() {
             path="record/:index"
             element={
               <div className="record">
-                <Rec
-                  update={(index, record) => {
-                    // update(index, record as DataTable);
+                <Recordpage
+                  overItem={overItem}
+                  onmouseover={(str) => onmouseover(str)}
+                  selected={actcategory}
+                  datalength={datalength}
+                  treedata={treedata}
+                  actcategory={actcategory}
+                  set={set}
+                  changecategory={(str) => {
+                    changeCategory(str);
                   }}
-                  deleteRec={(str, rec) => deleteRec(str, rec as DataTable)}
-                  columns={columns}
                   record={selectedRecord}
+                  length={datalength}
+                  deleteRec={deleteRec}
+                  update={update}
                 />
               </div>
             }

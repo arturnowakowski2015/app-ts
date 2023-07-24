@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { DataTable, Column, Record } from "../../../Interface";
+import { DataTable, Column, Record } from "../../../model/Interface";
 
 const useRec = (record: Record[], columns: Column[]) => {
   const [data, setData] = useState<DataTable>({});
@@ -20,6 +20,6 @@ const useRec = (record: Record[], columns: Column[]) => {
   useEffect(() => {
     if (data1.current) data1.current();
   }, [record]);
-  return [data, setData] as const;
+  return { data, setData } as const;
 };
 export { useRec };

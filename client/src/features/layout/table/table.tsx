@@ -1,11 +1,11 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
-import { Set, IMenuItems, Enabled, Column, Chevron } from "../../../Interface";
+import { Column } from "../../../model/Interface";
 
-import { Pagination } from "../../ui/pagination";
+import { Pagination } from "./components/pagination";
 import { useBuildChevron } from "./useBuildChevron";
-import { ColumnHeaderButton } from "../../ui/column-header";
-import { Rows } from "../../ui/row";
+import { ColumnHeaderButton } from "./components/column-header";
+import { Rows } from "./components/row";
 import "../../../styles/Table.scss";
 //import Pagination from "./Pagination";
 interface IProps {
@@ -35,8 +35,8 @@ export function Table({
 
   const [buildchevron, chevron, setChevron] = useBuildChevron(columns);
   useEffect(() => {
-    showSelectedColumn(-1);
-  }, [chevron]); // eslint-disable-next-line react-hooks/exhaustive-deps
+    showSelectedColumn(-1); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chevron]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -47,7 +47,6 @@ export function Table({
         ]);
         alert(JSON.stringify(current));
 */
-
   return (
     <div className="pagecontainer">
       <div className="paginationContainer">

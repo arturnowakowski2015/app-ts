@@ -1,17 +1,10 @@
-import { IMenuItems, Lenghts } from "../../../Interface";
+import { IMenuItems } from "../../../model/Interface";
 import { useState, useEffect } from "react";
-interface Flag {
-  flag: boolean;
-}
+
 const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
   const [flag, setFlag] = useState<boolean[]>([]);
   const [itemsonlevel, setItemsonlevel] = useState<IMenuItems[]>([]);
-  let flags: boolean[];
-  const recquantity = (str: string, datalengths: Lenghts) => {
-    for (const [key, value] of Object.entries(datalengths)) {
-      if (key === str) return value;
-    }
-  };
+
   const filterParentItem = () => {
     setItemsonlevel(
       treedata.filter((t) => {
@@ -25,14 +18,17 @@ const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
     setFlag([...flag]);
   };
   useEffect(() => {
-    filterParentItem();
+    filterParentItem(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [treedata]);
+
   useEffect(() => {
     treedata.map((t) => {
       flag.push(false);
+      return t;
     });
-    setFlag(flag);
+    setFlag(flag); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemsonlevel]);
+
   return [itemsonlevel, flag, set] as const;
 };
 export { useMenuItems };

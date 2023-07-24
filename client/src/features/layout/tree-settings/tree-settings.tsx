@@ -1,6 +1,6 @@
 //import Label from "./Label";
 //import PossibleLabel from "./PossibleLabel";
-import { IMenuItems } from "../../../Interface";
+import { IMenuItems } from "../../../model/Interface";
 import { PossibleLabel } from "../../ui/possible-label";
 import { Label } from "../../ui/label";
 interface IProps {
@@ -37,7 +37,7 @@ export const TreeSettings = ({
       {" "}
       {data.map((t) => {
         return (
-          <div key={t.id} onMouseUp={() => console.log(999)}>
+          <div key={t.id}>
             <Label
               pid={t.pid}
               level={t.level * 10}

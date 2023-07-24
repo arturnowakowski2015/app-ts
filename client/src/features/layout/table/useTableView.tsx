@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Column, Data, DataTable, Record } from "../../../Interface";
+import { Column, Data, DataTable, Record } from "../../../model/Interface";
 
 const useTable = (actualcategory: string) => {
   const navigate = useNavigate();
@@ -71,19 +71,17 @@ const useTable = (actualcategory: string) => {
       : [];
   }, [actualcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  return [
+  return {
     columns,
 
     selectedRecord,
 
     tableflag,
-    deleteRec,
     loadDatabase,
     filterData,
     selectRecord,
-    update,
     setTableflag,
-  ] as const;
+  } as const;
 };
 
 export { useTable };

@@ -1,5 +1,5 @@
-import "../../../styles/Table.scss";
-import { Chevron } from "../../../Interface";
+import "../../../../../styles/Table.scss";
+import { Chevron } from "../../../../../model/Interface";
 interface IProps {
   className: string;
   title: string;

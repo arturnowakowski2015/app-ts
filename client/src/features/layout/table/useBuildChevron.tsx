@@ -1,13 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-import { Chevron } from "../../../Interface";
-interface ColumnsHeader {
-  title: string;
-  disp: boolean;
-}
-export interface Column {
-  col: ColumnsHeader;
-}
+import { Chevron, Column } from "../../../model/Interface";
 
 const useBuildChevron = (columns: Column[]) => {
   let ch: string[] = [];

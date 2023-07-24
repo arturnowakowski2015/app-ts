@@ -6,6 +6,20 @@ export interface fetchActionSet {
   token?: string;
   data?: Data;
 }
+export interface DataAny {
+  [id: string]: any[];
+}
+interface ColumnsHeader {
+  title: string;
+  disp: boolean;
+}
+export interface Element {
+  old?: IMenuItems;
+  act?: IMenuItems;
+}
+export interface Column {
+  col: ColumnsHeader;
+}
 export interface treeItems {
   name: string;
   children: treeItems[];

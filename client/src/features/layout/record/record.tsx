@@ -1,4 +1,4 @@
-import { Record, DataTable, Column } from "../../../Interface";
+import { Record, DataTable, Column } from "../../../model/Interface";
 
 import { useRec } from "./useRec";
 interface IProps {
@@ -6,13 +6,12 @@ interface IProps {
 
   columns: Column[];
   deleteRec: (cat: string, str: DataTable) => void;
-  update: (url: string, record?: DataTable) => void;
+  update: (url: string, record: DataTable) => void;
 }
 export const Rec = ({ record, columns, deleteRec, update }: IProps) => {
-  const [data, setData] = useRec(record as Record[], columns);
+  const { data, setData } = useRec(record as Record[], columns);
   return (
     <>
-      <div>{data && Object.entries(data) && Object.keys(data)[2]}</div>
       <input
         type="text"
         value={(data && data[columns[2].col.title]) || ""}

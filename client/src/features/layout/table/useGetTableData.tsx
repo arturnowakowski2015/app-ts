@@ -1,27 +1,8 @@
-import { Set, Column, Enabled } from "../../Interface";
+import { Set, Column, DataAny } from "../../../model/Interface";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { api } from "../../utils/api";
-import { data } from "../../data/dummy";
-interface Data {
-  [id: string]: any[];
-}
-interface DataD {
-  data: Data;
-}
-type PageMeta = {
-  currentPage: number;
-  limit: number;
-  totalItems: number;
-  totalPages: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-};
+import { useEffect } from "react";
+import { api } from "../../../utils/api";
 
-export type Generic = {
-  items: Data;
-  meta: PageMeta;
-};
 /*
 type Key = string | string[]
 type Fetcher<Data> = () => Promise<Data>
@@ -30,46 +11,19 @@ type Options = { enabled?: boolean; cacheTime?: number }
 const useQuery = <Data,>(key: Key, fetcher: Fetcher<Data>, options?: Options): Query<Data> => {
   // ...
 
-*/
+
 const urls: string[] = [
   "https://jsonplaceholder.typicode.com/comments",
   "https://jsonplaceholder.typicode.com/photos",
-];
+];*/
 const getRec = async (url: string) => {
-  let y: any = await api.get<Data>(url, {
+  let y: any = await api.get<DataAny>(url, {
     method: "GET",
   });
 
   return y;
 };
-const controller = new AbortController();
-const signal = controller.signal;
-const getRecSorted = async (
-  actcategory: string,
-  selectedColumn: number,
-  currentPage: number,
-  columns: Column[],
-  chevron: Boolean,
-  set: Set
-) => {
-  return await api.get<Data>(
-    set.host +
-      set.database +
-      "/sort/" +
-      actcategory +
-      "/" +
-      (columns &&
-        columns[selectedColumn] &&
-        columns[selectedColumn].col.title) +
-      "/" +
-      (chevron ? "DESC" : "ASC") +
-      "/" +
-      currentPage +
-      "/" +
-      300,
-    { signal, method: "GET" }
-  );
-};
+
 const useGetPaginatedData = (
   direction: boolean,
   len: number,
@@ -77,26 +31,25 @@ const useGetPaginatedData = (
   set: Set,
   actcategory: string
 ) => {
-  let { data, isFetching, isLoading, isPreviousData, error, refetch } =
-    useQuery(
-      ["paginate", currentPage],
-      async () => {
-        let url: string =
-          set.host +
-          set.database +
-          "/paginate/" +
-          actcategory +
-          "/" +
-          currentPage +
-          "/" +
-          10;
-        return getRec(url);
-      },
-      { keepPreviousData: true, staleTime: 10000000000000 }
-    );
+  let { data, isFetching, isLoading, isPreviousData } = useQuery(
+    ["paginate", currentPage],
+    async () => {
+      let url: string =
+        set.host +
+        set.database +
+        "/paginate/" +
+        actcategory +
+        "/" +
+        currentPage +
+        "/" +
+        10;
+      return getRec(url);
+    },
+    { keepPreviousData: true, staleTime: 10000000000000 }
+  );
 
   const queryClient = useQueryClient();
-  let r: any;
+
   useEffect(() => {
     let url: string =
       set.host +
@@ -109,10 +62,10 @@ const useGetPaginatedData = (
       10;
     queryClient.prefetchQuery(["paginate", currentPage], async () => {
       return getRec(url);
-    });
+    }); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, currentPage, queryClient]);
 
-  return [isLoading, isFetching, isPreviousData, data] as const;
+  return { isLoading, isFetching, isPreviousData, data } as const;
 };
 
 const useGetSortedData = (
@@ -124,34 +77,28 @@ const useGetSortedData = (
   selectedColumn: number,
   chevron: Boolean
 ) => {
-  const {
-    data: sorted_data,
-    isLoading: sorted_isLoading,
-    isFetching,
-    refetch: r,
-  } = useQuery(["sort", sort], async () => {
-    let url: string =
-      set.host +
-      set.database +
-      "/sort/" +
-      actcategory +
-      "/" +
-      (columns &&
-        columns[selectedColumn] &&
-        columns[selectedColumn].col.title) +
-      "/" +
-      (chevron ? "DESC" : "ASC") +
-      "/" +
-      currentPage +
-      "/" +
-      10;
-    return await getRec(url);
-  });
-  return [
-    sorted_isLoading !== undefined ? sorted_isLoading : false,
-    sorted_data,
-    r,
-  ] as const;
+  const { data: sorted_data, refetch: r } = useQuery(
+    ["sort", sort],
+    async () => {
+      let url: string =
+        set.host +
+        set.database +
+        "/sort/" +
+        actcategory +
+        "/" +
+        (columns &&
+          columns[selectedColumn] &&
+          columns[selectedColumn].col.title) +
+        "/" +
+        (chevron ? "DESC" : "ASC") +
+        "/" +
+        currentPage +
+        "/" +
+        10;
+      return await getRec(url);
+    }
+  );
+  return { sorted_data, r } as const;
 };
 export const useDeleteRow = (set: Set, currentPage: number) => {
   const queryClient = useQueryClient();
@@ -166,7 +113,7 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
           },
         }
       );
-      let t = await r.json();
+      return await r.json();
     },
     {
       onMutate: async (id1) => {
@@ -174,20 +121,19 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         await queryClient.cancelQueries(["paginate", "sort"]);
 
         const currentPage1: any = (
-          queryClient.getQueryData(["paginate", currentPage]) as Data
+          queryClient.getQueryData(["paginate", currentPage]) as DataAny
         )["data"];
         // remove resolved issue from the cache so it immediately
         // disappears from the UI
-        let v: any[] = [];
 
         if (currentPage1 && currentPage1["data"]) {
+          alert(99);
           queryClient.setQueryData(
             ["paginate", currentPage],
-            (currentPage1 as Data)["data"].filter((t) => {
+            (currentPage1 as DataAny)["data"].filter((t) => {
               return t.id !== id1 && t;
             })
           );
-          console.log("##############           getQueryData");
         }
 
         // save the current data in the mutation context to be able to

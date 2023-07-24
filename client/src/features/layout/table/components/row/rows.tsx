@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useBuildRows } from "./useBuildRows";
-import { Column, Set, Enabled, Chevron } from "../../../Interface";
+import { Column, Set, Enabled, Chevron } from "../../../../../model/Interface";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { useGlobalContext } from "../../../ctx/MyGlobalContext";
+import { useGlobalContext } from "../../../../../ctx/MyGlobalContext";
 
 interface IProps {
   columns?: Column[];
@@ -20,8 +20,7 @@ export const Rows = ({ columns, result, deleteRow }: IProps) => {
 
   useEffect(() => {
     if (ref.current) ref.current(result, columns);
-  }, [result]);
-
+  }, [result]); // eslint-disable-next-line react-hooks/exhaustive-deps
   return (
     <>
       {rows &&

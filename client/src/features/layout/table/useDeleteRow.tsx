@@ -1,4 +1,4 @@
-import { Set } from "../../Interface";
+import { Set } from "../../../model/Interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 const useDeleteRow = (set: Set, currentPage: number) => {
   const queryClient = useQueryClient();

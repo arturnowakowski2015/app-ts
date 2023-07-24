@@ -1,12 +1,10 @@
 import { Route, useNavigate, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TreeSettings from "../../features/layout/tree-settings/tree-settings";
-import { IMenuItems, Set, Column } from "../../Interface";
-import { useTempTable } from "../../pages/home/useTempTable";
-import { useGetPaginatedData } from "../../pages/home/useGetTableData";
-import { Element } from "../../features/layout/tree-settings/useTreeSettings";
-
-import { useTable } from "../../features/layout/table/useTableView";
+import { IMenuItems, Set } from "../../model/Interface";
+import { useTempTable } from "../../features/layout/table/useTempTable";
+import { useGetPaginatedData } from "../../features/layout/table/useGetTableData";
+import { Element } from "../../model/Interface";
 
 import { Table } from "../../features/layout/table/table";
 import { PossibleLabel } from "../../features/ui/possible-label";
@@ -57,7 +55,7 @@ export const Settings = ({
   handleDragEnd,
 }: IProps) => {
   const navigate = useNavigate();
-  const [selectRecord] = useTable("");
+
   // This function is triggered when the select changes
   const change = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
@@ -66,20 +64,21 @@ export const Settings = ({
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
-  const [isLoading, isFetching, isPreviousData, paginated_data] =
-    useGetPaginatedData(direction, len as number, 1, set, actcategory);
+  const { data: paginated_data } = useGetPaginatedData(
+    direction,
+    0,
+    1,
+    set,
+    actcategory
+  );
 
-  const [
+  const {
     columns,
-    chevron,
-    selectedColumn,
-    enabled,
-    sort,
+
     onSort,
     showChevron,
     showSelectedColumn,
-    showQuery,
-  ] = useTempTable(
+  } = useTempTable(
     set.actcategory,
     paginated_data && paginated_data["data"] && paginated_data["data"]["data"],
     treedata
@@ -90,7 +89,7 @@ export const Settings = ({
         paginated_data["data"] &&
         (paginated_data["data"]["data"] as unknown as any[])
     );
-  }, [paginated_data]);
+  }, [paginated_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
   return (
     <>
       {" "}
@@ -151,7 +150,6 @@ export const Settings = ({
                 draggable="true"
                 onDragOver={(event) => enableDropping(event, "sss")}
                 onDrop={(event) => handleDrop(event, "ddd")}
-                onMouseUp={() => console.log(999)}
               >
                 ROOT
               </p>

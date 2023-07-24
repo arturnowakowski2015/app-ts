@@ -1,4 +1,4 @@
-import { DataTable, Lenghts, IMenuItems } from "../../Interface";
+import { IMenuItems } from "../../model/Interface";
 
 import { useMenuItems } from "../layout/menu-items/useMenuItems";
 import { useGlobalContext } from "../../ctx/MyGlobalContext";
@@ -11,7 +11,6 @@ interface IProps {
   pid: number;
   overItem: string;
   selected: string;
-  onmouseout: (str: string) => void;
   onmouseover: (str: string) => void;
   onClick: (title: string) => void;
 }
@@ -22,7 +21,6 @@ export const TreeNode = ({
   pid,
   selected,
   overItem,
-  onmouseout,
   onmouseover,
   onClick,
 }: IProps) => {
@@ -31,11 +29,14 @@ export const TreeNode = ({
 
   const fl = useRef<Function>();
 
-  const sFlag = () => {};
+  const sFlag = () => {
+    console.log(itemsonlevel);
+  };
   fl.current = sFlag;
   useEffect(() => {
     if (fl.current) fl.current();
-  }, []);
+  }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
+  console.log(pid);
   return (
     <>
       {treedata.map((t, ii) => {
@@ -55,12 +56,11 @@ export const TreeNode = ({
                 {flag[ii] === false && t.nextlevel === 1 && (
                   <div
                     className="plus"
-                    onClick={() => {
+                    onClick={(e) => {
                       set(t.pid, true);
                     }}
                   >
-                    {" "}
-                    +
+                    {pid}+
                   </div>
                 )}
                 {flag[ii] && (
@@ -83,7 +83,7 @@ export const TreeNode = ({
                   }
                   onClick={() => onClick(t.name)}
                   onMouseOver={() => onmouseover(t.name)}
-                  onMouseOut={() => onmouseout(t.name)}
+                  onMouseOut={() => onmouseover("")}
                 >
                   {t.name}
 
@@ -95,7 +95,6 @@ export const TreeNode = ({
                 <TreeNode
                   overItem={overItem}
                   onmouseover={onmouseover}
-                  onmouseout={onmouseout}
                   selected={selected}
                   treedata={treedata}
                   pid={t.id}

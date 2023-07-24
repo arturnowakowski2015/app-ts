@@ -1,0 +1,1 @@
+export { Recordpage } from "./Recordpage";

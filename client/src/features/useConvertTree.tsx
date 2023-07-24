@@ -1,4 +1,4 @@
-import { treeItems, IMenuItems } from "../Interface";
+import { treeItems, IMenuItems } from "../model/Interface";
 const useConvertTree = () => {
   let id = 0;
   let i = 0;
@@ -58,7 +58,6 @@ const useConvertTree = () => {
     for (let i = temp.length - 1; i > 0; i--)
       if (temp[i].pid !== 0) temp.splice(i, 1);
     let flattenarr = delpar(temp);
-    console.log("..........................." + JSON.stringify(flattenarr)); // if you have dangling branches check that map[node.parentId] exists
 
     return flattenarr;
   };

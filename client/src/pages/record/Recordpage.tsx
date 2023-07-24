@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { MenuItems } from "../../features/layout/menu-items";
-import { IMenuItems, Set } from "../../model/Interface";
-import { Table } from "../../features/layout/table";
+import { IMenuItems, Set, DataTable, Record } from "../../model/Interface";
+import { Rec } from "../../features/layout/record";
 import { useTempTable } from "../../features/layout/table/useTempTable";
 import {
   useGetPaginatedData,
@@ -18,14 +18,16 @@ interface IProps {
   overItem: string;
   onmouseover: (str: string) => void;
   set: Set;
-  pageSize: number;
-  setDataLength: (i: number) => void;
   changecategory: (str: string) => void;
   actcategory: string;
   datalength: number;
+  record?: Record[];
+
+  deleteRec: (cat: string, str: DataTable) => void;
+  update: (url: string, rec: DataTable) => void;
 }
 
-export function Home({
+export function Recordpage({
   treedata,
   actcategory,
   datalength,
@@ -34,8 +36,10 @@ export function Home({
   set,
 
   changecategory,
-  pageSize,
   onmouseover,
+  record,
+  deleteRec,
+  update,
 }: IProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -129,28 +133,12 @@ export function Home({
           />
         </div>
       </div>
-      <div className="right">
-        <div className="ratios" style={{ height: "30px" }}>
-          {isLoading && <div>isLoading</div>}
-          {isFetching && <div>fetching</div>}
-          {JSON.stringify(isPreviousData)}
-        </div>
-        <Table
-          sort={() => onSort()}
-          showChevron={(e: Boolean) => showChevron(e)}
+      <div className="reight">
+        <Rec
+          record={record}
           columns={columns}
-          pageSize={pageSize}
-          result={result}
-          showSelectedColumn={showSelectedColumn}
-          showQuery={(i) => {
-            if (currentPage < i) setDirection(false);
-            else setDirection(true);
-            setCurrentPage(i);
-          }}
-          deleteRow={(i) => {
-            deleteRow(i);
-          }}
-          len={len as number}
+          deleteRec={deleteRec}
+          update={update}
         />
       </div>
     </div>
