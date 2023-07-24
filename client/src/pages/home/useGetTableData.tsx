@@ -150,6 +150,7 @@ const useGetSortedData = (
   return [
     sorted_isLoading !== undefined ? sorted_isLoading : false,
     sorted_data,
+    r,
   ] as const;
 };
 export const useDeleteRow = (set: Set, currentPage: number) => {
@@ -171,37 +172,27 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
       onMutate: async (id1) => {
         // cancel all queries that contain the key "issues"
         await queryClient.cancelQueries(["paginate", "sort"]);
-        /* alert(
-          "pop " +
-            JSON.stringify(
-              (queryClient.getQueryData(["paginate", currentPage]) as Data)[
-                "data"
-              ]
-            )
-        );
+
         const currentPage1: any = (
           queryClient.getQueryData(["paginate", currentPage]) as Data
         )["data"];
         // remove resolved issue from the cache so it immediately
         // disappears from the UI
-        let v: any[] = (currentPage1 as Data)["data"].splice(
-          (currentPage1 as Data)["data"].findIndex((t) => {
-            return t.id === id1;
-          }),
-          1
-        );
-        queryClient.setQueryData(
-          ["paginate", currentPage],
-          {
-            ...(currentPage1 as Data),
-            data: v,
-          },
-          currentPage1
-        );
+        let v: any[] = [];
+
+        if (currentPage1 && currentPage1["data"]) {
+          queryClient.setQueryData(
+            ["paginate", currentPage],
+            (currentPage1 as Data)["data"].filter((t) => {
+              return t.id !== id1 && t;
+            })
+          );
+          console.log("##############           getQueryData");
+        }
+
         // save the current data in the mutation context to be able to
         // restore the previous state in case of an error
         return { currentPage1 };
-        */
       },
       onSuccess: async () => {
         // flag the query with key ["issues"] as invalidated

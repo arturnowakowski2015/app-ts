@@ -75,7 +75,7 @@ export function Home({
     treedata
   );
 
-  const [sorted_isLoading, sorted_data] = useGetSortedData(
+  const [sorted_isLoading, sorted_data, refetch] = useGetSortedData(
     sort,
     set,
     currentPage,
@@ -84,17 +84,20 @@ export function Home({
     selectedColumn,
     chevron
   );
-
+  const [ref, setRef] = useState<boolean>(false);
   const m = useDeleteRow(set, currentPage);
 
-  const deleteRow = (id: number) => m.mutate(id);
+  const deleteRow = (id: number) => {
+    m.mutate(id);
+
+    setRef(true);
+  };
   useEffect(() => {
     setResult(
       paginated_data &&
         paginated_data["data"] &&
         (paginated_data["data"]["data"] as unknown as any[])
     );
-    alert("lll  " + JSON.stringify(result));
   }, [paginated_data]);
   useEffect(() => {
     setResult(
@@ -103,7 +106,10 @@ export function Home({
         (sorted_data["data"]["data"] as unknown as any[])
     );
   }, [sorted_data]);
-
+  useEffect(() => {
+    refetch();
+    setRef(false);
+  }, [ref]);
   useEffect(() => {
     setLen(
       sorted_data &&
@@ -111,6 +117,7 @@ export function Home({
         (sorted_data["data"]["len"] as unknown as number)
     );
   }, [paginated_data, sorted_data]);
+
   return (
     <div className="container">
       <div className="left">
@@ -146,7 +153,9 @@ export function Home({
             else setDirection(true);
             setCurrentPage(i);
           }}
-          deleteRow={(i) => deleteRow(i)}
+          deleteRow={(i) => {
+            deleteRow(i);
+          }}
           len={len as number}
         />
       </div>

@@ -42,7 +42,9 @@ export const Rows = ({ columns, result, deleteRow }: IProps) => {
                   </th>
                 );
               })}
-              <div onClick={() => deleteRow(ii + 1)}>xaaaaa</div>
+              <div onClick={() => deleteRow(row[1] as unknown as number)}>
+                xaaaaa
+              </div>
             </tr>
           );
         })}

@@ -1,6 +1,6 @@
 import { baza } from "../model/baza1.js";
 export const increase = async (req, res) => {
-  for (let i = baza["comments"]["new"].length; i < 5030000; i++)
+  for (let i = baza["comments"]["new"].length; i < 330000; i++)
     baza["comments"]["new"].push({
       postId: 1,
       id: baza["comments"]["new"].length + i,
@@ -46,7 +46,7 @@ export const sortData = (req, res) => {
   }
 };
 export const paginate = async (req, res) => {
-  //  increase();
+  increase();
 
   const { database, actcategory, page, limit } = req.params;
   console.log("llllllllllllllllllllllllllll");
