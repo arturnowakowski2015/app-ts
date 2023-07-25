@@ -34,7 +34,6 @@ export const TreeSettings = ({
 }: IProps) => {
   return (
     <>
-      {" "}
       {data.map((t) => {
         return (
           <div key={t.id}>
@@ -55,10 +54,11 @@ export const TreeSettings = ({
                 level={t.level * 10 + 10}
                 title={oldLabel && oldLabel.name}
               />
-            )}
+            )}{" "}
           </div>
         );
-      })}
+      })}{" "}
+      {JSON.stringify(data)}
     </>
   );
 };

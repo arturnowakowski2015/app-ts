@@ -66,7 +66,7 @@ export const Settings = ({
   const [direction, setDirection] = useState<boolean>(true);
   const { data: paginated_data } = useGetPaginatedData(
     direction,
-    0,
+    len as number,
     1,
     set,
     actcategory

@@ -25,6 +25,7 @@ export const MenuItems = ({
 
   return (
     <>
+      {JSON.stringify(itemsonlevel)}
       {itemsonlevel.map((t, ii) => {
         return (
           <div
@@ -33,23 +34,25 @@ export const MenuItems = ({
             key={t.id}
           >
             <div style={{ display: "flex", flexDirection: "row" }}>
-              {flag[ii] === false && t.nextlevel === 1 && (
+              {flag[t.level / 10 + 1] !== t.name && t.nextlevel === 1 && (
                 <div
                   className="plus"
-                  onClick={() => {
-                    set(i, true);
-                  }}
-                >
-                  {}
-                  +a
-                </div>
-              )}
-              {flag[ii] && (
-                <div
-                  className="minus"
                   onClick={(e) => {
                     e.preventDefault();
-                    set(i, false);
+                    set(i, t.name);
+                  }}
+                >
+                  {}+
+                </div>
+              )}
+
+              {flag[t.level / 10 + 1] === t.name && (
+                <div
+                  className="minus"
+                  style={{ paddingRight: "10px" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    set(i, t.name);
                   }}
                 >
                   -
@@ -68,10 +71,10 @@ export const MenuItems = ({
                 onMouseOut={() => onmouseover("")}
               >
                 {t.name}
-                <span>{t.name === "new" && length}</span>
+                <span></span>
               </div>
             </div>
-            {flag[i] && (
+            {flag[i] === t.name && (
               <TreeNode
                 overItem={overItem}
                 onmouseover={(str) => onmouseover(str)}

@@ -3,7 +3,7 @@ import { IMenuItems } from "../../model/Interface";
 import { useMenuItems } from "../layout/menu-items/useMenuItems";
 import { useGlobalContext } from "../../ctx/MyGlobalContext";
 import { useEffect, useRef } from "react";
-
+import { useState } from "react";
 import "../../styles/MenuItems.scss";
 interface IProps {
   treedata: IMenuItems[];
@@ -27,16 +27,17 @@ export const TreeNode = ({
   const [itemsonlevel, flag, set] = useMenuItems(pid, treedata);
   const { sets, i } = useGlobalContext();
 
-  const fl = useRef<Function>();
+  const fl1 = useRef<Function>();
 
   const sFlag = () => {
     console.log(itemsonlevel);
   };
-  fl.current = sFlag;
+  fl1.current = sFlag;
   useEffect(() => {
-    if (fl.current) fl.current();
+    if (fl1.current) fl1.current();
   }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
-  console.log(pid);
+  const [fl, setFl] = useState<boolean>(false);
+
   return (
     <>
       {treedata.map((t, ii) => {
@@ -47,27 +48,33 @@ export const TreeNode = ({
               <div
                 className="node"
                 style={{
-                  marginLeft: t.level * 10 + "px",
+                  marginLeft:
+                    flag[ii] === "" && t.nextlevel === 0
+                      ? t.level * 10 + 20 + "px"
+                      : t.level * 10 + "px",
                   display: "flex",
                   flexDirection: "row",
                 }}
                 key={t.id}
               >
-                {flag[ii] === false && t.nextlevel === 1 && (
+                {flag[ii] === "" && t.nextlevel === 1 && (
                   <div
                     className="plus"
                     onClick={(e) => {
-                      set(t.pid, true);
+                      set(t.pid, t.name);
+                      setFl(true);
                     }}
                   >
-                    {pid}+
+                    +
                   </div>
                 )}
-                {flag[ii] && (
+                {flag[ii] === t.name && (
                   <div
                     className="minus"
+                    style={{ paddingRight: "10px" }}
                     onClick={() => {
-                      set(t.pid, false);
+                      set(t.pid, t.name);
+                      setFl(false);
                     }}
                   >
                     -

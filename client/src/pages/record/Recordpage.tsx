@@ -90,6 +90,7 @@ export function Recordpage({
 
     setRef(true);
   };
+
   useEffect(() => {
     setResult(
       paginated_data &&

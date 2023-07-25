@@ -127,7 +127,6 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         // disappears from the UI
 
         if (currentPage1 && currentPage1["data"]) {
-          alert(99);
           queryClient.setQueryData(
             ["paginate", currentPage],
             (currentPage1 as DataAny)["data"].filter((t) => {

@@ -48,11 +48,9 @@ export const paginate = async (req, res) => {
   increase();
 
   const { database, actcategory, page, limit } = req.params;
-  console.log("llllllllllllllllllllllllllll");
 
   const startIndex = (Number(page) - 1) * Number(limit);
   const endIndex = startIndex + Number(limit);
-  console.log(startIndex + ":::" + endIndex);
   const p = baza[database][actcategory].slice(startIndex, endIndex);
 
   try {

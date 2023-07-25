@@ -1,10 +1,15 @@
-import { IMenuItems } from "../../../model/Interface";
+import { IMenuItems, Lenghts } from "../../../model/Interface";
 import { useState, useEffect } from "react";
 
 const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
-  const [flag, setFlag] = useState<boolean[]>([]);
+  const [flag, setFlag] = useState<string[]>([]);
   const [itemsonlevel, setItemsonlevel] = useState<IMenuItems[]>([]);
-
+  let flags: boolean[];
+  const recquantity = (str: string, datalengths: Lenghts) => {
+    for (const [key, value] of Object.entries(datalengths)) {
+      if (key === str) return value;
+    }
+  };
   const filterParentItem = () => {
     setItemsonlevel(
       treedata.filter((t) => {
@@ -12,23 +17,30 @@ const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
       })
     );
   };
-  const set = (i: number, flags: boolean) => {
-    for (let ii = 0; ii < flag.length; ii++) flag[ii] = false;
-    flag[i] = flags;
+  const set = (i: number, name: string) => {
+    if (flag[i] === name) flag[i] = "";
+    else flag[i] = name;
+    for (
+      let ii =
+        flag.findIndex((t) => {
+          return t === name;
+        }) + 1;
+      ii < flag.length;
+      ii++
+    )
+      flag[ii] = "";
+
     setFlag([...flag]);
   };
   useEffect(() => {
-    filterParentItem(); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [treedata]);
-
+    filterParentItem();
+  }, [treedata]); // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     treedata.map((t) => {
-      flag.push(false);
-      return t;
+      flag.push("");
     });
-    setFlag(flag); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemsonlevel]);
-
+    setFlag(flag);
+  }, [itemsonlevel]); // eslint-disable-next-line react-hooks/exhaustive-deps
   return [itemsonlevel, flag, set] as const;
 };
 export { useMenuItems };

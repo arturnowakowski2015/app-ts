@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IMenuItems, Element } from "../../../model/Interface";
 
 const useTreeSettings = () => {
+  let array: IMenuItems[] = [];
   const [display, setDisplay] = useState<boolean>(true);
   const [idroot, setIdroot] = useState<string | null>("");
   const [ifdragdrop, setIfdragdrop] = useState<boolean>(false);
@@ -104,27 +105,91 @@ const useTreeSettings = () => {
     };
     for (let i = 0; i < sections.length; i++) {
       pushIndexToElement(sections[i], i);
+      console.log(sections[i].innerHTML);
     }
 
-    /*
-    .XX  removed:::{"act":{"name":"postponed","level":2,"id":3,"pid":3,"nextlevel":0},
-    "old":{"name":"removed","level":3,"id":4,"pid":4,"nextlevel":0}}
-*/
+    console.log(name + ":1111::" + str);
+    if (name !== str) {
+      let act = findinarray(array, el.old && el.old.name);
+      let old = findarrayindex(array, ".XX");
+      let lev = 0;
+      if (old > act) {
+        array.map((t, i) => {
+          if (i > old && t.level >= array[old].level && el.old?.pid !== 0)
+            t.level = t.level - 1;
 
-    let id = findinarray(array, name);
+          return t;
+        });
+      } else
+        array.map((t, i) => {
+          t.id = i + 1;
+          return t;
+        });
 
-    if (ifdragdrop === false)
-      if (el.act === undefined) array[id].name = el.old?.name as string;
-      else {
-        array.splice(id, 1);
-      }
-    setDisplay(false);
+      let pidarr: number[] = [];
+      pidarr.push(array[0].pid);
+
+      const reindex = (
+        array: IMenuItems[],
+        ii: number,
+        pid: number[],
+        j: number
+      ) => {
+        if (ii < 1)
+          for (let i = 0; i < array.length; i++)
+            if (i === ii) {
+              array[i].pid = pid[j];
+              if (array[i + 1] && array[i + 1].level > array[i].level) {
+                pid.push(array[i].id);
+                ++j;
+              }
+              if (array[i + 1] && array[i + 1].level < array[i].level) {
+                let yy = array[i].level - array[i + 1].level;
+                while (yy > 0) {
+                  pid.pop();
+                  --j;
+                  --yy;
+                }
+              }
+
+              reindex(array, ++ii, pid, j);
+            }
+
+        return array;
+      };
+      setEl((el) => ({
+        old: undefined,
+        act: undefined,
+      }));
+      setIdroot("");
+      array = reindex(array, 0, pidarr, 0);
+      array.map((t, i) => {
+        array.map((tt) => {
+          if (tt.pid === t.id) {
+            t.nextlevel = 1;
+          }
+          return tt;
+        });
+        return t;
+      });
+    } else {
+      let str: string | undefined = el.old && el.old.name;
+      let act = findinarray(array, el.old && el.old.name);
+      array.splice(act, 1);
+      let old = findarrayindex(array, ".XX");
+      if (array && array[old]) array[old].name = str as string;
+      setEl((el) => ({
+        old: undefined,
+        act: undefined,
+      }));
+    }
     setTreedata(array);
+    setIfdragdrop(true);
   };
   const handleDrop = (event: React.DragEvent<HTMLDivElement>, name: string) => {
     let sections: HTMLElement[] = [];
     sections = document.querySelectorAll(".node") as unknown as HTMLElement[];
-    let array: IMenuItems[] = [];
+
     // 1 setting pid and id
     let str: string = ".XX  " + el.old?.name;
 
@@ -148,9 +213,12 @@ const useTreeSettings = () => {
         nextlevel: 0,
       });
     };
+
     for (let i = 0; i < sections.length; i++) {
       pushIndexToElement(sections[i], i);
+      console.log(sections[i].innerHTML);
     }
+
     console.log(name + ":::" + str);
     if (name !== str) {
       let act = findinarray(array, el.old && el.old.name);
@@ -221,6 +289,7 @@ const useTreeSettings = () => {
 
         return array;
       };
+
       setEl((el) => ({
         old: undefined,
         act: undefined,
@@ -232,6 +301,7 @@ const useTreeSettings = () => {
           if (tt.pid === t.id) {
             t.nextlevel = 1;
           }
+          if (t.level == 0.1) t.level = 0;
           return tt;
         });
         return t;
@@ -247,6 +317,7 @@ const useTreeSettings = () => {
         act: undefined,
       }));
     }
+
     setTreedata(array);
     setIfdragdrop(true);
   };

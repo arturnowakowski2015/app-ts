@@ -34,6 +34,7 @@ span {
 }
 .node {
   padding: 5px;
+  text-align: left;
   @each $v in 1, 2, 3 {
     .selected-#{$v} {
       color: white;
@@ -52,4 +53,7 @@ span {
   background-color: rgb(30, 222, 43);
   width: 100%;
   transition: background-color 0.5s;
+}
+.thelast {
+  margin-left: 30px;
 }

@@ -127,13 +127,12 @@ export function Home({
               changecategory(str);
             }}
           />
-        </div>
+        </div>{" "}
       </div>
       <div className="right">
         <div className="ratios" style={{ height: "30px" }}>
           {isLoading && <div>isLoading</div>}
           {isFetching && <div>fetching</div>}
-          {JSON.stringify(isPreviousData)}
         </div>
         <Table
           sort={() => onSort()}

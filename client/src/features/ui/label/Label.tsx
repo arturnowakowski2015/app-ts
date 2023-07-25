@@ -52,7 +52,7 @@ export const Label = ({
           "item-" +
           sets[i] +
           " p" +
-          (isNaN(pid) ? -1 : pid) +
+          (isNaN(pid) ? 0 : pid) +
           "/" +
           " l" +
           nextlevel +

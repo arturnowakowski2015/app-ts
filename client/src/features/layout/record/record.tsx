@@ -14,7 +14,9 @@ export const Rec = ({ record, columns, deleteRec, update }: IProps) => {
     <>
       <input
         type="text"
-        value={(data && data[columns[2].col.title]) || ""}
+        value={
+          (data && data[columns && columns[2] && columns[2].col.title]) || ""
+        }
         onChange={(e) =>
           setData({
             ...data,
@@ -25,7 +27,9 @@ export const Rec = ({ record, columns, deleteRec, update }: IProps) => {
       <div>{data && Object.entries(data) && Object.keys(data)[3]}</div>
       <input
         type="text"
-        value={(data && data[columns[3].col.title]) || ""}
+        value={
+          (data && data[columns && columns[3] && columns[3].col.title]) || ""
+        }
         onChange={(e) =>
           setData({
             ...data,
@@ -33,10 +37,12 @@ export const Rec = ({ record, columns, deleteRec, update }: IProps) => {
           })
         }
       />{" "}
-      <div>{data && Object.entries(data) && Object.keys(data)[4]}</div>
+      <div>{JSON.stringify(data)}</div>
       <input
         type="text"
-        value={(data && data[columns[4].col.title]) || ""}
+        value={
+          (data && data[columns && columns[4] && columns[4].col.title]) || ""
+        }
         onChange={(e) =>
           setData({
             ...data,
