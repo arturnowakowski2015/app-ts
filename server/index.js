@@ -11,7 +11,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 const server = http.createServer(app);
-
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 app.use(express.json());
 
 app.get(

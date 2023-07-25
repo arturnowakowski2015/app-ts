@@ -43,10 +43,15 @@ const useGetPaginatedData = (
         currentPage +
         "/" +
         10;
-
-      let t: any = await getRec(url);
-      alert(url + "ddd " + JSON.stringify(t));
-      return t;
+      try {
+        let t: any = await getRec(
+          "zctwkn-3001.csb.app/comments/paginate/new/1/10"
+        );
+        alert(url + "ddd " + JSON.stringify(t));
+        return t;
+      } catch (error) {
+        alert(error);
+      }
     },
     { keepPreviousData: true, staleTime: 10000000000000 }
   );
