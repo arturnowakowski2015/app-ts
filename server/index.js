@@ -1,13 +1,7 @@
  
 import express from 'express'
 import { Router } from 'express'
-import express from "express";
-import http from "http";
-import { fileURLToPath } from "url";
-import { remove, sortData, paginate, increase } from "./controller/post.js";
-import cors from "cors";
-import path from "path";
-const app = express()
+ 
 
 const route = Router()
 
