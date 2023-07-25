@@ -71,7 +71,6 @@ export const remove = async (req, res) => {
     });
     console.log("ggg                      gggggg" + y.length);
     baza[database][actcategory] = y;
-    res.status(200).json({ len: y.length, data: y });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

@@ -25,7 +25,6 @@ export const MenuItems = ({
 
   return (
     <>
-      {JSON.stringify(itemsonlevel)}
       {itemsonlevel.map((t, ii) => {
         return (
           <div

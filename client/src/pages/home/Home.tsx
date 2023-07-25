@@ -83,7 +83,7 @@ export function Home({
 
   const deleteRow = (id: number) => {
     m.mutate(id);
-
+    console.log(id);
     setRef(true);
   };
   useEffect(() => {

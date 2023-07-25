@@ -38,7 +38,7 @@ function App() {
 
     setTableflag,
   } = useTable(actcategory);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [datalength, setDatalength] = useState<number>(0);
 
   const [set, setSet] = useState<Set>({

@@ -42,7 +42,7 @@ export const useLoadMore = <T>(url: string | null, params?: object) => {
     QueryKeyT
   >(
     [url!, params],
-    ({ queryKey, pageParam = 5 }) => fetcher({ queryKey, pageParam }),
+    ({ queryKey, pageParam = 10 }) => fetcher({ queryKey, pageParam }),
     {
       getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
       getNextPageParam: (lastPage, page) => {

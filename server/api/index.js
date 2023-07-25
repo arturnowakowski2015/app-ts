@@ -21,18 +21,6 @@ app.use(
 );
 /* REGISTER USER */
 
-app.get(
-  "/:database/sort/:actcategory/:column/:sortDirection/:page/:limit",
-  //http://localhost:3001/comments/sort/new/email/ASC/1/10
+app.get("/aa", (req, res) => res.send("eeee"));
 
-  sortData
-);
-app.get("/:database/paginate/:actcategory/:page/:limit", paginate);
-app.patch("/:database/:actcategory/remove/:id", remove);
-
-const PORT = process.env.PORT || 3001;
-
-server.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-
-export default app;
-// next line is the money
+module.exports = app;

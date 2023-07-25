@@ -58,7 +58,6 @@ export const TreeSettings = ({
           </div>
         );
       })}{" "}
-      {JSON.stringify(data)}
     </>
   );
 };
