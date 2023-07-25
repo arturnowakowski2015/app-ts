@@ -115,7 +115,6 @@ export function Home({
   return (
     <div className="container">
       aaaa
-      {JSON.stringify(result)}
       <div className="left">
         <div className="menu">
           {" "}

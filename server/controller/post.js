@@ -51,7 +51,7 @@ export const paginate = async (req, res) => {
 
   const startIndex = (Number(page) - 1) * Number(limit);
   const endIndex = startIndex + Number(limit);
-  const p = baza[database][actcategory].slice(startIndex, endIndex);
+  const p = baza && baza[database]&&baza[database][actcategory]&& baza[database][actcategory].slice(startIndex, endIndex);
 
   try {
     res.status(200).json({ data: p, len: baza[database][actcategory].length });
