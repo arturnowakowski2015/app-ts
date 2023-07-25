@@ -42,7 +42,7 @@ function App() {
   const [datalength, setDatalength] = useState<number>(0);
 
   const [set, setSet] = useState<Set>({
-    host: "https://3chphk-3001.csb.app/",
+    host: "https://xydxrz-3001.csb.app",
     actcategory: "new",
     database: "comments",
   });

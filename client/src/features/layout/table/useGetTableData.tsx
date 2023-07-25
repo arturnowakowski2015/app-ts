@@ -2,7 +2,7 @@ import { Set, Column, DataAny } from "../../../model/Interface";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { api } from "../../../utils/api";
-
+import axios from "axios";
 /*
 type Key = string | string[]
 type Fetcher<Data> = () => Promise<Data>
@@ -43,14 +43,15 @@ const useGetPaginatedData = (
         currentPage +
         "/" +
         10;
-
-      let t: any = await getRec(url);
-      alert(url + "ddd " + JSON.stringify(t)  );
+      alert(url);
+      let t: any = await axios.get(url);
+      //await getRec(url);
+      alert(url + "ddd " + JSON.stringify(t));
       return t;
     },
     { keepPreviousData: true, staleTime: 10000000000000 }
   );
- 
+
   const queryClient = useQueryClient();
 
   useEffect(() => {
