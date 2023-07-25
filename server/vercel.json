@@ -1,3 +1,13 @@
 {
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
+    "name": "deploy-node-in-vercel",
+    "version": 2,
+    "public": true,
+ 
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "api/index.js"
+        }
+    ]
 }
+ 
