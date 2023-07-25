@@ -92,7 +92,6 @@ export function Home({
         paginated_data["data"] &&
         (paginated_data["data"]["data"] as unknown as any[])
     );
-    alert(JSON.stringify(paginated_data));
   }, [paginated_data]);
   useEffect(() => {
     setResult(
