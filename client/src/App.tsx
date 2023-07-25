@@ -42,7 +42,7 @@ function App() {
   const [datalength, setDatalength] = useState<number>(0);
 
   const [set, setSet] = useState<Set>({
-    host: "https://app-ts-five.vercel.app/",
+    host: "app-6ufw7zbg2-arturnowakowski2015.vercel.app/",
     actcategory: "new",
     database: "comments",
   });
