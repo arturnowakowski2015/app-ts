@@ -35,7 +35,7 @@ const useGetPaginatedData = (
     ["paginate", currentPage],
     async () => {
       let url: string =
-        "https://zctwkn-3001.csb.app:localhost:3001/" +
+        "//zctwkn-3001.csb.app/" +
         set.database +
         "/paginate/" +
         actcategory +
@@ -44,10 +44,7 @@ const useGetPaginatedData = (
         "/" +
         10;
       try {
-        let t: any = await getRec(
-          "//zctwkn-3001.csb.app/comments/paginate/new/1/10"
-        );
-        alert(url + "ddd " + JSON.stringify(t));
+        let t: any = await getRec(url);
         return t;
       } catch (error) {
         alert(error);
@@ -125,7 +122,8 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
       return await r.json();
     },
     {
-      onMutate: async (id1) => {
+      onMutate: async (id1) => {},
+      onSuccess: async (id1) => {
         // cancel all queries that contain the key "issues"
         await queryClient.cancelQueries(["paginate", "sort"]);
 
@@ -147,8 +145,6 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         // save the current data in the mutation context to be able to
         // restore the previous state in case of an error
         return { currentPage1 };
-      },
-      onSuccess: async () => {
         // flag the query with key ["issues"] as invalidated
         // this causes a refetch of the issues data
         // queryClient.invalidateQueries(["paginate"]);
