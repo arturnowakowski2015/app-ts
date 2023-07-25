@@ -35,7 +35,7 @@ const useGetPaginatedData = (
     ["paginate", currentPage],
     async () => {
       let url: string =
-        set.host +
+        "//xydxrz-3001.csb.app/"+
         set.database +
         "/paginate/" +
         actcategory +
