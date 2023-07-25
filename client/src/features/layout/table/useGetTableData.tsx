@@ -45,7 +45,7 @@ const useGetPaginatedData = (
         10;
 
       let t: any = await getRec(url);
-      alert("ddd " + JSON.stringify(t));
+      alert(url + "ddd " + JSON.stringify(t));
       return t;
     },
     { keepPreviousData: true, staleTime: 10000000000000 }
