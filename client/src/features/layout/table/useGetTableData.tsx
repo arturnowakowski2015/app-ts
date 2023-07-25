@@ -45,12 +45,12 @@ const useGetPaginatedData = (
         10;
 
       let t: any = await getRec(url);
-      alert(url + "ddd " + JSON.stringify(t));
+      alert(url + "ddd " + JSON.stringify(t)  );
       return t;
     },
     { keepPreviousData: true, staleTime: 10000000000000 }
   );
-
+ 
   const queryClient = useQueryClient();
 
   useEffect(() => {
