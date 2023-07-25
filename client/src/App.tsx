@@ -42,7 +42,7 @@ function App() {
   const [datalength, setDatalength] = useState<number>(0);
 
   const [set, setSet] = useState<Set>({
-    host: "http://localhost:3001/",
+    host: "https://app-ts-five.vercel.app/",
     actcategory: "new",
     database: "comments",
   });

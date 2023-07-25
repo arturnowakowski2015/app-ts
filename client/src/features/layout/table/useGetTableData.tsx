@@ -43,7 +43,12 @@ const useGetPaginatedData = (
         currentPage +
         "/" +
         10;
-      return getRec(url);
+
+      let t: any = await getRec(
+        "https://app-ts-five.vercel.app/comments/paginate/new/1/10"
+      );
+      alert("ddd ");
+      return t;
     },
     { keepPreviousData: true, staleTime: 10000000000000 }
   );
