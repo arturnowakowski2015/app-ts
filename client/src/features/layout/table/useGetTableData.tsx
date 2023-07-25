@@ -44,9 +44,7 @@ const useGetPaginatedData = (
         "/" +
         10;
       try {
-        let t: any = await getRec(
-          "http://zctwkn-3001.csb.app/comments/paginate/new/1/10"
-        );
+        let t: any = await getRec("localhost:3001/comments/paginate/new/1/10");
         alert(url + "ddd " + JSON.stringify(t));
         return t;
       } catch (error) {
