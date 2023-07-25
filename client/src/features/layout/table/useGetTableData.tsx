@@ -43,7 +43,7 @@ const useGetPaginatedData = (
         currentPage +
         "/" +
         10;
-      alert(url);
+      alert(url + ":::");
       let t: any = await axios.get(url);
       //await getRec(url);
       alert(url + "ddd " + JSON.stringify(t));
