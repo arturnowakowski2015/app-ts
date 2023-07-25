@@ -1,26 +1,16 @@
-import express from "express";
-import http from "http";
-import { fileURLToPath } from "url";
-import { remove, sortData, paginate, increase } from "./controller/post.js";
-import cors from "cors";
-import path from "path";
-/* CONFIGURATIONS */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const app = require('express')();
+const { v4 } = require('uuid');
 
-const app = express();
+app.get('/api', (req, res) => {
+  const path = `/api/item/${v4()}`;
+  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
+});
 
-const server = http.createServer(app);
-
-app.use(express.json());
-app.use(
-  cors({
-    credentials: true,
-    origin: true,
-  })
-);
-/* REGISTER USER */
-
-app.get("/aa", (req, res) => res.send("eeee"));
+app.get('/api/item/:slug', (req, res) => {
+  const { slug } = req.params;
+  res.end(`Item: ${slug}`);
+});
 
 module.exports = app;
