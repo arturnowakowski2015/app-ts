@@ -43,14 +43,16 @@ const useGetPaginatedData = (
         currentPage +
         "/" +
         10;
-
-      let t: any = await getRec(url);
-      alert(url + "ddd " + JSON.stringify(t)  );
+       
+      let t: any = await getRec(
+        "https://3k35kg-3001.csb.app/comments/paginate/new/1/10"
+      );alert(url + "ddd " + JSON.stringify(t));
+      
       return t;
     },
     { keepPreviousData: true, staleTime: 10000000000000 }
   );
- 
+
   const queryClient = useQueryClient();
 
   useEffect(() => {
