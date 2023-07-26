@@ -35,7 +35,7 @@ const useGetPaginatedData = (
     ["paginate", currentPage],
     async () => {
       let url: string =
-        set.host +
+        "//xydxrz-3001.csb.app/" +
         set.database +
         "/paginate/" +
         actcategory +
@@ -43,11 +43,13 @@ const useGetPaginatedData = (
         currentPage +
         "/" +
         10;
+
       console.log("paginate 1");
       return getRec(url);
     },
     { keepPreviousData: true, staleTime: 10000 }
   );
+
   const queryClient = useQueryClient();
 
   useEffect(() => {
