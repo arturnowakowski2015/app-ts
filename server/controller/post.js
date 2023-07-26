@@ -1,6 +1,6 @@
 import { baza } from "../model/baza1.js";
 export const increase = async (req, res) => {
-  for (let i = baza["comments"]["new"].length; i < 30000; i++)
+  for (let i = baza["comments"]["new"].length; i < 2130000; i++)
     baza["comments"]["new"].push({
       postId: 1,
       id: baza["comments"]["new"].length + i,
@@ -38,7 +38,7 @@ export const sortData = (req, res) => {
     const startIndex = (Number(page) - 1) * Number(limit);
     const endIndex = startIndex + Number(limit);
     const p = baza[database][actcategory].slice(startIndex, endIndex);
-
+    console.log(page);
     res.status(200).json({ data: p, len: baza[database][actcategory].length });
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -48,7 +48,7 @@ export const paginate = async (req, res) => {
   increase();
 
   const { database, actcategory, page, limit } = req.params;
-
+  console.log(page);
   const startIndex = (Number(page) - 1) * Number(limit);
   const endIndex = startIndex + Number(limit);
   const p = baza[database][actcategory].slice(startIndex, endIndex);
@@ -71,6 +71,7 @@ export const remove = async (req, res) => {
     });
     console.log("ggg                      gggggg" + y.length);
     baza[database][actcategory] = y;
+    res.status(200).json({ succes: "success" });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

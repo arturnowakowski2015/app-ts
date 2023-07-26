@@ -42,6 +42,20 @@ export function Home({
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
+  const [ref, setRef] = useState<boolean>(false);
+  const m = useDeleteRow(set, currentPage);
+
+  const deleteRow = (id: number) => {
+    m.mutate(id);
+    console.log(id);
+    setRef(true);
+  };
+  useEffect(() => {
+    if (m.context?.nextPage.data.length < 1) {
+      setCurrentPage(currentPage + 1);
+    }
+    // alert(currentPage + ":::" + m.context?.nextPage.data.length);
+  }, [m.context?.nextPage]);
   const {
     isLoading,
     isFetching,
@@ -78,14 +92,7 @@ export function Home({
     selectedColumn,
     chevron
   );
-  const [ref, setRef] = useState<boolean>(false);
-  const m = useDeleteRow(set, currentPage);
 
-  const deleteRow = (id: number) => {
-    m.mutate(id);
-    console.log(id);
-    setRef(true);
-  };
   useEffect(() => {
     setResult(
       paginated_data &&
@@ -100,10 +107,7 @@ export function Home({
         (sorted_data["data"]["data"] as unknown as any[])
     );
   }, [sorted_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    r();
-    setRef(false);
-  }, [ref]); // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     setLen(
       sorted_data &&
@@ -111,7 +115,10 @@ export function Home({
         (sorted_data["data"]["len"] as unknown as number)
     );
   }, [paginated_data, sorted_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
-
+  useEffect(() => {
+    r();
+    setRef(false);
+  }, [ref]); // eslint-disable-next-line react-hooks/exhaustive-deps
   return (
     <div className="container">
       <div className="left">
@@ -133,13 +140,16 @@ export function Home({
         <div className="ratios" style={{ height: "30px" }}>
           {isLoading && <div>isLoading</div>}
           {isFetching && <div>fetching</div>}
+          {m.isLoading && <div>...deleting</div>}
         </div>
         <Table
           sort={() => onSort()}
           showChevron={(e: Boolean) => showChevron(e)}
           columns={columns}
           pageSize={pageSize}
-          result={result}
+          result={
+            m.context?.currentPage1 ? m.context.currentPage1.data : result
+          }
           showSelectedColumn={showSelectedColumn}
           showQuery={(i) => {
             if (currentPage < i) setDirection(false);

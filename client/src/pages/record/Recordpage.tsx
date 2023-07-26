@@ -46,6 +46,19 @@ export function Recordpage({
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
+  const [ref, setRef] = useState<boolean>(false);
+  const m = useDeleteRow(set, currentPage);
+
+  const deleteRow = (id: number) => {
+    m.mutate(id);
+
+    setRef(true);
+  };
+
+  useEffect(() => {
+    if (m.context?.nextPage.data.length < 0) setCurrentPage(currentPage + 1);
+  }, [m.context?.nextPage]);
+
   const {
     isLoading,
     isFetching,
@@ -82,14 +95,6 @@ export function Recordpage({
     selectedColumn,
     chevron
   );
-  const [ref, setRef] = useState<boolean>(false);
-  const m = useDeleteRow(set, currentPage);
-
-  const deleteRow = (id: number) => {
-    m.mutate(id);
-
-    setRef(true);
-  };
 
   useEffect(() => {
     setResult(
