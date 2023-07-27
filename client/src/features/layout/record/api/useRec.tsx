@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { DataTable, Column, Record } from "../../../model/Interface";
+import { DataTable, Column, Record } from "../../../../model/Interface";
 
 const useRec = (record: Record[], columns: Column[]) => {
   const [data, setData] = useState<DataTable>({});

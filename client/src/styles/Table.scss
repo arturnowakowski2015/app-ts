@@ -7,8 +7,14 @@
     flex: 1;
   }
   .len {
-    position: relative;
-    left: 0px;
+    background-color: white;
+    height: 20px;
+  }
+  .newlen {
+    height: 20px;
+
+    background-color: blue;
+    transition: background-color 0.5s;
   }
 }
 table {

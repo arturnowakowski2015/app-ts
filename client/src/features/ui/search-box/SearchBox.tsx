@@ -1,4 +1,4 @@
-import { useSearch } from "./useSearch";
+import { useSearch } from "./api/useSearch";
 import "../../../styles/searchbox.scss";
 interface IProps {
   onChange: (str: string) => void;

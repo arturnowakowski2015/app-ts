@@ -6,7 +6,7 @@ import {
   DataTable,
   Enabled,
   IMenuItems,
-} from "../../../model/Interface";
+} from "../../../../model/Interface";
 
 interface Lenghts {
   [id: string]: number;

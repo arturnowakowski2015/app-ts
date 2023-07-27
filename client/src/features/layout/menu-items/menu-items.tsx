@@ -1,6 +1,6 @@
 import { IMenuItems } from "../../../model/Interface";
-import { TreeNode } from "../../tree-node";
-import { useMenuItems } from "./useMenuItems";
+import { TreeNode } from "../../ui/tree-node";
+import { useMenuItems } from "./api/useMenuItems";
 import { useGlobalContext } from "../../../ctx/MyGlobalContext";
 
 import "../../../styles/MenuItems.scss";

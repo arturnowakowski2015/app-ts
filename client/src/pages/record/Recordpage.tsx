@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { MenuItems } from "../../features/layout/menu-items";
 import { IMenuItems, Set, DataTable, Record } from "../../model/Interface";
 import { Rec } from "../../features/layout/record";
-import { useTempTable } from "../../features/layout/table/useTempTable";
+import { useTempTable } from "../../features/layout/table/api/useTempTable";
 import {
   useGetPaginatedData,
   useGetSortedData,
   useDeleteRow,
-} from "../../features/layout/table/useGetTableData";
+} from "../../features/layout/table/api/useGetTableData";
 
 import "../../styles/home.scss";
 
@@ -47,22 +47,18 @@ export function Recordpage({
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [ref, setRef] = useState<boolean>(false);
-  const m = useDeleteRow(set, currentPage);
+  const { mutator, len: l } = useDeleteRow(set, currentPage);
 
   const deleteRow = (id: number) => {
-    m.mutate(id);
+    mutator.mutate(id);
 
     setRef(true);
   };
 
-  useEffect(() => {
-    if (m.context?.nextPage.data.length < 0) setCurrentPage(currentPage + 1);
-  }, [m.context?.nextPage]);
-
   const {
     isLoading,
     isFetching,
-    isPreviousData,
+    isSuccess,
     data: paginated_data,
   } = useGetPaginatedData(
     direction,

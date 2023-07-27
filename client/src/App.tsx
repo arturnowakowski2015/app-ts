@@ -2,11 +2,11 @@ import { useRef, useEffect, useState } from "react";
 import { Home } from "./pages/home/Home";
 import { Nav } from "./features/layout/nav";
 import { useConvertTree } from "./features/useConvertTree";
-import { useTreeSettings } from "./features/layout/tree-settings/useTreeSettings";
+import { useTreeSettings } from "./features/layout/tree-settings/api/useTreeSettings";
 import { Route, useNavigate, Routes, useLocation } from "react-router-dom";
 import { tree } from "./data/dummy";
 import { Set } from "./model/Interface";
-import { useTable } from "./features/layout/table/useTableView";
+import { useTable } from "./features/layout/table/api/useTableView";
 import { Settings } from "./pages/settings";
 import { SearchPage } from "./pages/search";
 import { Recordpage } from "./pages/record";
@@ -42,7 +42,7 @@ function App() {
   const [datalength, setDatalength] = useState<number>(0);
 
   const [set, setSet] = useState<Set>({
-    host: "https://3chphk-3001.csb.app/",
+    host: "http://localhost:3001/",
     actcategory: "new",
     database: "comments",
   });

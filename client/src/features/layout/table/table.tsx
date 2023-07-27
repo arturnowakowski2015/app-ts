@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Column } from "../../../model/Interface";
 
 import { Pagination } from "./components/pagination";
-import { useBuildChevron } from "./useBuildChevron";
+import { useBuildChevron } from "./api/useBuildChevron";
 import { ColumnHeaderButton } from "./components/column-header";
 import { Rows } from "./components/row";
 import "../../../styles/Table.scss";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IMenuItems, Element } from "../../../model/Interface";
+import { IMenuItems, Element } from "../../../../model/Interface";
 
 const useTreeSettings = () => {
   let array: IMenuItems[] = [];

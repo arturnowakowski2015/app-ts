@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Column, Data, DataTable, Record } from "../../../model/Interface";
+import { Column, Data, DataTable, Record } from "../../../../model/Interface";
 
 const useTable = (actualcategory: string) => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { Record, DataTable, Column } from "../../../model/Interface";
 
-import { useRec } from "./useRec";
+import { useRec } from "./api/useRec";
 interface IProps {
   record?: Record[];
 

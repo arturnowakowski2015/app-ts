@@ -1,10 +1,10 @@
-import { IMenuItems } from "../../model/Interface";
+import { IMenuItems } from "../../../model/Interface";
 
-import { useMenuItems } from "../layout/menu-items/useMenuItems";
-import { useGlobalContext } from "../../ctx/MyGlobalContext";
+import { useMenuItems } from "../../layout/menu-items/api/useMenuItems";
+import { useGlobalContext } from "../../../ctx/MyGlobalContext";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
-import "../../styles/MenuItems.scss";
+import "../../../styles/MenuItems.scss";
 interface IProps {
   treedata: IMenuItems[];
   length: number;

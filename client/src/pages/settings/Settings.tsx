@@ -2,8 +2,8 @@ import { Route, useNavigate, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TreeSettings from "../../features/layout/tree-settings/tree-settings";
 import { IMenuItems, Set } from "../../model/Interface";
-import { useTempTable } from "../../features/layout/table/useTempTable";
-import { useGetPaginatedData } from "../../features/layout/table/useGetTableData";
+import { useTempTable } from "../../features/layout/table/api/useTempTable";
+import { useGetPaginatedData } from "../../features/layout/table/api/useGetTableData";
 import { Element } from "../../model/Interface";
 
 import { Table } from "../../features/layout/table/table";

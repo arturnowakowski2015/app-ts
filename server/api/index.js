@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import { remove, sortData, paginate, increase } from "../controller/post.js";
 import cors from "cors";
 import path from "path";
- 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -13,8 +13,6 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(express.json());
- 
- 
 
 app.get(
   "/:database/sort/:actcategory/:column/:sortDirection/:page/:limit",

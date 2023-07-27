@@ -1,7 +1,7 @@
-import { Set, Column, DataAny } from "../../../model/Interface";
+import { Set, Column, DataAny } from "../../../../model/Interface";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { api } from "../../../utils/api";
+import { api } from "../../../../utils/api";
 
 /*
 type Key = string | string[]
@@ -23,7 +23,26 @@ const getRec = async (url: string) => {
 
   return y;
 };
+let len: number = 0;
+export const useGetLength = (
+  direction: boolean,
+  currentPage: number,
+  set: Set,
+  actcategory: string
+) => {
+  let { data } = useQuery(
+    ["length"],
+    async () => {
+      let l: number;
+      let url: string = set.host + set.database + "/" + actcategory;
 
+      let len: any = getRec(url);
+      return await len.json();
+    },
+    { keepPreviousData: true, staleTime: 10000 }
+  );
+  return data;
+};
 const useGetPaginatedData = (
   direction: boolean,
   len: number,
@@ -31,11 +50,11 @@ const useGetPaginatedData = (
   set: Set,
   actcategory: string
 ) => {
-  let { data, isFetching, isLoading, isPreviousData, refetch } = useQuery(
+  let { data, isFetching, isLoading, isSuccess, refetch } = useQuery(
     ["paginate", currentPage],
     async () => {
       let url: string =
-        "//xydxrz-3001.csb.app/" +
+        set.host +
         set.database +
         "/paginate/" +
         actcategory +
@@ -45,13 +64,31 @@ const useGetPaginatedData = (
         10;
 
       console.log("paginate 1");
+
       return getRec(url);
     },
     { keepPreviousData: true, staleTime: 10000 }
   );
 
   const queryClient = useQueryClient();
+  useEffect(() => {
+    const f = async () => {
+      let url: string =
+        set.host +
+        set.database +
+        "/paginate/" +
+        actcategory +
+        "/" +
+        currentPage +
+        "/" +
+        10;
 
+      console.log("paginate 1");
+
+      return getRec(url);
+    };
+    f();
+  }, []);
   useEffect(() => {
     let url: string =
       set.host +
@@ -86,7 +123,7 @@ const useGetPaginatedData = (
     ); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, queryClient]);
 
-  return { isLoading, isFetching, isPreviousData, data, refetch } as const;
+  return { isLoading, isFetching, isSuccess, data, refetch } as const;
 };
 
 const useGetSortedData = (
@@ -98,6 +135,8 @@ const useGetSortedData = (
   selectedColumn: number,
   chevron: Boolean
 ) => {
+  let u: number = 0;
+  let y: any;
   const { data: sorted_data, refetch: r } = useQuery(
     ["sort", sort],
     async () => {
@@ -116,10 +155,11 @@ const useGetSortedData = (
         currentPage +
         "/" +
         10;
-      console.log("sort");
+
       return await getRec(url);
     }
   );
+
   return { sorted_data, r } as const;
 };
 export const useDeleteRow = (set: Set, currentPage: number) => {
@@ -155,6 +195,8 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
     },
     {
       onMutate: async (id1) => {
+        len = 55;
+
         // cancel all queries that contain the key "issues"
         await queryClient.cancelQueries(["paginate", "sort"]);
 
@@ -175,9 +217,10 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         let data: any =
           (currentPage1 as DataAny) &&
           (currentPage1 as DataAny)["data"].splice(
-            (currentPage1 as DataAny)["data"].findIndex((t) => {
-              return t.id === id1 && t;
-            }),
+            (currentPage1 as DataAny) &&
+              (currentPage1 as DataAny)["data"].findIndex((t) => {
+                return t.id === id1 && t;
+              }),
             1
           );
 
@@ -202,20 +245,21 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
             },
           });
         }
-        nextPage.data.shift();
+        nextPage && nextPage.data.shift();
 
         // save the current data in the mutation context to be able to
         // restore the previous state in case of an error
-        console.log(currentPage1.data.length + ":::" + nextPage.data.length);
+        console.log(currentPage1.len + ":::" + nextPage.data.length);
+        len = currentPage1.len;
         return { currentPage1, nextPage };
       },
-      onSettled: async () => {
+      onSettled: async (res) => {
         // flag the query with key ["issues"] as invalidated
         // this causes a refetch of the issues data
-        queryClient.invalidateQueries(["paginate", 1]);
+        len = res.len;
       },
     }
   );
-  return mutator;
+  return { mutator, len };
 };
 export { useGetPaginatedData, useGetSortedData };

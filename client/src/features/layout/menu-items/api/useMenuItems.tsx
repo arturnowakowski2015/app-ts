@@ -1,4 +1,4 @@
-import { IMenuItems, Lenghts } from "../../../model/Interface";
+import { IMenuItems, Lenghts } from "../../../../model/Interface";
 import { useState, useEffect } from "react";
 
 const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
