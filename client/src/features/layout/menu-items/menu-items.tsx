@@ -1,4 +1,4 @@
-import { IMenuItems } from "../../../model/Interface";
+import { IMenuItems, Set } from "../../../model/Interface";
 import { TreeNode } from "../../ui/tree-node";
 import { useMenuItems } from "./api/useMenuItems";
 import { useGlobalContext } from "../../../ctx/MyGlobalContext";
@@ -6,7 +6,7 @@ import { useGlobalContext } from "../../../ctx/MyGlobalContext";
 import "../../../styles/MenuItems.scss";
 interface IProps {
   treedata: IMenuItems[];
-  length: number;
+  set: Set;
   selected: string;
   overItem: string;
   onmouseover: (str: string) => void;
@@ -14,7 +14,7 @@ interface IProps {
 }
 export const MenuItems = ({
   treedata,
-  length,
+  set: set1,
   selected,
   overItem,
   onClick,
@@ -22,6 +22,14 @@ export const MenuItems = ({
 }: IProps) => {
   const [itemsonlevel, flag, set] = useMenuItems(0, treedata);
   const { sets, i } = useGlobalContext();
+  const findLen = (str: string): number | undefined => {
+    for (let y in set1.datalengths) {
+      for (let t in set1.datalengths[y]) {
+        if (t === str) return set1.datalengths[y][t] as unknown as number;
+      }
+    }
+    return undefined;
+  };
 
   return (
     <>
@@ -70,7 +78,7 @@ export const MenuItems = ({
                 onMouseOut={() => onmouseover("")}
               >
                 {t.name}
-                <span></span>
+                <span>{findLen(t.name)}</span>
               </div>
             </div>
             {flag[i] === t.name && (
@@ -81,7 +89,7 @@ export const MenuItems = ({
                 selected={selected}
                 pid={t.id}
                 onClick={onClick}
-                length={length}
+                set={set1}
               />
             )}
           </div>

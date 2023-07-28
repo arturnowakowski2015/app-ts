@@ -2,10 +2,9 @@ import { SearchBox } from "../../features/ui/search-box";
 import { Table } from "../../features/layout/table";
 import { IMenuItems, Set } from "../../model/Interface";
 import { useTempTable } from "../../features/layout/table/api/useTempTable";
-import {
-  useGetPaginatedData,
-  useGetSortedData,
-} from "../../features/layout/table/api/useGetTableData";
+import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
+import { useGetSortedData } from "../../features/layout/table/api/useGetSortedData";
+import { useDeleteRow } from "../../features/layout/table/api/useDeleteRow";
 interface IProps {
   treedata: IMenuItems[];
   actcategory: string;

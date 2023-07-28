@@ -3,17 +3,19 @@ import { useState, useEffect } from "react";
 import TreeSettings from "../../features/layout/tree-settings/tree-settings";
 import { IMenuItems, Set } from "../../model/Interface";
 import { useTempTable } from "../../features/layout/table/api/useTempTable";
-import { useGetPaginatedData } from "../../features/layout/table/api/useGetTableData";
+import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
+
 import { Element } from "../../model/Interface";
 
 import { Table } from "../../features/layout/table/table";
 import { PossibleLabel } from "../../features/ui/possible-label";
+import { useSettings } from "./useSettings";
 import "../../styles/TreeSettings.scss";
 interface IProps {
   set: Set;
 
   pageSize: number;
-  datalength: number;
+  datalength1: number;
   el: Element;
   idroot: string | null;
   treedata: IMenuItems[];
@@ -30,7 +32,7 @@ interface IProps {
     event: React.DragEvent<HTMLDivElement>,
     name: string
   ) => void;
-  loadDatabase: (i: number) => void;
+  loadDatabase: (i: string) => void;
   changeSize(e: React.ChangeEvent<HTMLInputElement>): void;
   handleDragEnd: (event: React.DragEvent<HTMLDivElement>, name: string) => void;
 }
@@ -39,57 +41,43 @@ export const Settings = ({
   actcategory,
   set,
   setDataLength,
-
+  handleDrop,
   pageSize,
-  datalength,
+  datalength1,
   el,
   idroot,
   treedata,
   display,
   preview,
   enableDropping,
-  handleDrop,
-  handleDragStart,
   loadDatabase,
   changeSize,
   handleDragEnd,
+  handleDragStart,
 }: IProps) => {
-  const navigate = useNavigate();
-
-  // This function is triggered when the select changes
-  const change = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    loadDatabase(parseInt(value));
-  };
-  const [result, setResult] = useState<any[] | undefined>([] as any[]);
-  const [len, setLen] = useState<number | undefined>(0);
-  const [direction, setDirection] = useState<boolean>(true);
-  const { data: paginated_data } = useGetPaginatedData(
-    direction,
-    len as number,
-    1,
-    set,
-    actcategory
-  );
-
-  const {
+  const [
+    result,
+    len,
     columns,
-
+    setDirection,
+    showSelectedColumn,
+    paginated_data,
     onSort,
     showChevron,
-    showSelectedColumn,
-  } = useTempTable(
-    set.actcategory,
-    paginated_data && paginated_data["data"] && paginated_data["data"]["data"],
+    setDatabase,
+    refetch,
+  ] = useSettings(
+    actcategory,
+    set,
+
+    pageSize,
+    (datalength1 = pageSize),
+    el,
+    idroot,
     treedata
   );
-  useEffect(() => {
-    setResult(
-      paginated_data &&
-        paginated_data["data"] &&
-        (paginated_data["data"]["data"] as unknown as any[])
-    );
-  }, [paginated_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  const navigate = useNavigate();
   return (
     <>
       {" "}
@@ -105,29 +93,40 @@ export const Settings = ({
                 tree settings
               </div>
               <label>change database</label>
-              <select onChange={change}>
-                <option value="0">comments</option>
-                <option value="1">photos</option>
-              </select>{" "}
+              <select
+                onChange={(e) => {
+                  loadDatabase(e.target.value as string);
+                  setDatabase(e.target.value as string);
+                }}
+              >
+                <option value="comments">comments</option>
+                <option value="photos">photos</option>
+              </select>
+              e{pageSize}
               <input
                 type="range"
                 name="quantity"
                 min="1"
-                max={datalength}
+                max={120}
                 value={pageSize}
-                onChange={changeSize}
+                onChange={(q) => {
+                  changeSize(q);
+                  refetch();
+                }}
               />
               <Table
                 sort={() => onSort()}
                 showChevron={(e: Boolean) => showChevron(e)}
                 columns={columns}
                 pageSize={pageSize}
-                result={result}
+                result={
+                  paginated_data &&
+                  paginated_data["data"] &&
+                  (paginated_data["data"]["data"] as unknown as any[])
+                }
                 showSelectedColumn={showSelectedColumn}
-                showQuery={(i) => {
-                  setDirection(false);
-                }}
-                deleteRow={() => {}}
+                showQuery={(i) => {}}
+                deleteRow={(i) => {}}
                 len={len as number}
               />
             </div>

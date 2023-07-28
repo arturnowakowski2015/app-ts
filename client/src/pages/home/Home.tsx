@@ -1,16 +1,8 @@
-import { useState, useEffect } from "react";
 import { MenuItems } from "../../features/layout/menu-items";
-import { IMenuItems, Set } from "../../model/Interface";
+import { DataLengths, IMenuItems, Set } from "../../model/Interface";
 import { Table } from "../../features/layout/table";
-import { useTempTable } from "../../features/layout/table/api/useTempTable";
 import useHome from "./useHome";
-import {
-  useGetPaginatedData,
-  useGetSortedData,
-  useDeleteRow,
-  useGetLength,
-} from "../../features/layout/table/api/useGetTableData";
-
+import { useEffect } from "react";
 import "../../styles/home.scss";
 
 interface IProps {
@@ -25,16 +17,20 @@ interface IProps {
   changecategory: (str: string) => void;
   actcategory: string;
   datalength: number;
+  setLength: (e: number) => void;
+  setLen: (e: DataLengths) => void;
 }
 
 export function Home({
+  setLength,
   treedata,
   actcategory,
   datalength,
   selected,
   overItem,
   set,
-
+  setDataLength,
+  setLen: s,
   changecategory,
   pageSize,
   onmouseover,
@@ -47,7 +43,7 @@ export function Home({
     len,
     mutator,
     isLoading,
-    isFetching,
+    fetching,
     onSort,
     showChevron,
     columns,
@@ -56,18 +52,43 @@ export function Home({
     setCurrentPage,
     deleteRow,
     setLen,
-  } = useHome(set, treedata, actcategory);
+  } = useHome(set, pageSize, treedata, actcategory);
+  useEffect(() => {
+    alert(
+      JSON.stringify(
+        paginated_data &&
+          paginated_data["data"] &&
+          paginated_data["data"]["obj"][actcategory]
+      ) +
+        ":::" +
+        mutatedLen
+    );
+    let y = "";
+    for (let u in paginated_data &&
+      paginated_data["data"] &&
+      paginated_data["data"]["obj"])
+      if (u === set.actcategory) y = u;
+    s({
+      ...(paginated_data &&
+        paginated_data["data"] &&
+        paginated_data["data"]["obj"]),
+      [y]: mutatedLen
+        ? mutatedLen
+        : paginated_data &&
+          paginated_data["data"] &&
+          paginated_data["data"]["obj"][actcategory],
+    } as DataLengths);
+  }, [deleteRow]);
   return (
     <div className="container">
       aaaa
       <div className="left">
         <div className="menu">
-          {" "}
           <MenuItems
             overItem={overItem}
             onmouseover={(str) => onmouseover(str)}
             selected={actcategory}
-            length={datalength}
+            set={set}
             treedata={treedata}
             onClick={(str) => {
               changecategory(str);
@@ -78,8 +99,8 @@ export function Home({
       <div className="right">
         <div className="ratios" style={{ height: "30px" }}>
           {isLoading && <div>isLoading</div>}
-          {isFetching && <div>fetching</div>}
-          {(mutator.isLoading || mutator.isIdle) && <div>...deleting</div>}
+          {fetching && <div>fetching</div>}
+          {mutator.isLoading && <div>...deleting</div>}
         </div>
         <Table
           sort={() => onSort()}
@@ -95,12 +116,6 @@ export function Home({
           }}
           deleteRow={(i) => {
             deleteRow(i);
-            let x: number = mutatedLen
-              ? mutatedLen
-              : paginated_data &&
-                paginated_data["data"] &&
-                (paginated_data["data"]["len"] as unknown as number);
-            setLen(x - 1);
           }}
           len={len as number}
         />

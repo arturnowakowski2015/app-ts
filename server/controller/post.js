@@ -8,6 +8,14 @@ export const increase = async (req, res) => {
       email: "Eliseo@gardner.biz",
       body: "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",
     });
+  for (let i = baza["photos"]["new"].length; i < 130000; i++)
+    baza["photos"]["new"].push({
+      albumId: 100,
+      id: 4971,
+      title: "officiis exercitationem quia",
+      url: "https://via.placeholder.com/600/34ac70",
+      thumbnailUrl: "https://via.placeholder.com/150/34ac70",
+    });
 };
 export const load = async (req, res) => {
   const { database } = req.params;
@@ -39,7 +47,12 @@ export const sortData = (req, res) => {
     const endIndex = startIndex + Number(limit);
     const p = baza[database][actcategory].slice(startIndex, endIndex);
     console.log(baza[database][actcategory].length);
-    res.status(200).json({ data: p, len: baza[database][actcategory].length });
+    let obj = {};
+    for (var k in baza[database]) {
+      obj = { ...obj, [k]: baza[database][k].length };
+    }
+
+    res.status(200).json({ data: p, obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -50,9 +63,13 @@ export const paginate = async (req, res) => {
   const startIndex = (Number(page) - 1) * Number(limit);
   const endIndex = startIndex + Number(limit);
   const p = baza[database][actcategory].slice(startIndex, endIndex);
+  let obj = {};
+  for (var k in baza[database]) {
+    obj = { ...obj, [k]: baza[database][k].length };
+  }
 
   try {
-    res.status(200).json({ data: p, len: baza[database][actcategory].length });
+    res.status(200).json({ data: p, obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -69,9 +86,13 @@ export const remove = async (req, res) => {
     });
     console.log("ggg                      gggggg" + y.length);
     baza[database][actcategory] = y;
-    res
-      .status(200)
-      .json({ succes: "success", len: baza[database][actcategory].length });
+
+    let obj = {};
+    for (var k in baza[database]) {
+      obj = { ...obj, [k]: baza[database][k].length };
+    }
+    console.log(JSON.stringify(obj));
+    res.status(200).json({ data: y, obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

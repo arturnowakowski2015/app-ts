@@ -54,7 +54,7 @@ const useTable = (actualcategory: string) => {
     navigate("/" + actualcategory);
   };
 
-  const loadDatabase = async (idurl: number): Promise<any> => {};
+  const loadDatabase = (idurl: number): void => {};
 
   const selectRecord = (rec: Record[]) => {
     setSelectedRecord(rec);

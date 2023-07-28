@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { IMenuItems, Set } from "../../model/Interface";
 import { useTempTable } from "../../features/layout/table/api/useTempTable";
-import {
-  useGetPaginatedData,
-  useGetSortedData,
-  useDeleteRow,
-  useGetLength,
-} from "../../features/layout/table/api/useGetTableData";
+import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
+import { useGetSortedData } from "../../features/layout/table/api/useGetSortedData";
+import { useDeleteRow } from "../../features/layout/table/api/useDeleteRow";
 
-const useHome = (set: Set, treedata: IMenuItems[], actcategory: string) => {
+const useHome = (
+  set: Set,
+  pageSize: number,
+  treedata: IMenuItems[],
+  actcategory: string
+) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
@@ -17,7 +19,7 @@ const useHome = (set: Set, treedata: IMenuItems[], actcategory: string) => {
   const [ref, setRef] = useState<boolean>(false);
   const [ref2, setRef2] = useState<boolean>(false);
 
-  const { mutator, len: mutatedLen } = useDeleteRow(set, currentPage);
+  const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
 
   useEffect(() => {
     if (mutator.context?.nextPage.data.length < 1) {
@@ -31,6 +33,7 @@ const useHome = (set: Set, treedata: IMenuItems[], actcategory: string) => {
     isSuccess,
     data: paginated_data,
   } = useGetPaginatedData(
+    pageSize,
     direction,
     len as number,
     currentPage,
@@ -53,6 +56,7 @@ const useHome = (set: Set, treedata: IMenuItems[], actcategory: string) => {
   );
 
   const { sorted_data, r } = useGetSortedData(
+    pageSize,
     sort,
     set,
     currentPage,
@@ -62,11 +66,10 @@ const useHome = (set: Set, treedata: IMenuItems[], actcategory: string) => {
     chevron
   );
   const [r1, setR1] = useState<boolean>(false);
-
+  const [fetching, setFetching] = useState<boolean>(false);
   useEffect(() => {
     r();
-
-    setR1(false);
+    //setFetching(true);
   }, [r1]);
   useEffect(() => {
     setResult(
@@ -74,17 +77,16 @@ const useHome = (set: Set, treedata: IMenuItems[], actcategory: string) => {
         paginated_data["data"] &&
         (paginated_data["data"]["data"] as unknown as any[])
     );
-    setLen(
-      paginated_data &&
-        paginated_data["data"] &&
-        (paginated_data["data"]["len"] as unknown as number)
-    );
+    setTimeout(() => {
+      setLen((len) => 1);
+    }, 1000);
   }, [paginated_data]);
   useEffect(() => {
     setLen(
       sorted_data &&
         sorted_data["data"] &&
-        (sorted_data["data"]["len"] as unknown as number)
+        sorted_data["data"]["obj"] &&
+        (sorted_data["data"]["obj"][actcategory] as unknown as number)
     );
 
     setResult(
@@ -115,7 +117,7 @@ const useHome = (set: Set, treedata: IMenuItems[], actcategory: string) => {
     len,
     mutator,
     isLoading,
-    isFetching,
+    fetching,
     onSort,
     showChevron,
     columns,

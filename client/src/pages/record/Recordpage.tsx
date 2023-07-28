@@ -3,11 +3,9 @@ import { MenuItems } from "../../features/layout/menu-items";
 import { IMenuItems, Set, DataTable, Record } from "../../model/Interface";
 import { Rec } from "../../features/layout/record";
 import { useTempTable } from "../../features/layout/table/api/useTempTable";
-import {
-  useGetPaginatedData,
-  useGetSortedData,
-  useDeleteRow,
-} from "../../features/layout/table/api/useGetTableData";
+import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
+import { useGetSortedData } from "../../features/layout/table/api/useGetSortedData";
+import { useDeleteRow } from "../../features/layout/table/api/useDeleteRow";
 
 import "../../styles/home.scss";
 
@@ -47,7 +45,7 @@ export function Recordpage({
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [ref, setRef] = useState<boolean>(false);
-  const { mutator, len: l } = useDeleteRow(set, currentPage);
+  const { mutator, len1: l } = useDeleteRow(set, currentPage);
 
   const deleteRow = (id: number) => {
     mutator.mutate(id);
@@ -61,6 +59,7 @@ export function Recordpage({
     isSuccess,
     data: paginated_data,
   } = useGetPaginatedData(
+    1,
     direction,
     len as number,
     currentPage,
@@ -83,6 +82,7 @@ export function Recordpage({
   );
 
   const { sorted_data, r } = useGetSortedData(
+    1,
     sort,
     set,
     currentPage,
@@ -121,19 +121,7 @@ export function Recordpage({
   return (
     <div className="container">
       <div className="left">
-        <div className="menu">
-          {" "}
-          <MenuItems
-            overItem={overItem}
-            onmouseover={(str) => onmouseover(str)}
-            selected={actcategory}
-            length={datalength}
-            treedata={treedata}
-            onClick={(str) => {
-              changecategory(str);
-            }}
-          />
-        </div>
+        <div className="menu"> </div>
       </div>
       <div className="reight">
         <Rec

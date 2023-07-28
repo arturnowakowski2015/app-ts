@@ -1,4 +1,4 @@
-import { IMenuItems } from "../../../model/Interface";
+import { IMenuItems, Set } from "../../../model/Interface";
 
 import { useMenuItems } from "../../layout/menu-items/api/useMenuItems";
 import { useGlobalContext } from "../../../ctx/MyGlobalContext";
@@ -7,7 +7,7 @@ import { useState } from "react";
 import "../../../styles/MenuItems.scss";
 interface IProps {
   treedata: IMenuItems[];
-  length: number;
+  set: Set;
   pid: number;
   overItem: string;
   selected: string;
@@ -17,7 +17,7 @@ interface IProps {
 
 export const TreeNode = ({
   treedata,
-  length,
+  set: set1,
   pid,
   selected,
   overItem,
@@ -37,7 +37,14 @@ export const TreeNode = ({
     if (fl1.current) fl1.current();
   }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
   const [fl, setFl] = useState<boolean>(false);
-
+  const findLen = (str: string): number | undefined => {
+    for (let y in set1.datalengths) {
+      for (let t in set1.datalengths[y]) {
+        if (t === str) return set1.datalengths[y][t] as unknown as number;
+      }
+    }
+    return undefined;
+  };
   return (
     <>
       {treedata.map((t, ii) => {
@@ -94,7 +101,7 @@ export const TreeNode = ({
                 >
                   {t.name}
 
-                  <span>{length}</span>
+                  <span>{JSON.stringify(findLen(t.name))}</span>
                 </div>
               </div>
 
@@ -106,7 +113,7 @@ export const TreeNode = ({
                   treedata={treedata}
                   pid={t.id}
                   onClick={onClick}
-                  length={length}
+                  set={set1}
                 />
               )}
             </div>
