@@ -1,4 +1,4 @@
-import { IMenuItems, Set } from "../../../model/Interface";
+import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
 
 import { useMenuItems } from "../../layout/menu-items/api/useMenuItems";
 import { useGlobalContext } from "../../../ctx/MyGlobalContext";
@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import "../../../styles/MenuItems.scss";
 interface IProps {
+  setoflen: DataLengths;
   treedata: IMenuItems[];
   set: Set;
   pid: number;
@@ -16,6 +17,7 @@ interface IProps {
 }
 
 export const TreeNode = ({
+  setoflen,
   treedata,
   set: set1,
   pid,
@@ -38,13 +40,13 @@ export const TreeNode = ({
   }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
   const [fl, setFl] = useState<boolean>(false);
   const findLen = (str: string): number | undefined => {
-    for (let y in set1.datalengths) {
-      for (let t in set1.datalengths[y]) {
-        if (t === str) return set1.datalengths[y][t] as unknown as number;
-      }
+    for (let y in setoflen) {
+      if (y === str) return setoflen[y];
     }
+
     return undefined;
   };
+
   return (
     <>
       {treedata.map((t, ii) => {
@@ -107,6 +109,7 @@ export const TreeNode = ({
 
               {flag[ii] && (
                 <TreeNode
+                  setoflen={setoflen}
                   overItem={overItem}
                   onmouseover={onmouseover}
                   selected={selected}

@@ -48,7 +48,7 @@ const useSettings = (
     refetch();
   }, [database]);
 
-  return [
+  return {
     result,
     len,
     columns,
@@ -58,6 +58,7 @@ const useSettings = (
     onSort,
     showChevron,
     setDatabase,
-  ];
+    refetch,
+  };
 };
 export { useSettings };

@@ -62,7 +62,6 @@ export interface Set {
   actcategory: string;
   database: string;
   host: string;
-  datalengths: DataLengths[];
 }
 export interface Column {
   col: ColumnsHeader;

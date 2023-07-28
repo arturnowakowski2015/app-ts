@@ -2,10 +2,11 @@ import { MenuItems } from "../../features/layout/menu-items";
 import { DataLengths, IMenuItems, Set } from "../../model/Interface";
 import { Table } from "../../features/layout/table";
 import useHome from "./useHome";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/home.scss";
 
 interface IProps {
+  setoflen: DataLengths;
   treedata: IMenuItems[];
   length: number;
   selected: string;
@@ -18,10 +19,11 @@ interface IProps {
   actcategory: string;
   datalength: number;
   setLength: (e: number) => void;
-  setLen: (e: DataLengths) => void;
+  setLen: (e: boolean) => void;
 }
 
 export function Home({
+  setoflen,
   setLength,
   treedata,
   actcategory,
@@ -53,38 +55,17 @@ export function Home({
     deleteRow,
     setLen,
   } = useHome(set, pageSize, treedata, actcategory);
+  const [p, setP] = useState<boolean>(false);
   useEffect(() => {
-    alert(
-      JSON.stringify(
-        paginated_data &&
-          paginated_data["data"] &&
-          paginated_data["data"]["obj"][actcategory]
-      ) +
-        ":::" +
-        mutatedLen
-    );
-    let y = "";
-    for (let u in paginated_data &&
-      paginated_data["data"] &&
-      paginated_data["data"]["obj"])
-      if (u === set.actcategory) y = u;
-    s({
-      ...(paginated_data &&
-        paginated_data["data"] &&
-        paginated_data["data"]["obj"]),
-      [y]: mutatedLen
-        ? mutatedLen
-        : paginated_data &&
-          paginated_data["data"] &&
-          paginated_data["data"]["obj"][actcategory],
-    } as DataLengths);
-  }, [deleteRow]);
+    s(true);
+    setP(true);
+  }, [mutator.isLoading === false]);
   return (
     <div className="container">
-      aaaa
       <div className="left">
         <div className="menu">
           <MenuItems
+            setoflen={setoflen}
             overItem={overItem}
             onmouseover={(str) => onmouseover(str)}
             selected={actcategory}
@@ -117,7 +98,7 @@ export function Home({
           deleteRow={(i) => {
             deleteRow(i);
           }}
-          len={len as number}
+          len={setoflen && setoflen[set && set.actcategory]}
         />
       </div>
     </div>

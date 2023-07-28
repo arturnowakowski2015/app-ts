@@ -39,8 +39,7 @@ increase();
 
 app.get("/:database/paginate/:actcategory/:page/:limit", paginate);
 app.patch("/:database/:actcategory/remove/:id", remove);
-app.patch("/:database/:actcategory", dataLength);
-
+app.get("/:database/:actcategory/len", dataLength);
 const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, () => console.log(`Server Port: ${PORT}`));

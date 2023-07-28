@@ -102,9 +102,12 @@ export const dataLength = async (req, res) => {
   const { database, actcategory } = req.params;
 
   try {
-    console.log("ggg                      gggggg" + y.length);
-    baza[database][actcategory] = y;
-    res.status(200).json(baza[database][actcategory]);
+    let obj = {};
+    for (var k in baza[database]) {
+      obj = { ...obj, [k]: baza[database][k].length };
+    }
+    console.log("llllll   " + JSON.stringify(obj));
+    res.status(200).json({ obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

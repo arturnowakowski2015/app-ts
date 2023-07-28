@@ -34,20 +34,21 @@ const useGetSortedData = (
     ["sort", sort],
     async () => {
       let url: string =
+        set &&
         set.host +
-        set.database +
-        "/sort/" +
-        actcategory +
-        "/" +
-        (columns &&
-          columns[selectedColumn] &&
-          columns[selectedColumn].col.title) +
-        "/" +
-        (chevron ? "DESC" : "ASC") +
-        "/" +
-        currentPage +
-        "/" +
-        pageSize;
+          set.database +
+          "/sort/" +
+          actcategory +
+          "/" +
+          (columns &&
+            columns[selectedColumn] &&
+            columns[selectedColumn].col.title) +
+          "/" +
+          (chevron ? "DESC" : "ASC") +
+          "/" +
+          currentPage +
+          "/" +
+          pageSize;
 
       return await getRec(url);
     }

@@ -15,14 +15,15 @@ const useGetPaginatedData = (
     ["paginate", currentPage],
     async () => {
       let url: string =
+        set &&
         set.host +
-        set.database +
-        "/paginate/" +
-        actcategory +
-        "/" +
-        currentPage +
-        "/" +
-        pageSize;
+          set.database +
+          "/paginate/" +
+          actcategory +
+          "/" +
+          currentPage +
+          "/" +
+          pageSize;
 
       console.log("paginate 1");
 
@@ -35,14 +36,15 @@ const useGetPaginatedData = (
   useEffect(() => {
     const f = async () => {
       let url: string =
+        set &&
         set.host +
-        set.database +
-        "/paginate/" +
-        actcategory +
-        "/" +
-        currentPage +
-        "/" +
-        pageSize;
+          set.database +
+          "/paginate/" +
+          actcategory +
+          "/" +
+          currentPage +
+          "/" +
+          pageSize;
 
       console.log("paginate 1");
 
@@ -53,14 +55,15 @@ const useGetPaginatedData = (
   }, []);
   useEffect(() => {
     let url: string =
+      set &&
       set.host +
-      set.database +
-      "/paginate/" +
-      actcategory +
-      "/" +
-      currentPage +
-      "/" +
-      pageSize;
+        set.database +
+        "/paginate/" +
+        actcategory +
+        "/" +
+        currentPage +
+        "/" +
+        pageSize;
     queryClient.prefetchQuery(["paginate", currentPage], async () => {
       console.log("prefetch 1");
       return getRec(url);
@@ -69,14 +72,15 @@ const useGetPaginatedData = (
   }, [datay, currentPage, queryClient]);
   useEffect(() => {
     let url: string =
+      set &&
       set.host +
-      set.database +
-      "/paginate/" +
-      actcategory +
-      "/" +
-      (Number(currentPage) + 1) +
-      "/" +
-      pageSize;
+        set.database +
+        "/paginate/" +
+        actcategory +
+        "/" +
+        (Number(currentPage) + 1) +
+        "/" +
+        pageSize;
     queryClient.prefetchQuery(
       ["paginate", Number(currentPage) + 1],
       async () => {

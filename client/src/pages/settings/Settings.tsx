@@ -55,7 +55,7 @@ export const Settings = ({
   handleDragEnd,
   handleDragStart,
 }: IProps) => {
-  const [
+  const {
     result,
     len,
     columns,
@@ -66,7 +66,7 @@ export const Settings = ({
     showChevron,
     setDatabase,
     refetch,
-  ] = useSettings(
+  } = useSettings(
     actcategory,
     set,
 

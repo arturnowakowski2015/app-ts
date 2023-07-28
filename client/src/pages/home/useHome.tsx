@@ -50,7 +50,7 @@ const useHome = (
     showChevron,
     showSelectedColumn,
   } = useTempTable(
-    set.actcategory,
+    set && set.actcategory,
     paginated_data && paginated_data["data"] && paginated_data["data"]["data"],
     treedata
   );
@@ -67,19 +67,37 @@ const useHome = (
   );
   const [r1, setR1] = useState<boolean>(false);
   const [fetching, setFetching] = useState<boolean>(false);
-  useEffect(() => {
-    r();
-    //setFetching(true);
-  }, [r1]);
-  useEffect(() => {
+  const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
+  const setf = () => {
     setResult(
       paginated_data &&
         paginated_data["data"] &&
         (paginated_data["data"]["data"] as unknown as any[])
     );
-    setTimeout(() => {
-      setLen((len) => 1);
-    }, 1000);
+  };
+  const fetch = () => {};
+  useEffect(() => {
+    r();
+  }, [r1]);
+  useEffect(() => {
+    let t: any;
+    setFetching(true);
+    if (setoffetched.indexOf(currentPage) === -1) {
+      t = setTimeout(() => {
+        setf();
+        setFetching(false);
+        setoffetched.push(currentPage);
+        setSetoffetched(setoffetched);
+      }, 1000);
+
+      // setSetoffetched(setoffetched);
+    } else {
+      setFetching(false);
+      setf();
+    }
+    return () => {
+      clearTimeout(t);
+    }; //if (fetching) setoffetched.push(currentPage);
   }, [paginated_data]);
   useEffect(() => {
     setLen(
@@ -98,7 +116,6 @@ const useHome = (
 
   useEffect(() => {
     setResult(mutator.context?.currentPage1.data);
-
     setR1(true);
     setRef(false);
   }, [ref]); // eslint-disable-next-line react-hooks/exhaustive-deps
