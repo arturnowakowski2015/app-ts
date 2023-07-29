@@ -31,7 +31,6 @@ const useGetPaginatedData = (
     },
     { keepPreviousData: true, staleTime: 10000 }
   );
-  const [datay, setDatay] = useState<boolean>(false);
   const queryClient = useQueryClient();
   useEffect(() => {
     const f = async () => {
@@ -51,7 +50,6 @@ const useGetPaginatedData = (
       return getRec(url);
     };
     f();
-    setDatay(true);
   }, []);
   useEffect(() => {
     let url: string =
@@ -68,8 +66,7 @@ const useGetPaginatedData = (
       console.log("prefetch 1");
       return getRec(url);
     }); // eslint-disable-next-line react-hooks/exhaustive-deps
-    setDatay(false);
-  }, [datay, currentPage, queryClient]);
+  }, [currentPage, queryClient]);
   useEffect(() => {
     let url: string =
       set &&
@@ -88,7 +85,7 @@ const useGetPaginatedData = (
         return getRec(url);
       }
     ); // eslint-disable-next-line react-hooks/exhaustive-deps
-    setDatay(true);
+    //setDatay(true);
   }, [currentPage, queryClient]);
 
   return { isLoading, isFetching, isSuccess, data, refetch } as const;

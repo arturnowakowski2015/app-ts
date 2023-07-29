@@ -31,7 +31,7 @@ export interface DataTable {
   [id: string | number]: string | number;
 }
 export interface Record {
-  rec: Array<string | number | Boolean | undefined>;
+  [id: string | number]: string | number;
 }
 export interface Enabled {
   e: boolean[];

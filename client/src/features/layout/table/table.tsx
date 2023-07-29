@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Column } from "../../../model/Interface";
+import { Column, Record } from "../../../model/Interface";
 
 import { Pagination } from "./components/pagination";
 import { useBuildChevron } from "./api/useBuildChevron";

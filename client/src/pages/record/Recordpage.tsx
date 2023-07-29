@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
 import { MenuItems } from "../../features/layout/menu-items";
-import { IMenuItems, Set, DataTable, Record } from "../../model/Interface";
+import { useLocation } from "react-router-dom";
+import useHome from "../home/api/useHome";
+import {
+  IMenuItems,
+  Set,
+  DataTable,
+  Record,
+  DataLengths,
+} from "../../model/Interface";
 import { Rec } from "../../features/layout/record";
 import { useTempTable } from "../../features/layout/table/api/useTempTable";
 import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
-import { useGetSortedData } from "../../features/layout/table/api/useGetSortedData";
-import { useDeleteRow } from "../../features/layout/table/api/useDeleteRow";
-
+import { useGetRecord } from "./api/useGetRecord";
 import "../../styles/home.scss";
 
 interface IProps {
+  setoflen: DataLengths;
+  pageSize: number;
   treedata: IMenuItems[];
   length: number;
   selected: string;
@@ -26,6 +34,8 @@ interface IProps {
 }
 
 export function Recordpage({
+  pageSize,
+  setoflen,
   treedata,
   actcategory,
   datalength,
@@ -39,20 +49,13 @@ export function Recordpage({
   deleteRec,
   update,
 }: IProps) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const location = useLocation();
 
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [ref, setRef] = useState<boolean>(false);
-  const { mutator, len1: l } = useDeleteRow(set, currentPage);
-
-  const deleteRow = (id: number) => {
-    mutator.mutate(id);
-
-    setRef(true);
-  };
-
+  const { currentPage } = useHome(set, pageSize, treedata, actcategory);
   const {
     isLoading,
     isFetching,
@@ -67,68 +70,45 @@ export function Recordpage({
     actcategory
   );
 
-  const {
-    columns,
-    chevron,
-    selectedColumn,
-    sort,
-    onSort,
-    showChevron,
-    showSelectedColumn,
-  } = useTempTable(
+  const { columns } = useTempTable(
     set.actcategory,
     paginated_data && paginated_data["data"] && paginated_data["data"]["data"],
     treedata
   );
-
-  const { sorted_data, r } = useGetSortedData(
-    1,
-    sort,
-    set,
-    currentPage,
-    actcategory,
-    columns,
-    selectedColumn,
-    chevron
-  );
-
+  const [id, setId] = useState<number>(Number(location.pathname.split("/")[2]));
+  const data = useGetRecord(id, set);
   useEffect(() => {
-    setResult(
-      paginated_data &&
-        paginated_data["data"] &&
-        (paginated_data["data"]["data"] as unknown as any[])
-    );
-  }, [paginated_data]);
-  useEffect(() => {
-    setResult(
-      sorted_data &&
-        sorted_data["data"] &&
-        (sorted_data["data"]["data"] as unknown as any[])
-    );
-  }, [sorted_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    r();
-    setRef(false);
-  }, [ref]); // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    setLen(
-      sorted_data &&
-        sorted_data["data"] &&
-        (sorted_data["data"]["len"] as unknown as number)
-    );
-  }, [paginated_data, sorted_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
-
+    setId(Number(location.pathname.split("/")[2]));
+  }, []);
   return (
     <div className="container">
       <div className="left">
-        <div className="menu"> </div>
+        <div className="menu">
+          <MenuItems
+            setoflen={setoflen}
+            overItem={overItem}
+            onmouseover={(str) => onmouseover(str)}
+            selected={actcategory}
+            set={set}
+            treedata={treedata}
+            onClick={(str) => {
+              changecategory(str);
+            }}
+          />
+        </div>
       </div>
-      <div className="reight">
+      <div className="right">
         <Rec
-          record={record}
+          record={
+            data && data.result && data.result.data && data.result.data.rec
+          }
+          currentPage={currentPage}
           columns={columns}
           deleteRec={deleteRec}
           update={update}
+          set={set}
+          id={id}
+          url={location.pathname}
         />
       </div>
     </div>

@@ -17,4 +17,11 @@ const getLength = async (url: string) => {
 
   return y;
 };
-export { getRec, getLength };
+const getRecord = async (url: string) => {
+  let y: any = await api.get<any>(url, {
+    method: "GET",
+  });
+
+  return y;
+};
+export { getRec, getLength, getRecord };

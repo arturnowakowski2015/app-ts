@@ -84,7 +84,9 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
           });
         }
         nextPage && nextPage.data.shift();
-
+        console.log(
+          nextPage && nextPage.data.length + "............................."
+        );
         // save the current data in the mutation context to be able to
         // restore the previous state in case of an error
 

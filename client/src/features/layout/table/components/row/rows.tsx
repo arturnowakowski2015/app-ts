@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useBuildRows } from "./useBuildRows";
-import { Column, Set, Enabled, Chevron } from "../../../../../model/Interface";
+import { Column, Record } from "../../../../../model/Interface";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useGlobalContext } from "../../../../../ctx/MyGlobalContext";

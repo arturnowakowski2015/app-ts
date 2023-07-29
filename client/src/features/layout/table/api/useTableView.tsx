@@ -56,10 +56,6 @@ const useTable = (actualcategory: string) => {
 
   const loadDatabase = (idurl: number): void => {};
 
-  const selectRecord = (rec: Record[]) => {
-    setSelectedRecord(rec);
-  };
-
   columns = useMemo(() => {
     return data && data["new"]
       ? [
@@ -79,7 +75,6 @@ const useTable = (actualcategory: string) => {
     tableflag,
     loadDatabase,
     filterData,
-    selectRecord,
     setTableflag,
   } as const;
 };

@@ -9,7 +9,7 @@ import { Element } from "../../model/Interface";
 
 import { Table } from "../../features/layout/table/table";
 import { PossibleLabel } from "../../features/ui/possible-label";
-import { useSettings } from "./useSettings";
+import { useSettings } from "./api/useSettings";
 import "../../styles/TreeSettings.scss";
 interface IProps {
   set: Set;

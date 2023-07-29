@@ -97,7 +97,20 @@ export const remove = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+export const getRecord = async (req, res) => {
+  const { database, actcategory, id } = req.params;
+  console.log(">>>>>>>>>>>>>>>>>>>>>           ");
 
+  let rec = baza[database][actcategory].filter((t) => {
+    return Number(t.id) === Number(id) && t;
+  });
+  console.log(">>>>>>>>>>>>>>>>>>>>>           " + JSON.stringify(rec));
+  try {
+    res.status(200).json({ rec });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 export const dataLength = async (req, res) => {
   const { database, actcategory } = req.params;
 

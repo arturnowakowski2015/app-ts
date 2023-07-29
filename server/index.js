@@ -7,6 +7,7 @@ import {
   paginate,
   dataLength,
   increase,
+  getRecord,
 } from "./controller/post.js";
 import cors from "cors";
 import path from "path";
@@ -38,7 +39,11 @@ app.get(
 increase();
 
 app.get("/:database/paginate/:actcategory/:page/:limit", paginate);
-app.patch("/:database/:actcategory/remove/:id", remove);
+app.get("/:database/:actcategory/getrecord/:id", getRecord);
+
+//localhost:3001/comments/new/getrecord/4
+
+http: app.patch("/:database/:actcategory/remove/:id", remove);
 app.get("/:database/:actcategory/len", dataLength);
 const PORT = process.env.PORT || 3001;
 

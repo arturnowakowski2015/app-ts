@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { IMenuItems, Set } from "../../model/Interface";
-import { useTempTable } from "../../features/layout/table/api/useTempTable";
-import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
-import { useGetSortedData } from "../../features/layout/table/api/useGetSortedData";
-import { useDeleteRow } from "../../features/layout/table/api/useDeleteRow";
+import { IMenuItems, Set } from "../../../model/Interface";
+import { useTempTable } from "../../../features/layout/table/api/useTempTable";
+import { useGetPaginatedData } from "../../../features/layout/table/api/useGetPaginatedData";
+import { useGetSortedData } from "../../../features/layout/table/api/useGetSortedData";
+import { useDeleteRow } from "../../../features/layout/table/api/useDeleteRow";
 
 const useHome = (
   set: Set,
@@ -20,9 +20,8 @@ const useHome = (
   const [ref2, setRef2] = useState<boolean>(false);
 
   const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
-
   useEffect(() => {
-    if (mutator.context?.nextPage.data.length < 1) {
+    if (mutator.context?.nextPage.data.length < 2) {
       setCurrentPage(currentPage + 1);
     }
     // alert(currentPage + ":::" + mutator.context?.nextPage.data.length);
@@ -68,6 +67,7 @@ const useHome = (
   const [r1, setR1] = useState<boolean>(false);
   const [fetching, setFetching] = useState<boolean>(false);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
+  const [start, setStart] = useState<boolean>(false);
   const setf = () => {
     setResult(
       paginated_data &&
@@ -75,10 +75,17 @@ const useHome = (
         (paginated_data["data"]["data"] as unknown as any[])
     );
   };
-  const fetch = () => {};
   useEffect(() => {
-    r();
-  }, [r1]);
+    setStart(false);
+  }, [fetching]);
+  useEffect(() => {
+    setStart(true);
+  }, [isSuccess]);
+  useEffect(() => {
+    setf();
+    setStart(false);
+  }, [start]);
+
   useEffect(() => {
     let t: any;
     setFetching(true);
