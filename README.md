@@ -5,14 +5,17 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### screens
-menu settings.\
+tree manipulation.\
 https://screenpal.com/content/video/c0ivbEVkuPY
 
 crud operations.\
-https://screenpal.com/content/video/c0ivbGVkuPr
+https://youtu.be/mNp7k8xKCDY
 
 prefetchQuery.\
-https://screenpal.com/content/video/c0ivbGVkuP3
+https://youtu.be/8yZofVYzwUI
+
+filtering data.\
+https://youtu.be/Wnrrrks2eW4
 
 ## Available Scripts
 
