@@ -7,7 +7,8 @@ import {
   paginate,
   dataLength,
   increase,
-  getRecord,
+  get,
+  update,
 } from "./controller/post.js";
 import cors from "cors";
 import path from "path";
@@ -30,20 +31,21 @@ app.use(
     ],
   })
 );
+increase();
 app.get(
   "/:database/sort/:actcategory/:column/:sortDirection/:page/:limit",
   //http://localhost:3001/comments/sort/new/email/ASC/1/10
 
   sortData
 );
-increase();
 
+app.patch("/:database/:actcategory/update/:id", update);
 app.get("/:database/paginate/:actcategory/:page/:limit", paginate);
-app.get("/:database/:actcategory/getrecord/:id", getRecord);
+app.get("/:database/:actcategory/getrecord/:id", get);
 
 //localhost:3001/comments/new/getrecord/4
 
-http: app.patch("/:database/:actcategory/remove/:id", remove);
+app.patch("/:database/:actcategory/remove/:id", remove);
 app.get("/:database/:actcategory/len", dataLength);
 const PORT = process.env.PORT || 3001;
 

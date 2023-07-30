@@ -16,6 +16,8 @@ import { useGetRecord } from "./api/useGetRecord";
 import "../../styles/home.scss";
 
 interface IProps {
+  setLen: (e: boolean) => void;
+
   setoflen: DataLengths;
   pageSize: number;
   treedata: IMenuItems[];
@@ -34,6 +36,7 @@ interface IProps {
 }
 
 export function Recordpage({
+  setLen: ss,
   pageSize,
   setoflen,
   treedata,
@@ -55,13 +58,15 @@ export function Recordpage({
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [ref, setRef] = useState<boolean>(false);
-  const { currentPage } = useHome(set, pageSize, treedata, actcategory);
-  const {
-    isLoading,
-    isFetching,
-    isSuccess,
-    data: paginated_data,
-  } = useGetPaginatedData(
+  const { currentPage, setLen: s } = useHome(
+    set,
+    setoflen,
+    pageSize,
+    treedata,
+    actcategory
+  );
+  const { data: paginated_data } = useGetPaginatedData(
+    location.pathname.split("/")[1],
     1,
     direction,
     len as number,
@@ -109,6 +114,7 @@ export function Recordpage({
           set={set}
           id={id}
           url={location.pathname}
+          setLen={ss}
         />
       </div>
     </div>

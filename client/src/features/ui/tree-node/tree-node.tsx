@@ -1,7 +1,6 @@
 import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
 
 import { useMenuItems } from "../../layout/menu-items/api/useMenuItems";
-import { useGlobalContext } from "../../../ctx/MyGlobalContext";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import "../../../styles/MenuItems.scss";
@@ -26,26 +25,7 @@ export const TreeNode = ({
   onmouseover,
   onClick,
 }: IProps) => {
-  const [itemsonlevel, flag, set] = useMenuItems(pid, treedata);
-  const { sets, i } = useGlobalContext();
-
-  const fl1 = useRef<Function>();
-
-  const sFlag = () => {
-    console.log(itemsonlevel);
-  };
-  fl1.current = sFlag;
-  useEffect(() => {
-    if (fl1.current) fl1.current();
-  }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
-  const [fl, setFl] = useState<boolean>(false);
-  const findLen = (str: string): number | undefined => {
-    for (let y in setoflen) {
-      if (y === str) return setoflen[y];
-    }
-
-    return undefined;
-  };
+  const { itemsonlevel, flag, findLen } = useMenuItems(0, treedata);
 
   return (
     <>
@@ -67,13 +47,7 @@ export const TreeNode = ({
                 key={t.id}
               >
                 {flag[ii] === "" && t.nextlevel === 1 && (
-                  <div
-                    className="plus"
-                    onClick={(e) => {
-                      set(t.pid, t.name);
-                      setFl(true);
-                    }}
-                  >
+                  <div className="plus" onClick={(e) => {}}>
                     +
                   </div>
                 )}
@@ -81,10 +55,7 @@ export const TreeNode = ({
                   <div
                     className="minus"
                     style={{ paddingRight: "10px" }}
-                    onClick={() => {
-                      set(t.pid, t.name);
-                      setFl(false);
-                    }}
+                    onClick={() => {}}
                   >
                     -
                   </div>
@@ -92,10 +63,10 @@ export const TreeNode = ({
                 <div
                   className={
                     t.name === selected
-                      ? "selected-" + sets[i]
+                      ? "selected-"
                       : t.name === overItem
-                      ? "over-" + sets[i]
-                      : "item-" + sets[i]
+                      ? "over-"
+                      : "item-"
                   }
                   onClick={() => onClick(t.name)}
                   onMouseOver={() => onmouseover(t.name)}
@@ -103,7 +74,7 @@ export const TreeNode = ({
                 >
                   {t.name}
 
-                  <span>{JSON.stringify(findLen(t.name))}</span>
+                  <span>{JSON.stringify(findLen(setoflen, t.name))}</span>
                 </div>
               </div>
 

@@ -1,6 +1,6 @@
 import "./Label.css";
-import { useGlobalContext } from "../../../ctx/MyGlobalContext";
-
+import { AppStateContext } from "../../../ctx/useThemeContext";
+import { useContext } from "react";
 interface ILabel {
   title: string;
   level: number;
@@ -31,7 +31,7 @@ export const Label = ({
   enableDropping,
   handleDragEnd,
 }: ILabel) => {
-  const { sets, i } = useGlobalContext();
+  const { state } = useContext(AppStateContext);
   return (
     <div
       style={{ marginLeft: level + "px" }}
@@ -50,7 +50,7 @@ export const Label = ({
         onDragEnd={(e) => handleDragEnd(e, title)}
         className={
           "item-" +
-          sets[i] +
+          state.theme[state.i] +
           " p" +
           (isNaN(pid) ? 0 : pid) +
           "/" +

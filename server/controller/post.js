@@ -57,6 +57,38 @@ export const sortData = (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+export const update = async (req, res) => {
+  const { database, actcategory, id } = req.params;
+  const { data } = req.body;
+  const y =
+    baza &&
+    baza[database] &&
+    baza[database][actcategory].filter((t) => {
+      return Number(t.id) === Number(id) && t;
+    });
+  console.log("ggg                      gggggg" + JSON.stringify(y));
+  try {
+    baza[database][actcategory].splice(
+      baza[database][actcategory].findIndex((t) => {
+        return Number(t.id) === Number(data.id) && t;
+      }),
+      1,
+      data
+    );
+    console.log(
+      JSON.stringify(
+        baza &&
+          baza[database] &&
+          baza[database][actcategory].filter((t) => {
+            return Number(t.id) === Number(data.id) && t;
+          })
+      )
+    );
+    res.status(200).json({ text: "success" });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 export const paginate = async (req, res) => {
   const { database, actcategory, page, limit } = req.params;
   console.log(baza[database][actcategory].length);
@@ -97,7 +129,7 @@ export const remove = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
-export const getRecord = async (req, res) => {
+export const get = async (req, res) => {
   const { database, actcategory, id } = req.params;
   console.log(">>>>>>>>>>>>>>>>>>>>>           ");
 

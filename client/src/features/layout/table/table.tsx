@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-import { Column, Record } from "../../../model/Interface";
+import { Column } from "../../../model/Interface";
+import { useLocation } from "react-router-dom";
 
 import { Pagination } from "./components/pagination";
 import { useBuildChevron } from "./api/useBuildChevron";
@@ -9,8 +10,9 @@ import { Rows } from "./components/row";
 import "../../../styles/Table.scss";
 //import Pagination from "./Pagination";
 interface IProps {
+  cross: boolean;
   columns: Column[];
-  len: number;
+  len: number | undefined;
   pageSize: number;
 
   result: any;
@@ -21,6 +23,7 @@ interface IProps {
   deleteRow: (id: number) => void;
 }
 export function Table({
+  cross,
   len,
   columns,
   showSelectedColumn,
@@ -115,7 +118,12 @@ export function Table({
           </tr>
         </thead>
         <tbody>
-          <Rows columns={columns} result={result} deleteRow={deleteRow} />
+          <Rows
+            cross={cross}
+            columns={columns}
+            result={result}
+            deleteRow={deleteRow}
+          />
         </tbody>
       </table>
     </div>

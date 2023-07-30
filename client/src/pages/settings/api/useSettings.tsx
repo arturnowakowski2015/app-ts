@@ -25,6 +25,7 @@ const useSettings = (
   const [database, setDatabase] = useState<string>("");
   const [direction, setDirection] = useState<boolean>(true);
   const { data: paginated_data, refetch } = useGetPaginatedData(
+    location.pathname.split("/")[1],
     pageSize,
     direction,
     len as number,

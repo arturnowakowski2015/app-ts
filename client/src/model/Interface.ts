@@ -39,7 +39,9 @@ export interface Enabled {
 export interface Data {
   [category: string]: DataTable[];
 }
-
+export interface RecordData {
+  data: DataTable;
+}
 interface ColumnsHeader {
   title: string;
   disp: boolean;

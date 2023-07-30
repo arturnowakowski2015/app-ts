@@ -1,5 +1,5 @@
-import { IMenuItems, Lenghts } from "../../../../model/Interface";
-import { useState, useEffect } from "react";
+import { IMenuItems, Lenghts, DataLengths } from "../../../../model/Interface";
+import { useState, useEffect, useContext } from "react";
 
 const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
   const [flag, setFlag] = useState<string[]>([]);
@@ -17,6 +17,15 @@ const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
       })
     );
   };
+
+  const findLen = (setoflen: DataLengths, str: string): number | undefined => {
+    for (let y in setoflen) {
+      if (y === str) return setoflen[y];
+    }
+
+    return undefined;
+  };
+
   const set = (i: number, name: string) => {
     if (flag[i] === name) flag[i] = "";
     else flag[i] = name;
@@ -41,6 +50,6 @@ const useMenuItems = (pid: number, treedata: IMenuItems[]) => {
     });
     setFlag(flag);
   }, [itemsonlevel]); // eslint-disable-next-line react-hooks/exhaustive-deps
-  return [itemsonlevel, flag, set] as const;
+  return { itemsonlevel, flag, set, findLen } as const;
 };
 export { useMenuItems };

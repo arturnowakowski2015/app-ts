@@ -1,5 +1,41 @@
 export const baza = {
   comments: {
+    root: [
+      {
+        postId: 1,
+        id: 1,
+        name: "id labore ex et quam laborum",
+        email: "Eliseo@gardner.biz",
+        body: "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",
+      },
+    ],
+    removed: [
+      {
+        postId: 1,
+        id: 1,
+        name: "id labore ex et quam laborum",
+        email: "Eliseo@gardner.biz",
+        body: "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",
+      },
+    ],
+    selected: [
+      {
+        postId: 1,
+        id: 1,
+        name: "id labore ex et quam laborum",
+        email: "Eliseo@gardner.biz",
+        body: "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",
+      },
+    ],
+    labels: [
+      {
+        postId: 1,
+        id: 1,
+        name: "id labore ex et quam laborum",
+        email: "Eliseo@gardner.biz",
+        body: "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",
+      },
+    ],
     new: [
       {
         postId: 1,
@@ -3506,6 +3542,42 @@ export const baza = {
     ],
   },
   photos: {
+    root: [
+      {
+        albumId: 100,
+        id: 4971,
+        title: "officiis exercitationem quia",
+        url: "https://via.placeholder.com/600/34ac70",
+        thumbnailUrl: "https://via.placeholder.com/150/34ac70",
+      },
+    ],
+    removed: [
+      {
+        albumId: 100,
+        id: 4971,
+        title: "officiis exercitationem quia",
+        url: "https://via.placeholder.com/600/34ac70",
+        thumbnailUrl: "https://via.placeholder.com/150/34ac70",
+      },
+    ],
+    selected: [
+      {
+        albumId: 100,
+        id: 4971,
+        title: "officiis exercitationem quia",
+        url: "https://via.placeholder.com/600/34ac70",
+        thumbnailUrl: "https://via.placeholder.com/150/34ac70",
+      },
+    ],
+    labels: [
+      {
+        albumId: 100,
+        id: 4971,
+        title: "officiis exercitationem quia",
+        url: "https://via.placeholder.com/600/34ac70",
+        thumbnailUrl: "https://via.placeholder.com/150/34ac70",
+      },
+    ],
     new: [
       {
         albumId: 100,

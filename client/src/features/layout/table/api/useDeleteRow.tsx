@@ -6,16 +6,6 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
   const queryClient = useQueryClient();
   const mutator = useMutation(
     async (id1: number) => {
-      console.log(
-        id1 +
-          ": " +
-          set.host +
-          set.database +
-          "/" +
-          set.actcategory +
-          "/remove/" +
-          id1
-      );
       let r;
       try {
         r = await fetch(

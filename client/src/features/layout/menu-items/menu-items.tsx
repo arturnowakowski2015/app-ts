@@ -1,8 +1,9 @@
 import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
 import { TreeNode } from "../../ui/tree-node";
 import { useMenuItems } from "./api/useMenuItems";
-import { useGlobalContext } from "../../../ctx/MyGlobalContext";
 
+import { useContext } from "react";
+import { AppStateContext } from "../../../ctx/useThemeContext";
 import "../../../styles/MenuItems.scss";
 interface IProps {
   setoflen: DataLengths;
@@ -22,16 +23,9 @@ export const MenuItems = ({
   onClick,
   onmouseover,
 }: IProps) => {
-  const [itemsonlevel, flag, set] = useMenuItems(0, treedata);
-  const { sets, i } = useGlobalContext();
-  const findLen = (str: string): number | undefined => {
-    for (let y in setoflen) {
-      if (y === str) return setoflen[y];
-    }
-
-    return undefined;
-  };
-
+  const { itemsonlevel, flag, findLen } = useMenuItems(0, treedata);
+  const { state } = useContext(AppStateContext);
+  // check values
   return (
     <>
       {itemsonlevel.map((t, ii) => {
@@ -47,7 +41,6 @@ export const MenuItems = ({
                   className="plus"
                   onClick={(e) => {
                     e.preventDefault();
-                    set(i, t.name);
                   }}
                 >
                   {}+
@@ -60,7 +53,6 @@ export const MenuItems = ({
                   style={{ paddingRight: "10px" }}
                   onClick={(e) => {
                     e.preventDefault();
-                    set(i, t.name);
                   }}
                 >
                   -
@@ -69,20 +61,20 @@ export const MenuItems = ({
               <div
                 className={
                   t.name === selected
-                    ? "selected-" + sets[i]
+                    ? "selected-" + state.theme[state.i]
                     : t.name === overItem
-                    ? "over-" + sets[i]
-                    : "item-" + sets[i]
+                    ? "over-" + state.theme[state.i]
+                    : "item-" + state.theme[state.i]
                 }
                 onClick={() => onClick(t.name)}
                 onMouseOver={() => onmouseover(t.name)}
                 onMouseOut={() => onmouseover("")}
               >
                 {t.name}
-                <span>{findLen(t.name)}</span>
+                <span>{findLen(setoflen, t.name)}</span>
               </div>
             </div>
-            {flag[i] === t.name && (
+            {flag[ii] === t.name && (
               <TreeNode
                 setoflen={setoflen}
                 overItem={overItem}

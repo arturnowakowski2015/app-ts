@@ -115,6 +115,7 @@ export const Settings = ({
                 }}
               />
               <Table
+                cross={true}
                 sort={() => onSort()}
                 showChevron={(e: Boolean) => showChevron(e)}
                 columns={columns}

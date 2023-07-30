@@ -2,21 +2,22 @@ import { useEffect, useRef, useState } from "react";
 import { useBuildRows } from "./useBuildRows";
 import { Column, Record } from "../../../../../model/Interface";
 import { useNavigate, useLocation } from "react-router-dom";
-
-import { useGlobalContext } from "../../../../../ctx/MyGlobalContext";
+import { useContext } from "react";
+import { AppStateContext } from "../../../../../ctx/useThemeContext";
 
 interface IProps {
+  cross: boolean;
   columns?: Column[];
   deleteRow: (id: number) => void;
   result: any;
 }
-export const Rows = ({ columns, result, deleteRow }: IProps) => {
+export const Rows = ({ cross, columns, result, deleteRow }: IProps) => {
   const [rows, build] = useBuildRows(result);
   const ref = useRef<Function>();
   const location = useLocation();
   ref.current = build;
   const navigate = useNavigate();
-  const { sets, i } = useGlobalContext();
+  const { state } = useContext(AppStateContext);
 
   useEffect(() => {
     if (ref.current) ref.current(result, columns);
@@ -26,7 +27,10 @@ export const Rows = ({ columns, result, deleteRow }: IProps) => {
       {rows &&
         rows.map((row, ii) => {
           return (
-            <tr className={"row-" + sets[i] + " table-row"} key={ii}>
+            <tr
+              className={"row-" + state.theme[state.i] + " table-row"}
+              key={ii}
+            >
               {row.map((t, j) => {
                 return (
                   <th
@@ -41,9 +45,12 @@ export const Rows = ({ columns, result, deleteRow }: IProps) => {
                   </th>
                 );
               })}
-              <div onClick={() => deleteRow(row[1] as unknown as number)}>
-                x{row[1] as unknown as number}
-              </div>
+              <button
+                disabled={cross && true}
+                onClick={() => deleteRow(row[1] as unknown as number)}
+              >
+                x
+              </button>
             </tr>
           );
         })}

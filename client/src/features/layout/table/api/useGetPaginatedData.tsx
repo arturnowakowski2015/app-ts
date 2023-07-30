@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getRec } from "../../../../utils/rest";
 
 const useGetPaginatedData = (
+  changeLocation: string,
   pageSize: number,
   direction: boolean,
   len: number,
@@ -12,7 +13,7 @@ const useGetPaginatedData = (
   actcategory: string
 ) => {
   let { data, isFetching, isLoading, isSuccess, refetch } = useQuery(
-    ["paginate", currentPage],
+    ["paginate", currentPage, changeLocation],
     async () => {
       let url: string =
         set &&

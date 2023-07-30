@@ -124,9 +124,9 @@ const useApp = () => {
   const onChange = (str: string) => {
     setQuery(str);
   };
-  const change = (str: string) => {
+  const change = (path: string, str: string) => {
     if (location.pathname) setActcategory(str);
-
+    alert(";;;;;" + path);
     let arr: string[] = [];
     for (let k = 0; k < treedata.length; k++)
       if (treedata[k].name === actcategory) arr[k] = "selected";
@@ -134,8 +134,14 @@ const useApp = () => {
     setSelectedMenu(arr);
     navigate(str);
   };
-  const changeCategory = (str: string) => {
-    change(str);
+  const changeCategory = (path: string, str: string) => {
+    change(path, str);
+    setSet1({ ...set1, actcategory: str });
+  };
+  const checknav = (setoflen: DataLengths, path: string): boolean => {
+    for (let t in setoflen)
+      if (t === location.pathname.split("/")[1] && setoflen[t] > 0) return true;
+    return false;
   };
   return {
     display,
@@ -166,6 +172,7 @@ const useApp = () => {
     actcategory,
     preview,
     setSet1,
+    checknav,
   };
 };
 export { useApp };

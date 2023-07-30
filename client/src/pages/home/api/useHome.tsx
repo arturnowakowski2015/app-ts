@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
-import { IMenuItems, Set } from "../../../model/Interface";
+import { IMenuItems, Set, DataLengths } from "../../../model/Interface";
 import { useTempTable } from "../../../features/layout/table/api/useTempTable";
 import { useGetPaginatedData } from "../../../features/layout/table/api/useGetPaginatedData";
 import { useGetSortedData } from "../../../features/layout/table/api/useGetSortedData";
 import { useDeleteRow } from "../../../features/layout/table/api/useDeleteRow";
+import { useLocation } from "react-router-dom";
 
 const useHome = (
   set: Set,
+  setoflen: DataLengths,
   pageSize: number,
   treedata: IMenuItems[],
   actcategory: string
 ) => {
+  const location = useLocation();
+  const [cross, setCross] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [ref, setRef] = useState<boolean>(false);
-  const [ref2, setRef2] = useState<boolean>(false);
+  const [lens, setLens] = useState<DataLengths>();
 
   const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
   useEffect(() => {
@@ -32,6 +36,7 @@ const useHome = (
     isSuccess,
     data: paginated_data,
   } = useGetPaginatedData(
+    location.pathname.split("/")[1],
     pageSize,
     direction,
     len as number,
@@ -65,9 +70,8 @@ const useHome = (
     chevron
   );
   const [r1, setR1] = useState<boolean>(false);
-  const [fetching, setFetching] = useState<boolean>(false);
+  const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
-  const [start, setStart] = useState<boolean>(false);
   const setf = () => {
     setResult(
       paginated_data &&
@@ -76,16 +80,21 @@ const useHome = (
     );
   };
   useEffect(() => {
-    setStart(false);
-  }, [fetching]);
-  useEffect(() => {
-    setStart(true);
-  }, [isSuccess]);
-  useEffect(() => {
     setf();
-    setStart(false);
-  }, [start]);
-
+  }, []);
+  useEffect(() => {
+    setLens({ ...lens, [actcategory]: 0 });
+    const t = setTimeout(() => {
+      setLens(setoflen);
+      setCross(false);
+    }, 700);
+    return () => {
+      clearTimeout(t);
+    };
+  }, [mutator.context?.nextPage]);
+  useEffect(() => {
+    setLens(setoflen);
+  }, [fetching]);
   useEffect(() => {
     let t: any;
     setFetching(true);
@@ -130,15 +139,16 @@ const useHome = (
   const deleteRow = (id: number) => {
     mutator.mutate(id);
     console.log(id);
-
+    setCross(true);
     setRef(true);
   };
   return {
+    cross,
     mutatedLen,
     result,
     currentPage,
     paginated_data,
-    len,
+    lens,
     mutator,
     isLoading,
     fetching,

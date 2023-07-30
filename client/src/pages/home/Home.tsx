@@ -21,6 +21,7 @@ interface IProps {
 
 export function Home({
   setoflen,
+  length,
   treedata,
   actcategory,
   overItem,
@@ -31,9 +32,10 @@ export function Home({
   onmouseover,
 }: IProps) {
   const {
+    cross,
     result,
     currentPage,
-
+    lens,
     mutator,
     isLoading,
     fetching,
@@ -44,14 +46,13 @@ export function Home({
     setDirection,
     setCurrentPage,
     deleteRow,
-  } = useHome(set, pageSize, treedata, actcategory);
-
+  } = useHome(set, setoflen, pageSize, treedata, actcategory);
   return (
     <div className="container">
       <div className="left">
         <div className="menu">
           <MenuItems
-            setoflen={setoflen}
+            setoflen={lens as DataLengths}
             overItem={overItem}
             onmouseover={(str) => onmouseover(str)}
             selected={actcategory}
@@ -65,31 +66,34 @@ export function Home({
       </div>
       <div className="right">
         <div className="ratios" style={{ height: "30px" }}>
-          {fetching && <div style={{ marginLeft: "150px" }}>...fetching</div>}
-          {mutator.isLoading && <div>...deleting</div>}
+          {fetching && (
+            <div style={{ marginLeft: "150px" }}>
+              ...fetching data from table
+            </div>
+          )}
+          {mutator.isLoading && <div>...deleting </div>}
         </div>
-        {fetching === false && (
-          <Table
-            sort={() => onSort()}
-            showChevron={(e: Boolean) => showChevron(e)}
-            columns={columns}
-            pageSize={pageSize}
-            result={result}
-            showSelectedColumn={showSelectedColumn}
-            showQuery={(i) => {
-              if (currentPage < i) setDirection(false);
-              else setDirection(true);
-              setCurrentPage(i);
-            }}
-            deleteRow={(i) => {
-              deleteRow(i);
-              setTimeout(() => {
-                s(true);
-              }, 500);
-            }}
-            len={setoflen && setoflen[set && set.actcategory]}
-          />
-        )}
+        <Table
+          cross={cross}
+          sort={() => onSort()}
+          showChevron={(e: Boolean) => showChevron(e)}
+          columns={columns}
+          pageSize={pageSize}
+          result={result}
+          showSelectedColumn={showSelectedColumn}
+          showQuery={(i) => {
+            if (currentPage < i) setDirection(false);
+            else setDirection(true);
+            setCurrentPage(i);
+          }}
+          deleteRow={(i) => {
+            deleteRow(i);
+
+            s(true);
+          }}
+          len={lens && (lens[set.actcategory] as number)}
+        />
+        {}
       </div>
     </div>
   );

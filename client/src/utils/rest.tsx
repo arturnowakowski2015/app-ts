@@ -1,4 +1,11 @@
-import { Set, Column, DataAny, Lenghts } from "../model/Interface";
+import {
+  Set,
+  Column,
+  DataAny,
+  Lenghts,
+  RecordData,
+  DataTable,
+} from "../model/Interface";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { api } from "./api";
@@ -24,4 +31,16 @@ const getRecord = async (url: string) => {
 
   return y;
 };
-export { getRec, getLength, getRecord };
+const updateRecord = async (url: string, data: RecordData) => {
+  return (
+    await api.patch<RecordData>(url, data),
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+};
+export { getRec, getLength, getRecord, updateRecord };
