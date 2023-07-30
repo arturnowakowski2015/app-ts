@@ -47,7 +47,6 @@ const useTreeSettings = () => {
       return t;
     });
     setTreedata(treedata);
-
     return { el, treedata };
   };
 
@@ -61,6 +60,34 @@ const useTreeSettings = () => {
     if (name !== str) {
       setIdroot(event.currentTarget.getAttribute("id"));
       setEl({ ...el, act: { ...findel(name)[0] } });
+    }
+    let sections: HTMLElement[] = [];
+    sections = document.querySelectorAll(".node") as unknown as HTMLElement[];
+    let array: IMenuItems[] = [];
+    // 1 setting pid and id
+
+    const pushIndexToElement = (section: HTMLElement, i: number) => {
+      array.push({
+        name: cutText(section.innerHTML),
+        level:
+          parseInt(
+            section.style.marginLeft.slice(
+              0,
+              section.style.marginLeft.indexOf("p")
+            )
+          ) / 10,
+        id: i,
+        pid: parseInt(
+          section.innerHTML.slice(
+            section.innerHTML.indexOf(" p") + 2,
+            section.innerHTML.indexOf("/")
+          )
+        ),
+        nextlevel: 0,
+      });
+    };
+    for (let i = 0; i < sections.length; i++) {
+      pushIndexToElement(sections[i], i);
     }
   };
 
@@ -93,7 +120,7 @@ const useTreeSettings = () => {
               section.style.marginLeft.indexOf("p")
             )
           ) / 10,
-        id: i,
+        id: i + 1,
         pid: parseInt(
           section.innerHTML.slice(
             section.innerHTML.indexOf(" p") + 2,
@@ -105,10 +132,8 @@ const useTreeSettings = () => {
     };
     for (let i = 0; i < sections.length; i++) {
       pushIndexToElement(sections[i], i);
-      console.log(sections[i].innerHTML);
     }
 
-    console.log(name + ":1111::" + str);
     if (name !== str) {
       let act = findinarray(array, el.old && el.old.name);
       let old = findarrayindex(array, ".XX");
@@ -162,7 +187,13 @@ const useTreeSettings = () => {
         act: undefined,
       }));
       setIdroot("");
+      console.log(
+        "przeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed  " + JSON.stringify(array)
+      );
       array = reindex(array, 0, pidarr, 0);
+      console.log(
+        "poooooooooooooooooooooooooooooooooooo  " + JSON.stringify(array)
+      );
       array.map((t, i) => {
         array.map((tt) => {
           if (tt.pid === t.id) {
@@ -175,14 +206,66 @@ const useTreeSettings = () => {
     } else {
       let str: string | undefined = el.old && el.old.name;
       let act = findinarray(array, el.old && el.old.name);
-      array.splice(act, 1);
+      if (el.act) array.splice(act, 1); ////////////////////
       let old = findarrayindex(array, ".XX");
       if (array && array[old]) array[old].name = str as string;
+
+      let pidarr: number[] = [];
+      pidarr.push(array[0].pid);
+
+      const reindex = (
+        array: IMenuItems[],
+        ii: number,
+        pid: number[],
+        j: number
+      ) => {
+        if (ii < 1)
+          for (let i = 0; i < array.length; i++)
+            if (i === ii) {
+              array[i].pid = pid[j];
+              if (array[i + 1] && array[i + 1].level > array[i].level) {
+                pid.push(array[i].id);
+                ++j;
+              }
+              if (array[i + 1] && array[i + 1].level < array[i].level) {
+                let yy = array[i].level - array[i + 1].level;
+                while (yy > 0) {
+                  pid.pop();
+                  --j;
+                  --yy;
+                }
+              }
+
+              reindex(array, ++ii, pid, j);
+            }
+
+        return array;
+      };
+      console.log(
+        "przeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhed  " + JSON.stringify(array)
+      );
+      array = reindex(array, 0, pidarr, 0);
+      console.log(
+        "p                                           hhhed  " +
+          JSON.stringify(array)
+      );
       setEl((el) => ({
         old: undefined,
         act: undefined,
       }));
+
+      array.map((t, i) => {
+        array.map((tt) => {
+          if (tt.pid === t.id) {
+            t.nextlevel = 1;
+          }
+          if (t.level == 0.1) t.level = 0;
+          return tt;
+        });
+        return t;
+      });
     }
+    console.log("oooooooooooooooooooooooooooooo  " + JSON.stringify(array));
     setTreedata(array);
     setIfdragdrop(true);
   };
@@ -216,10 +299,8 @@ const useTreeSettings = () => {
 
     for (let i = 0; i < sections.length; i++) {
       pushIndexToElement(sections[i], i);
-      console.log(sections[i].innerHTML);
     }
 
-    console.log(name + ":::" + str);
     if (name !== str) {
       let act = findinarray(array, el.old && el.old.name);
       let old = findarrayindex(array, ".XX");
@@ -295,7 +376,10 @@ const useTreeSettings = () => {
         act: undefined,
       }));
       setIdroot("");
+      console.log("przed  " + JSON.stringify(array));
       array = reindex(array, 0, pidarr, 0);
+      console.log("przed  " + JSON.stringify(array));
+
       array.map((t, i) => {
         array.map((tt) => {
           if (tt.pid === t.id) {

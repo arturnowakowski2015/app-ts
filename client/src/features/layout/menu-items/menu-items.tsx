@@ -1,9 +1,11 @@
 import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
 import { TreeNode } from "../../ui/tree-node";
 import { useMenuItems } from "./api/useMenuItems";
-
+import {
+  useGlobalContext,
+  AppStateContext,
+} from "../../../ctx/useThemeContext";
 import { useContext } from "react";
-import { AppStateContext } from "../../../ctx/useThemeContext";
 import "../../../styles/MenuItems.scss";
 interface IProps {
   setoflen: DataLengths;
@@ -23,9 +25,18 @@ export const MenuItems = ({
   onClick,
   onmouseover,
 }: IProps) => {
-  const { itemsonlevel, flag, findLen } = useMenuItems(0, treedata);
+  const { itemsonlevel, flag, set } = useMenuItems(0, treedata);
+  const { sets, i } = useGlobalContext();
   const { state } = useContext(AppStateContext);
-  // check values
+
+  const findLen = (str: string): number | undefined => {
+    for (let y in setoflen) {
+      if (y === str) return setoflen[y];
+    }
+
+    return undefined;
+  };
+
   return (
     <>
       {itemsonlevel.map((t, ii) => {
@@ -41,6 +52,7 @@ export const MenuItems = ({
                   className="plus"
                   onClick={(e) => {
                     e.preventDefault();
+                    set(t.level / 10 + 1, t.name);
                   }}
                 >
                   {}+
@@ -53,6 +65,7 @@ export const MenuItems = ({
                   style={{ paddingRight: "10px" }}
                   onClick={(e) => {
                     e.preventDefault();
+                    set(t.level / 10 + 1, t.name);
                   }}
                 >
                   -
@@ -70,11 +83,11 @@ export const MenuItems = ({
                 onMouseOver={() => onmouseover(t.name)}
                 onMouseOut={() => onmouseover("")}
               >
-                {t.name}
-                <span>{findLen(setoflen, t.name)}</span>
+                {t.name}/{JSON.stringify(flag)}
+                <span>{findLen(t.name)}</span>
               </div>
             </div>
-            {flag[ii] === t.name && (
+            {flag[t.level / 10 + 1].indexOf(t.name) !== -1 && (
               <TreeNode
                 setoflen={setoflen}
                 overItem={overItem}

@@ -1,9 +1,13 @@
 import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
-
+import { useContext } from "react";
 import { useMenuItems } from "../../layout/menu-items/api/useMenuItems";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import "../../../styles/MenuItems.scss";
+import {
+  useGlobalContext,
+  AppStateContext,
+} from "../../../ctx/useThemeContext";
 interface IProps {
   setoflen: DataLengths;
   treedata: IMenuItems[];
@@ -25,7 +29,8 @@ export const TreeNode = ({
   onmouseover,
   onClick,
 }: IProps) => {
-  const { itemsonlevel, flag, findLen } = useMenuItems(0, treedata);
+  const { itemsonlevel, flag, set, findLen } = useMenuItems(0, treedata);
+  const { state } = useContext(AppStateContext);
 
   return (
     <>
@@ -47,15 +52,22 @@ export const TreeNode = ({
                 key={t.id}
               >
                 {flag[ii] === "" && t.nextlevel === 1 && (
-                  <div className="plus" onClick={(e) => {}}>
-                    +
+                  <div
+                    className="plus"
+                    onClick={(e) => {
+                      set((t.level / 10) * (10 + 20), t.name);
+                    }}
+                  >
+                    +{(t.level / 10) * (10 + 20)}
                   </div>
                 )}
                 {flag[ii] === t.name && (
                   <div
                     className="minus"
                     style={{ paddingRight: "10px" }}
-                    onClick={() => {}}
+                    onClick={() => {
+                      set((t.level / 10) * (10 + 20), t.name);
+                    }}
                   >
                     -
                   </div>
@@ -63,33 +75,33 @@ export const TreeNode = ({
                 <div
                   className={
                     t.name === selected
-                      ? "selected-"
+                      ? "selected-" + state.theme[state.i]
                       : t.name === overItem
-                      ? "over-"
-                      : "item-"
+                      ? "over-" + state.theme[state.i]
+                      : "item-" + state.theme[state.i]
                   }
                   onClick={() => onClick(t.name)}
                   onMouseOver={() => onmouseover(t.name)}
                   onMouseOut={() => onmouseover("")}
                 >
                   {t.name}
-
                   <span>{JSON.stringify(findLen(setoflen, t.name))}</span>
                 </div>
               </div>
 
-              {flag[ii] && (
-                <TreeNode
-                  setoflen={setoflen}
-                  overItem={overItem}
-                  onmouseover={onmouseover}
-                  selected={selected}
-                  treedata={treedata}
-                  pid={t.id}
-                  onClick={onClick}
-                  set={set1}
-                />
-              )}
+              {flag[(t.level / 10) * (10 + 20)] &&
+                flag[(t.level / 10) * (10 + 20)].indexOf(t.name) !== -1 && (
+                  <TreeNode
+                    setoflen={setoflen}
+                    overItem={overItem}
+                    onmouseover={onmouseover}
+                    selected={selected}
+                    treedata={treedata}
+                    pid={t.id}
+                    onClick={onClick}
+                    set={set1}
+                  />
+                )}
             </div>
           )
         );

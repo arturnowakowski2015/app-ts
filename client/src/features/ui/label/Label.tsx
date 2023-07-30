@@ -38,8 +38,8 @@ export const Label = ({
       className={"node" + (title.indexOf(".X") !== -1 ? " labelold" : "")}
     >
       <div
-        id="d1"
         draggable="true"
+        id="d1"
         onDragStart={(event) =>
           title.indexOf(".X") === -1 && handleDragStart(event, title)
         }
