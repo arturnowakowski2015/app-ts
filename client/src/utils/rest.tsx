@@ -31,6 +31,13 @@ const getRecord = async (url: string) => {
 
   return y;
 };
+const getFilteredStr = async (url: string) => {
+  let y: any = await api.get<any>(url, {
+    method: "GET",
+  });
+
+  return y;
+};
 const updateRecord = async (url: string, data: RecordData) => {
   return (
     await api.patch<RecordData>(url, data),
@@ -43,4 +50,4 @@ const updateRecord = async (url: string, data: RecordData) => {
     }
   );
 };
-export { getRec, getLength, getRecord, updateRecord };
+export { getRec, getLength, getRecord, updateRecord, getFilteredStr };

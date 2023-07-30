@@ -83,7 +83,7 @@ export const MenuItems = ({
                 onMouseOver={() => onmouseover(t.name)}
                 onMouseOut={() => onmouseover("")}
               >
-                {t.name}/{JSON.stringify(flag)}
+                {t.name}
                 <span>{findLen(t.name)}</span>
               </div>
             </div>

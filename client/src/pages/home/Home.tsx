@@ -50,7 +50,7 @@ export function Home({
   return (
     <div className="container">
       <div className="left">
-        <div className="menu">
+        <div className="menuHome">
           <MenuItems
             setoflen={lens as DataLengths}
             overItem={overItem}

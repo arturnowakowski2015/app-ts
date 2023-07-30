@@ -9,7 +9,7 @@ export interface AppStateContextInterface {
 }
 
 export const AppStateContext = React.createContext({
-  state: { i: 0, theme: ["1", "2", "3"] },
+  state: { i: 0, theme: ["1", "2", "3", "4", "5"] },
   setState: (state: any) => {
     console.log("dummy function");
   },

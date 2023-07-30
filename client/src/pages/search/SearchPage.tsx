@@ -1,75 +1,105 @@
-import { SearchBox } from "../../features/ui/search-box";
+import { useSearch } from "./api/useSearch";
+import { DataLengths, IMenuItems, Set } from "../../model/Interface";
 import { Table } from "../../features/layout/table";
-import { IMenuItems, Set } from "../../model/Interface";
-import { useTempTable } from "../../features/layout/table/api/useTempTable";
-import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
-import { useGetSortedData } from "../../features/layout/table/api/useGetSortedData";
-import { useDeleteRow } from "../../features/layout/table/api/useDeleteRow";
+import "../../../styles/searchbox.scss";
+
+import { useState } from "react";
 interface IProps {
+  url: string;
+  setoflen: DataLengths;
   treedata: IMenuItems[];
-  actcategory: string;
+  length: number;
+  overItem: string;
+  onmouseover: (str: string) => void;
   set: Set;
   pageSize: number;
-  setDataLength: (length: any) => void;
+  setDataLength: (i: number) => void;
+  changecategory: (str: string) => void;
+  actcategory: string;
+  setLength: (e: number) => void;
+  setLen: (e: boolean) => void;
   onChange: (str: string) => void;
 }
+
 export const SearchPage = ({
+  onChange,
+  url,
+  setoflen,
+  length,
   treedata,
   actcategory,
+  overItem,
   set,
+  setLen: s,
+  changecategory,
   pageSize,
-  setDataLength,
-  onChange,
+  onmouseover,
 }: IProps) => {
-  /*
-
-  const paginated_data = useGetPaginatedData(currentPage, set, actcategory);
-  const [
-    columns,
-    chevron,
-    selectedColumn,
-    enabled,
-    showChevron,
+  const {
+    data,
+    options,
+    query,
+    filteredOptions,
+    setQuery,
+    reset,
+    lens,
+    setDirection,
     showSelectedColumn,
-    showQuery,
-  ] = useTempTable(set.actcategory, result, treedata);
-
-  const sorted_data = useGetSortedData(
-    enabled,
-    set,
-    currentPage,
-    actcategory,
     columns,
-    selectedColumn,
-    chevron
-  );
-const mutator  = deleteRow(set, currentPage)
- 
+    showChevron,
+    setCurrentPage,
+    currentPage,
+    onSort,
+    cross,
+  } = useSearch(
+    url,
+    setoflen,
+    treedata,
+    length,
+    overItem,
+    set,
+    pageSize,
 
-  useEffect(() => {
-    setResult(paginated_data);
-  }, [paginated_data]);
-  useEffect(() => {
-    setResult(sorted_data);
-  }, [sorted_data]);
- 
+    set && set.actcategory
+  );
 
   return (
-    <div className="searchbox">
-      <SearchBox onChange={onChange} />
-      <div className="table">
-      <Table
-          showChevron={(e: Boolean) => showChevron(e)}
-          columns={columns}
-          pageSize={pageSize}
-          result={result}
-          showSelectedColumn={showSelectedColumn}
-          showQuery={showQuery}
+    <>
+      <div className="searchbox">
+        <label className="searchlabel">search name column</label>
+        <input
+          id="searchinput"
+          type="text"
+          value={query}
+          onMouseOut={() => reset()}
+          onChange={(e) => {
+            setQuery(e.currentTarget.value);
+            filteredOptions(e.currentTarget.value);
+            onChange(e.currentTarget.value);
+          }}
         />
+        <div className="options">
+          {options.map((t, j) => {
+            return <div key={j}>{t}</div>;
+          })}
+        </div>
       </div>
-    </div>
+      <Table
+        cross={cross}
+        sort={() => onSort()}
+        showChevron={(e: Boolean) => showChevron(e)}
+        columns={columns}
+        pageSize={pageSize}
+        result={[]}
+        showSelectedColumn={showSelectedColumn}
+        showQuery={(i) => {
+          if (currentPage < i) setDirection(false);
+          else setDirection(true);
+          setCurrentPage(i);
+        }}
+        deleteRow={(i) => {}}
+        len={lens && (lens[set.actcategory] as number)}
+      />
+    </>
   );
-};
-*/
-  return <div>kk</div>;
 };

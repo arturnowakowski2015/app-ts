@@ -51,17 +51,19 @@ export const TreeNode = ({
                 }}
                 key={t.id}
               >
-                {flag[ii] === "" && t.nextlevel === 1 && (
-                  <div
-                    className="plus"
-                    onClick={(e) => {
-                      set((t.level / 10) * (10 + 20), t.name);
-                    }}
-                  >
-                    +{(t.level / 10) * (10 + 20)}
-                  </div>
-                )}
-                {flag[ii] === t.name && (
+                {(flag[(t.level / 10) * (10 + 20)] === "" ||
+                  flag[(t.level / 10) * (10 + 20)] === undefined) &&
+                  t.nextlevel === 1 && (
+                    <div
+                      className="plus"
+                      onClick={(e) => {
+                        set((t.level / 10) * (10 + 20), t.name);
+                      }}
+                    >
+                      +
+                    </div>
+                  )}
+                {flag && flag[(t.level / 10) * (10 + 20)] === t.name && (
                   <div
                     className="minus"
                     style={{ paddingRight: "10px" }}
@@ -84,7 +86,7 @@ export const TreeNode = ({
                   onMouseOver={() => onmouseover(t.name)}
                   onMouseOut={() => onmouseover("")}
                 >
-                  {t.name}
+                  {t.name}/{typeof flag[(t.level / 10) * (10 + 20)]}
                   <span>{JSON.stringify(findLen(setoflen, t.name))}</span>
                 </div>
               </div>

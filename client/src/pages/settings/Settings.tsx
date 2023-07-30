@@ -102,7 +102,7 @@ export const Settings = ({
                 <option value="comments">comments</option>
                 <option value="photos">photos</option>
               </select>
-              e{pageSize}
+              {pageSize}
               <input
                 type="range"
                 name="quantity"

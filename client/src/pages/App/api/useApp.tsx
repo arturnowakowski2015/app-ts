@@ -144,6 +144,7 @@ const useApp = () => {
     return false;
   };
   return {
+    query,
     display,
     idroot,
     treedata,

@@ -1,17 +1,18 @@
-import { Home } from "./pages/home/Home";
-import { Nav } from "./features/layout/nav";
+import { Home } from "../home/Home";
+import { Nav } from "../../features/layout/nav";
 import { Route, useLocation, Routes } from "react-router-dom";
-import { Settings } from "./pages/settings";
-import { SearchPage } from "./pages/search";
-import { Recordpage } from "./pages/record";
-import { useApp } from "./pages/App/api/useApp";
-import { AppStateContext } from "./ctx/useThemeContext";
+import { Settings } from "../settings";
+import { SearchPage } from "../search";
+import { Recordpage } from "../record";
+import { useApp } from "./api/useApp";
+import { AppStateContext } from "../../ctx/useThemeContext";
 import { useState } from "react";
 
 import "./App.css";
 
 function App() {
   const {
+    query,
     display,
     idroot,
     treedata,
@@ -59,15 +60,12 @@ function App() {
       <div className="App">
         {" "}
         <div className="navcontainer">
-          {JSON.stringify(setoflen)}
-          {checknav(setoflen, location.pathname) && (
-            <Nav
-              one={(str) => {
-                if (str === "settings") setMenuItems(false);
-                if (str === "search") setMenuItems(true);
-              }}
-            />
-          )}
+          <Nav
+            one={(str) => {
+              if (str === "settings") setMenuItems(false);
+              if (str === "search") setMenuItems(true);
+            }}
+          />{" "}
         </div>
         <Routes>
           <Route
@@ -99,21 +97,32 @@ function App() {
             path="search"
             element={
               <SearchPage
-                onChange={onChange}
+                url={location.pathname.split("/")[1]}
+                onChange={(str) => onChange(str)}
+                setoflen={setoflen}
+                setLength={(e) => setLength(e)}
+                overItem={overItem}
+                onmouseover={(str) => onmouseover(str)}
+                length={datalength}
                 treedata={treedata}
-                actcategory={actcategory}
+                changecategory={(str) => {
+                  changeCategory(location.pathname, str);
+                }}
+                actcategory={set1.actcategory}
                 set={set1}
                 pageSize={pageSize}
-                setDataLength={(length: number) => setDatalength(length)}
+                setDataLength={(length: number) => setLength(length)}
+                setLen={(e: boolean) => {
+                  setLen(e);
+                }}
               />
             }
           />
           <Route
             path="settings/*"
             element={
-              <div>
+              <div className="settingscontainer">
                 {" "}
-                {datalength}
                 <Settings
                   handleDragEnd={handleDragEnd}
                   display={display}

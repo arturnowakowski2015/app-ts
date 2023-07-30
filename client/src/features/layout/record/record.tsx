@@ -46,12 +46,14 @@ export const Rec = ({
 
   return (
     <div className="recordcontainer">
-      {mutator.isLoading && <div>...deleting</div>}
-      {mutator.isSuccess && <div>Successfully deleted !!!</div>}
-      {updateMutator.isLoading && <div>...updating</div>}
-      {updateMutator.isSuccess && <div>Successfully updated !!!</div>}
+      <div style={{ height: "20px" }}>
+        {mutator.isLoading && <div>...deleting</div>}
+        {mutator.isSuccess && <div>Successfully deleted !!!</div>}
+        {updateMutator.isLoading && <div>...updating</div>}
+        {updateMutator.isSuccess && <div>Successfully updated !!!</div>}
+      </div>
       <input type="text" value={id} />
-      {"  >  " + id}
+      {"    " + "    id"}
       <br></br> <br />
       <br></br>
       <input

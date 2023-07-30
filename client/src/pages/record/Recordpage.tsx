@@ -88,7 +88,7 @@ export function Recordpage({
   return (
     <div className="container">
       <div className="left">
-        <div className="menu">
+        <div className="menuHome">
           <MenuItems
             setoflen={setoflen}
             overItem={overItem}

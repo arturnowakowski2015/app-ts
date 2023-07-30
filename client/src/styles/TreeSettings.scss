@@ -1,28 +1,37 @@
 .root {
   height: 50px;
-  width: 200px;
-  background-color: rgb(102, 42, 171);
+  width: 300px;
+  margin-left: 180px;
+  background-color: rgb(219, 206, 234);
 }
-
+.menuHome {
+  background-color: rgb(231, 226, 237);
+  width: 300px;
+}
 .menu {
   background-color: rgb(231, 226, 237);
-  width: 200px;
+  width: 300px;
+  margin-left: 180px;
 }
 .menu1 {
   background-color: rgb(231, 226, 237);
-  width: 4010px;
+  width: 410px;
 }
 .settings1 {
-  padding-left: 500px;
+  padding-left: 300px;
   padding-top: 50px;
   .div {
+    background-color: antiquewhite;
     text-decoration: underline;
+    position: relative;
+    left: -90px;
+    top: -130px;
   }
 }
 
 .label1 {
   position: absolute;
-  top: 300px;
-  left: 800px;
+  top: 160px;
+  left: 480px;
   width: 300px;
 }
