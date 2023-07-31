@@ -73,6 +73,7 @@ const useHome = (
   const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
   const setf = () => {
+    r();
     setResult(
       paginated_data &&
         paginated_data["data"] &&
@@ -83,7 +84,7 @@ const useHome = (
     setf();
   }, []);
   useEffect(() => {
-    setLens({ ...lens, [actcategory]: 0 });
+    setLens({ ...lens, [actcategory]: 11 });
     const t = setTimeout(() => {
       setLens(setoflen);
       setCross(false);
@@ -128,6 +129,7 @@ const useHome = (
         sorted_data["data"] &&
         (sorted_data["data"]["data"] as unknown as any[])
     );
+    console.log(3333333333333);
   }, [sorted_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   useEffect(() => {

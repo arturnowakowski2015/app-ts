@@ -12,7 +12,7 @@ export const useFilterData = (
   filteredstr: string
 ) => {
   let { data, isFetching, isLoading, isSuccess, refetch } = useQuery(
-    ["paginate", filteredstr],
+    ["paginate", filteredstr, currentPage],
     async () => {
       let url: string =
         set &&

@@ -25,14 +25,16 @@ const useLength = (isLen: boolean, set: Set) => {
   } = useQuery(
     ["l", isLen],
     async () => {
-      let url: string = "http://localhost:3001/comments/new/len";
+      let url: string =
+        set.host + set.database + "/" + set.actcategory + "/len";
+      //"http://localhost:3001/comments/new/len";
       let y: any = await api.get<Lenghts>(url, {
         method: "GET",
       });
 
-      return y;
+      return await y;
     },
-    { keepPreviousData: true, staleTime: 10000 }
+    { keepPreviousData: true, staleTime: 1 }
   );
 
   return { result, isLoading, isFetching, refetch };

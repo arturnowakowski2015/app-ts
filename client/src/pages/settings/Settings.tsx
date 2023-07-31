@@ -86,34 +86,38 @@ export const Settings = ({
           path="tablesettings"
           element={
             <div className="settings1">
-              <div className="div" onClick={preview}>
-                preview
+              <div className="settingtable">
+                <div className="div" onClick={preview}>
+                  preview
+                </div>
+                <div className="div" onClick={() => navigate("treesettings")}>
+                  tree settings
+                </div>
+                <label className="div1">change database</label>
+                <select
+                  className="div1"
+                  onChange={(e) => {
+                    loadDatabase(e.target.value as string);
+                    setDatabase(e.target.value as string);
+                  }}
+                >
+                  <option value="comments">comments</option>
+                  <option value="photos">photos</option>
+                </select>
+                {pageSize}
+                <input
+                  className="div1"
+                  type="range"
+                  name="quantity"
+                  min="1"
+                  max={120}
+                  value={pageSize}
+                  onChange={(q) => {
+                    changeSize(q);
+                    refetch();
+                  }}
+                />
               </div>
-              <div className="div" onClick={() => navigate("treesettings")}>
-                tree settings
-              </div>
-              <label>change database</label>
-              <select
-                onChange={(e) => {
-                  loadDatabase(e.target.value as string);
-                  setDatabase(e.target.value as string);
-                }}
-              >
-                <option value="comments">comments</option>
-                <option value="photos">photos</option>
-              </select>
-              {pageSize}
-              <input
-                type="range"
-                name="quantity"
-                min="1"
-                max={120}
-                value={pageSize}
-                onChange={(q) => {
-                  changeSize(q);
-                  refetch();
-                }}
-              />
               <Table
                 cross={true}
                 sort={() => onSort()}

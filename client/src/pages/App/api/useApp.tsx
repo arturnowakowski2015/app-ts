@@ -56,7 +56,10 @@ const useApp = () => {
   const [islen, setIslen] = useState<boolean>(false);
 
   const setLen = (e: boolean) => {
-    setIslen(true);
+    setIslen(e);
+    setSetoflen((setoflen) => result && result.data.obj);
+    refetch();
+
     /*let o: Set = {} as Set;
 
     for (let k in e)
@@ -87,10 +90,15 @@ const useApp = () => {
   };
   const { result, isLoading, isFetching, refetch } = useLength(islen, set1);
   useEffect(() => {
-    console.log(JSON.stringify(result && result.data.obj));
     setSetoflen(result && result.data.obj);
-    setIslen(false);
+    console.log(
+      islen +
+        " ooooooooooooooooo               " +
+        JSON.stringify(result && result.data.obj)
+    );
+
     refetch();
+    setIslen(false);
   }, [islen]);
   useEffect(() => {
     setIslen(true);
@@ -126,7 +134,6 @@ const useApp = () => {
   };
   const change = (path: string, str: string) => {
     if (location.pathname) setActcategory(str);
-    alert(";;;;;" + path);
     let arr: string[] = [];
     for (let k = 0; k < treedata.length; k++)
       if (treedata[k].name === actcategory) arr[k] = "selected";

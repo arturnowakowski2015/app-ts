@@ -9,6 +9,7 @@ import {
   increase,
   get,
   update,
+  filterstr,
 } from "./controller/post.js";
 import cors from "cors";
 import path from "path";
@@ -41,6 +42,7 @@ app.get(
 
 app.patch("/:database/:actcategory/update/:id", update);
 app.get("/:database/paginate/:actcategory/:page/:limit", paginate);
+app.get("/:database/filter/:actcategory/:searchedstr/:page/:limit", filterstr);
 app.get("/:database/:actcategory/getrecord/:id", get);
 
 //localhost:3001/comments/new/getrecord/4

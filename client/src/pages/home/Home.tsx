@@ -65,7 +65,15 @@ export function Home({
         </div>{" "}
       </div>
       <div className="right">
-        <div className="ratios" style={{ height: "30px" }}>
+        <div
+          className="ratios"
+          style={{
+            height: "30px",
+            position: "relative",
+            top: "-60px",
+            left: "-120px",
+          }}
+        >
           {fetching && (
             <div style={{ marginLeft: "150px" }}>
               ...fetching data from table

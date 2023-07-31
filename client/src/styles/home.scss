@@ -12,3 +12,27 @@
   margin-left: 150px;
   width: 80%;
 }
+.searchcontainer {
+  display: flex;
+  flex-direction: columns;
+}
+.searchcontainer .not {
+  opacity: 0;
+  position: relative;
+  left: 10px;
+  top: 0px;
+  background-color: rgb(179, 155, 155);
+}
+.searchcontainer .options {
+  text-align: left;
+  height: auto;
+  opacity: 1;
+  position: relative;
+  left: 0px;
+  top: 0px;
+  z-index: 6;
+  width: 150px;
+  overflow-y: auto;
+  border: black solid 0.5px;
+  background-color: rgb(229, 223, 240);
+}

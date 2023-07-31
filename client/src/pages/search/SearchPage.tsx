@@ -1,7 +1,8 @@
 import { useSearch } from "./api/useSearch";
 import { DataLengths, IMenuItems, Set } from "../../model/Interface";
 import { Table } from "../../features/layout/table";
-import "../../../styles/searchbox.scss";
+import { MenuItems } from "../../features/layout/menu-items";
+import "../../styles/searchbox.scss";
 
 import { useState } from "react";
 interface IProps {
@@ -62,44 +63,80 @@ export const SearchPage = ({
 
     set && set.actcategory
   );
-
+  const [op, setOp] = useState<boolean>(false);
   return (
-    <>
-      <div className="searchbox">
-        <label className="searchlabel">search name column</label>
-        <input
-          id="searchinput"
-          type="text"
-          value={query}
-          onMouseOut={() => reset()}
-          onChange={(e) => {
-            setQuery(e.currentTarget.value);
-            filteredOptions(e.currentTarget.value);
-            onChange(e.currentTarget.value);
-          }}
-        />
-        <div className="options">
-          {options.map((t, j) => {
-            return <div key={j}>{t}</div>;
-          })}
+    <div className="container" onMouseOut={() => setOp(false)}>
+      <div className="left">
+        <div className="menuHome">
+          <MenuItems
+            setoflen={setoflen}
+            overItem={overItem}
+            onmouseover={(str) => onmouseover(str)}
+            selected={actcategory}
+            set={set}
+            treedata={treedata}
+            onClick={(str) => {
+              changecategory(str);
+            }}
+          />
         </div>
       </div>
-      <Table
-        cross={cross}
-        sort={() => onSort()}
-        showChevron={(e: Boolean) => showChevron(e)}
-        columns={columns}
-        pageSize={pageSize}
-        result={[]}
-        showSelectedColumn={showSelectedColumn}
-        showQuery={(i) => {
-          if (currentPage < i) setDirection(false);
-          else setDirection(true);
-          setCurrentPage(i);
-        }}
-        deleteRow={(i) => {}}
-        len={lens && (lens[set.actcategory] as number)}
-      />
-    </>
+      <div className="right">
+        <div className="searchcontainer">
+          <label className="searchlabel">search name column</label>
+          <div>
+            <input
+              id="searchinput"
+              type="text"
+              value={query}
+              onMouseOver={() => setOp(true)}
+              onChange={(e) => {
+                setQuery(e.currentTarget.value);
+                filteredOptions(e.currentTarget.value);
+                onChange(e.currentTarget.value);
+              }}
+            />
+            <div className={op ? "options" : "not"}>
+              {options &&
+                options.map((t, j) => {
+                  return (
+                    <div
+                      onMouseOver={() => setOp(true)}
+                      onClick={(e) => {
+                        setQuery(e.currentTarget.innerText);
+                      }}
+                      key={j}
+                      style={{
+                        cursor: "pointer",
+                        borderBottom: "black solid 0.5px",
+                      }}
+                    >
+                      {t}
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+        <div className="table">
+          <Table
+            cross={true}
+            sort={() => onSort()}
+            showChevron={(e: Boolean) => showChevron(e)}
+            columns={columns}
+            pageSize={pageSize}
+            result={data}
+            showSelectedColumn={showSelectedColumn}
+            showQuery={(i) => {
+              if (currentPage < i) setDirection(false);
+              else setDirection(true);
+              setCurrentPage(i);
+            }}
+            deleteRow={(i) => {}}
+            len={Number(lens)}
+          />
+        </div>
+      </div>
+    </div>
   );
 };

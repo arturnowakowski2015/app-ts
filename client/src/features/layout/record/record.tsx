@@ -35,13 +35,13 @@ export const Rec = ({
     updateMutator.mutate(id);
     setTimeout(() => {
       navigate("/" + set.actcategory);
-    }, 4000);
+    }, 1700);
   };
   const deleteRecord = () => {
     mutator.mutate(id);
     setTimeout(() => {
       navigate("/" + set.actcategory);
-    }, 4000);
+    }, 1700);
   };
 
   return (

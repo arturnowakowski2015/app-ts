@@ -106,7 +106,23 @@ export const paginate = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+////:database/filter/:actcategory/:searchedstr/:page/:limit"
+export const filterstr = async (req, res) => {
+  console.log(77777);
+  const { database, actcategory, searchedstr, page, limit } = req.params;
+  const startIndex = (Number(page) - 1) * Number(limit);
+  const endIndex = startIndex + Number(limit);
+  let filtered = baza[database][actcategory].filter((t) => {
+    return t.name.indexOf(searchedstr) !== -1 && t;
+  });
+  const p = filtered.slice(startIndex, endIndex);
 
+  try {
+    res.status(200).json({ data: p, len: filtered.length });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 export const remove = async (req, res) => {
   const { database, actcategory, id } = req.params;
   console.log(

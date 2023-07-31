@@ -53,11 +53,11 @@ export function Table({
   return (
     <div className="pagecontainer">
       <div className="paginationContainer">
-        <div className="len" style={{ position: "relative", top: "20px" }}>
+        <div className="len" style={{ position: "relative", top: "-60px" }}>
           {" "}
           {len} elements
         </div>
-        <div style={{ height: "60px" }}>
+        <div style={{ height: "60px", position: "relative", top: "20px" }}>
           <Pagination
             siblingCount={1}
             currentPage={currentPage}
@@ -71,7 +71,10 @@ export function Table({
           />
         </div>
       </div>
-      <table className="table">
+      <table
+        className="table"
+        style={{ height: "60px", position: "relative", top: "-80px" }}
+      >
         <thead>
           <tr>
             {columns &&

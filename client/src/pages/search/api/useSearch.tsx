@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTempTable } from "../../../features/layout/table/api/useTempTable";
 import { useFilterData } from "./useGetFilteredData";
 import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
-
+import { useEffect } from "react";
 let data1 = ["a", "aa", "aaa"];
 const useSearch = (
   url: string,
@@ -15,12 +15,15 @@ const useSearch = (
   actcategory: string
 ) => {
   const [options, setOptions] = useState<string[]>([""]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [cross, setCross] = useState<boolean>(false);
   const [lens, setLens] = useState<DataLengths>();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(" ");
+  useEffect(() => {
+    setCurrentPage(1);
+  }, []);
   const {
     isLoading,
     isFetching,
@@ -48,13 +51,21 @@ const useSearch = (
   } = useTempTable(set && set.actcategory, data, treedata);
 
   const filteredOptions = (str: string) => {
-    let opt: string[] = data1.filter((t: any) => t.indexOf(str) !== -1 && t);
-    if (options.length === 0) data.splice(0, 0, str);
+    let opt: string[] =
+      data1 &&
+      data1.filter((t: string) => {
+        return t.indexOf(str) !== -1 && t;
+      });
+    if (options && options.length === 0 && data) data1.splice(0, 0, str);
     setOptions(opt);
   };
   const reset = () => {
     setOptions([""]);
   };
+  useEffect(() => {
+    console.log(JSON.stringify(filtered_data && filtered_data["data"]));
+    setLens(filtered_data && filtered_data["data"]["len"]);
+  }, [data]);
   return {
     data,
     options,

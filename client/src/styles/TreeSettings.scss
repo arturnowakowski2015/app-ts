@@ -20,12 +20,18 @@
 .settings1 {
   padding-left: 300px;
   padding-top: 50px;
+
   .div {
     background-color: antiquewhite;
     text-decoration: underline;
     position: relative;
-    left: -90px;
-    top: -130px;
+    left: -10px;
+    top: -120px;
+  }
+  .div1 {
+    position: relative;
+    left: -10px;
+    top: -80px;
   }
 }
 

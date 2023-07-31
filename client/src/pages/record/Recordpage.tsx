@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MenuItems } from "../../features/layout/menu-items";
 import { useLocation } from "react-router-dom";
+import { useDeleteRec } from "./api/useDeleteRec";
 import useHome from "../home/api/useHome";
 import {
   IMenuItems,
@@ -82,6 +83,7 @@ export function Recordpage({
   );
   const [id, setId] = useState<number>(Number(location.pathname.split("/")[2]));
   const data = useGetRecord(id, set);
+  const mutator = useDeleteRec(set, currentPage);
   useEffect(() => {
     setId(Number(location.pathname.split("/")[2]));
   }, []);
@@ -109,7 +111,11 @@ export function Recordpage({
           }
           currentPage={currentPage}
           columns={columns}
-          deleteRec={deleteRec}
+          deleteRec={() =>
+            mutator.mutator.mutate(
+              data && data.result && data.result.data && data.result.data.rec.id
+            )
+          }
           update={update}
           set={set}
           id={id}
