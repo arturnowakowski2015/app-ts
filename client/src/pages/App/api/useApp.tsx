@@ -59,7 +59,11 @@ const useApp = () => {
     setIslen(e);
     setSetoflen((setoflen) => result && result.data.obj);
     refetch();
-
+    console.log(
+      islen +
+        " ooooooooooooooooo               " +
+        JSON.stringify(result && result.data.obj)
+    );
     /*let o: Set = {} as Set;
 
     for (let k in e)
@@ -102,7 +106,7 @@ const useApp = () => {
   }, [islen]);
   useEffect(() => {
     setIslen(true);
-  }, []);
+  }, [isLoading]);
   const setLength = (e: number) => {
     setDatalength(e);
   };

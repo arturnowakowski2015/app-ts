@@ -21,8 +21,10 @@ interface IProps {
   showQuery: (enabled: number) => void;
   sort: () => void;
   deleteRow: (id: number) => void;
+  iflen: boolean;
 }
 export function Table({
+  iflen,
   cross,
   len,
   columns,
@@ -55,7 +57,7 @@ export function Table({
       <div className="paginationContainer">
         <div className="len" style={{ position: "relative", top: "-60px" }}>
           {" "}
-          {len} elements
+          {iflen && <div>{len} elements</div>}
         </div>
         <div style={{ height: "60px", position: "relative", top: "20px" }}>
           <Pagination

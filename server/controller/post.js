@@ -11,7 +11,7 @@ export const increase = async (req, res) => {
   for (let i = baza["photos"]["new"].length; i < 130000; i++)
     baza["photos"]["new"].push({
       albumId: 100,
-      id: 4971,
+      id: baza["photos"]["new"].length + i,
       title: "officiis exercitationem quia",
       url: "https://via.placeholder.com/600/34ac70",
       thumbnailUrl: "https://via.placeholder.com/150/34ac70",

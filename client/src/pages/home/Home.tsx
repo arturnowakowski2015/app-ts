@@ -82,6 +82,7 @@ export function Home({
           {mutator.isLoading && <div>...deleting </div>}
         </div>
         <Table
+          iflen={true}
           cross={cross}
           sort={() => onSort()}
           showChevron={(e: Boolean) => showChevron(e)}

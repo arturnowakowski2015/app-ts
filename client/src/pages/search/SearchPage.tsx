@@ -120,6 +120,7 @@ export const SearchPage = ({
         </div>
         <div className="table">
           <Table
+            iflen={true}
             cross={true}
             sort={() => onSort()}
             showChevron={(e: Boolean) => showChevron(e)}

@@ -56,7 +56,6 @@ export const Settings = ({
   handleDragStart,
 }: IProps) => {
   const {
-    result,
     len,
     columns,
     setDirection,
@@ -71,9 +70,7 @@ export const Settings = ({
     set,
 
     pageSize,
-    (datalength1 = pageSize),
-    el,
-    idroot,
+
     treedata
   );
 
@@ -119,6 +116,7 @@ export const Settings = ({
                 />
               </div>
               <Table
+                iflen={false}
                 cross={true}
                 sort={() => onSort()}
                 showChevron={(e: Boolean) => showChevron(e)}

@@ -25,6 +25,7 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
     },
     {
       onMutate: async (id1) => {
+        alert(id1);
         // cancel all queries that contain the key "issues"
         await queryClient.cancelQueries(["paginate", "sort"]);
 

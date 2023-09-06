@@ -34,7 +34,7 @@ const useLength = (isLen: boolean, set: Set) => {
 
       return await y;
     },
-    { keepPreviousData: true, staleTime: 1 }
+    { keepPreviousData: true, staleTime: 10000000000 }
   );
 
   return { result, isLoading, isFetching, refetch };
