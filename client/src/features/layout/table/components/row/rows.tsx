@@ -24,36 +24,33 @@ export const Rows = ({ cross, columns, result, deleteRow }: IProps) => {
   }, [result]); // eslint-disable-next-line react-hooks/exhaustive-deps
   return (
     <>
-      {rows &&
-        rows.map((row, ii) => {
-          return (
-            <tr
-              className={"row-" + state.theme[state.i] + " table-row"}
-              key={ii}
+      {rows?.map((row, ii) => {
+        return (
+          <tr className={"row-" + state.theme[state.i] + " table-row"} key={ii}>
+            {row.map((t, j) => {
+              return (
+                <th
+                  key={j}
+                  onClick={() => {
+                    if (location.pathname.split("/")[1] !== "settings") {
+                      navigate("/record/" + row[1]);
+                    }
+                  }}
+                >
+                  <div className="string">{t.toString()}</div>
+                </th>
+              );
+            })}
+
+            <button
+              disabled={cross && true}
+              onClick={() => deleteRow(row[1] as unknown as number)}
             >
-              {row.map((t, j) => {
-                return (
-                  <th
-                    key={j}
-                    onClick={() => {
-                      if (location.pathname.split("/")[1] !== "settings") {
-                        navigate("/record/" + row[1]);
-                      }
-                    }}
-                  >
-                    <div className="string">{t.toString()}</div>
-                  </th>
-                );
-              })}
-              <button
-                disabled={cross && true}
-                onClick={() => deleteRow(row[1] as unknown as number)}
-              >
-                x
-              </button>
-            </tr>
-          );
-        })}
+              x
+            </button>
+          </tr>
+        );
+      })}
     </>
   );
 };

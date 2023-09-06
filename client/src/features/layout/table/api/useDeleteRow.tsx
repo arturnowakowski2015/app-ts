@@ -25,7 +25,6 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
     },
     {
       onMutate: async (id1) => {
-        alert(id1);
         // cancel all queries that contain the key "issues"
         await queryClient.cancelQueries(["paginate", "sort"]);
 
@@ -75,9 +74,7 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
           });
         }
         nextPage && nextPage.data.shift();
-        console.log(
-          nextPage && nextPage.data.length + "............................."
-        );
+
         // save the current data in the mutation context to be able to
         // restore the previous state in case of an error
 

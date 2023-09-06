@@ -57,56 +57,33 @@ const useApp = () => {
 
   const setLen = (e: boolean) => {
     setIslen(e);
-    setSetoflen((setoflen) => result && result.data.obj);
+    if (result) {
+      setSetoflen({ ...result?.data.obj });
+    }
     refetch();
     console.log(
-      islen +
-        " ooooooooooooooooo               " +
+      "setoflen po przypisaniu    " +
+        JSON.stringify(setoflen) +
+        "  ######################       result.data.obj po usunieciu   " +
         JSON.stringify(result && result.data.obj)
     );
-    /*let o: Set = {} as Set;
-
-    for (let k in e)
-      for (let i = 0; i < set1.datalengths.length; i++)
-        for (let u in set1.datalengths[i]) {
-          // alert(k + "::::uuu  :::" + u);
-          if (k === u) setIslen(true);
-        }
-
-    if (islen === true)
-      for (let k in e) {
-        set1.datalengths.map((t) => {
-          Object.keys(t).map((y) => {
-            t[y] = e[k];
-          });
-        });
-      }
-    else
-      for (let k in e) {
-        set1.datalengths = { ...set1.datalengths, [k]: e[k] };
-        //   alert("setbbbbb   " + JSON.stringify(set.datalengths));
-      }
-    setIslen(false);
-    //set.datalengths.push({ [k]: e[k] });
-    //alert("::ww:" + JSON.stringify(set.datalengths));
-    setSet1(set1);
-    alert("set   " + JSON.stringify(set1));*/
   };
   const { result, isLoading, isFetching, refetch } = useLength(islen, set1);
-  useEffect(() => {
-    setSetoflen(result && result.data.obj);
-    console.log(
-      islen +
-        " ooooooooooooooooo               " +
-        JSON.stringify(result && result.data.obj)
-    );
 
-    refetch();
-    setIslen(false);
-  }, [islen]);
   useEffect(() => {
-    setIslen(true);
-  }, [isLoading]);
+    console.log("=updating setsetoflen", result?.data.obj);
+    if (result) {
+      setSetoflen({ ...result.data.obj });
+
+      console.log(
+        " dlugosc poczatkowa " + JSON.stringify(result && result.data.obj.new)
+      );
+
+      //refetch();
+      setIslen(false);
+    }
+  }, [result]);
+
   const setLength = (e: number) => {
     setDatalength(e);
   };

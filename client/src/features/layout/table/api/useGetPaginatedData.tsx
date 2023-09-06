@@ -26,7 +26,7 @@ const useGetPaginatedData = (
           "/" +
           pageSize;
 
-      console.log("paginate 1");
+      // console.log("paginate 1");
 
       return getRec(url);
     },
@@ -46,7 +46,7 @@ const useGetPaginatedData = (
           "/" +
           pageSize;
 
-      console.log("paginate 1");
+      // console.log("paginate 1");
 
       return getRec(url);
     };
@@ -64,7 +64,7 @@ const useGetPaginatedData = (
         "/" +
         pageSize;
     queryClient.prefetchQuery(["paginate", currentPage], async () => {
-      console.log("prefetch 1");
+      //console.log("prefetch 1");
       return getRec(url);
     }); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, queryClient]);
@@ -82,7 +82,7 @@ const useGetPaginatedData = (
     queryClient.prefetchQuery(
       ["paginate", Number(currentPage) + 1],
       async () => {
-        console.log("prefetch 1+1");
+        //console.log("prefetch 1+1");
         return getRec(url);
       }
     ); // eslint-disable-next-line react-hooks/exhaustive-deps

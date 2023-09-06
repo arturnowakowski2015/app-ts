@@ -31,10 +31,9 @@ const useLength = (isLen: boolean, set: Set) => {
       let y: any = await api.get<Lenghts>(url, {
         method: "GET",
       });
-
       return await y;
-    },
-    { keepPreviousData: true, staleTime: 10000000000 }
+    }
+    //{ keepPreviousData: true, staleTime: 10000000000 }
   );
 
   return { result, isLoading, isFetching, refetch };

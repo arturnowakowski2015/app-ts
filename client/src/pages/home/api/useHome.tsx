@@ -85,17 +85,10 @@ const useHome = (
   }, []);
   useEffect(() => {
     setLens({ ...lens, [actcategory]: 11 });
-    const t = setTimeout(() => {
-      setLens(setoflen);
-      setCross(false);
-    }, 700);
-    return () => {
-      clearTimeout(t);
-    };
-  }, [mutator.context?.nextPage]);
+  }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
-  }, [fetching]);
+  }, [fetching, setoflen]);
   useEffect(() => {
     let t: any;
     setFetching(true);
@@ -129,7 +122,7 @@ const useHome = (
         sorted_data["data"] &&
         (sorted_data["data"]["data"] as unknown as any[])
     );
-    console.log(3333333333333);
+    //console.log(3333333333333);
   }, [sorted_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   useEffect(() => {

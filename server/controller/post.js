@@ -46,7 +46,7 @@ export const sortData = (req, res) => {
     const startIndex = (Number(page) - 1) * Number(limit);
     const endIndex = startIndex + Number(limit);
     const p = baza[database][actcategory].slice(startIndex, endIndex);
-    console.log(baza[database][actcategory].length);
+    //console.log(baza[database][actcategory].length);
     let obj = {};
     for (var k in baza[database]) {
       obj = { ...obj, [k]: baza[database][k].length };
@@ -91,7 +91,7 @@ export const update = async (req, res) => {
 };
 export const paginate = async (req, res) => {
   const { database, actcategory, page, limit } = req.params;
-  console.log(baza[database][actcategory].length);
+  // console.log(baza[database][actcategory].length);
   const startIndex = (Number(page) - 1) * Number(limit);
   const endIndex = startIndex + Number(limit);
   const p = baza[database][actcategory].slice(startIndex, endIndex);
@@ -108,7 +108,7 @@ export const paginate = async (req, res) => {
 };
 ////:database/filter/:actcategory/:searchedstr/:page/:limit"
 export const filterstr = async (req, res) => {
-  console.log(77777);
+  //console.log(77777);
   const { database, actcategory, searchedstr, page, limit } = req.params;
   const startIndex = (Number(page) - 1) * Number(limit);
   const endIndex = startIndex + Number(limit);
@@ -125,21 +125,18 @@ export const filterstr = async (req, res) => {
 };
 export const remove = async (req, res) => {
   const { database, actcategory, id } = req.params;
-  console.log(
-    id + "  ggggggggggggggggggggggg" + baza[database][actcategory].length
-  );
+  console.log("przed usunieciem " + baza[database][actcategory].length);
   try {
     const y = baza[database][actcategory].filter((t) => {
       return Number(t.id) !== Number(id) && t;
     });
-    console.log("ggg                      gggggg" + y.length);
+    console.log("po usunieciu" + y.length);
     baza[database][actcategory] = y;
 
     let obj = {};
     for (var k in baza[database]) {
       obj = { ...obj, [k]: baza[database][k].length };
     }
-    console.log(JSON.stringify(obj));
     res.status(200).json({ data: y, obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -147,12 +144,12 @@ export const remove = async (req, res) => {
 };
 export const get = async (req, res) => {
   const { database, actcategory, id } = req.params;
-  console.log(">>>>>>>>>>>>>>>>>>>>>           ");
+  // console.log(">>>>>>>>>>>>>>>>>>>>>           ");
 
   let rec = baza[database][actcategory].filter((t) => {
     return Number(t.id) === Number(id) && t;
   });
-  console.log(">>>>>>>>>>>>>>>>>>>>>           " + JSON.stringify(rec));
+  // console.log(">>>>>>>>>>>>>>>>>>>>>           " + JSON.stringify(rec));
   try {
     res.status(200).json({ rec });
   } catch (err) {
@@ -167,7 +164,7 @@ export const dataLength = async (req, res) => {
     for (var k in baza[database]) {
       obj = { ...obj, [k]: baza[database][k].length };
     }
-    console.log("llllll   " + JSON.stringify(obj));
+    ///console.log("llllll   " + JSON.stringify(obj));
     res.status(200).json({ obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
