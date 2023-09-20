@@ -66,10 +66,8 @@ const useGetPaginatedData = (
     queryClient.prefetchQuery(["paginate", currentPage], async () => {
       //console.log("prefetch 1");
       return getRec(url);
-    }); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, queryClient]);
-  useEffect(() => {
-    let url: string =
+    });
+    let url1: string =
       set &&
       set.host +
         set.database +
@@ -83,10 +81,11 @@ const useGetPaginatedData = (
       ["paginate", Number(currentPage) + 1],
       async () => {
         //console.log("prefetch 1+1");
-        return getRec(url);
+        return getRec(url1);
       }
-    ); // eslint-disable-next-line react-hooks/exhaustive-deps
-    //setDatay(true);
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, queryClient]);
 
   return { isLoading, isFetching, isSuccess, data, refetch } as const;

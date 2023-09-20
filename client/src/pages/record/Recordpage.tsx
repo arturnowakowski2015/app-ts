@@ -106,16 +106,10 @@ export function Recordpage({
       </div>
       <div className="right">
         <Rec
-          record={
-            data && data.result && data.result.data && data.result.data.rec
-          }
+          record={data?.result?.data?.rec}
           currentPage={currentPage}
           columns={columns}
-          deleteRec={() =>
-            mutator.mutator.mutate(
-              data && data.result && data.result.data && data.result.data.rec.id
-            )
-          }
+          deleteRec={() => mutator.mutator.mutate(data?.result?.data?.rec)}
           update={update}
           set={set}
           id={id}

@@ -30,7 +30,6 @@ export const MenuItems = ({
   const { state } = useContext(AppStateContext);
 
   const findLen = (str: string): number | undefined => {
-    console.log("=find len=", str, setoflen);
     for (let y in setoflen) {
       if (y === str) return setoflen[y];
     }

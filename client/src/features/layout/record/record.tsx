@@ -47,7 +47,7 @@ export const Rec = ({
   return (
     <div className="recordcontainer">
       <div style={{ height: "20px" }}>
-        {mutator.isLoading && <div>...deleting</div>}
+        {mutator.isLoading && <div>...loading</div>}
         {mutator.isSuccess && <div>Successfully deleted !!!</div>}
         {updateMutator.isLoading && <div>...updating</div>}
         {updateMutator.isSuccess && <div>Successfully updated !!!</div>}

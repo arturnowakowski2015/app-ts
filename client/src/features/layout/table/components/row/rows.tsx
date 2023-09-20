@@ -41,13 +41,14 @@ export const Rows = ({ cross, columns, result, deleteRow }: IProps) => {
                 </th>
               );
             })}
-
-            <button
-              disabled={cross && true}
-              onClick={() => deleteRow(row[1] as unknown as number)}
-            >
-              x
-            </button>
+            <td>
+              <button
+                disabled={cross && true}
+                onClick={() => deleteRow(row[1] as unknown as number)}
+              >
+                x
+              </button>
+            </td>
           </tr>
         );
       })}

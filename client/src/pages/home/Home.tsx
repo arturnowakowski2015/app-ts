@@ -37,7 +37,7 @@ export function Home({
     currentPage,
     lens,
     mutator,
-    isLoading,
+    isDeleting,
     fetching,
     onSort,
     showChevron,
@@ -52,7 +52,7 @@ export function Home({
       <div className="left">
         <div className="menuHome">
           <MenuItems
-            setoflen={lens as DataLengths}
+            setoflen={setoflen}
             overItem={overItem}
             onmouseover={(str) => onmouseover(str)}
             selected={actcategory}
@@ -79,7 +79,7 @@ export function Home({
               ...fetching data from table
             </div>
           )}
-          {mutator.isLoading && <div>...deleting </div>}
+          {isDeleting && <div>...deleting </div>}
         </div>
         <Table
           iflen={true}

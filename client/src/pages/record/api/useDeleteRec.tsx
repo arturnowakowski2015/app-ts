@@ -15,8 +15,9 @@ export const useDeleteRec = (set: Set, currentPage: number) => {
             },
           }
         );
-        return await r.json();
-        return r;
+        let y = await r.json();
+
+        return y;
       } catch (error) {
         alert("dd " + error);
       }
@@ -25,7 +26,7 @@ export const useDeleteRec = (set: Set, currentPage: number) => {
       onMutate: async (id1) => {
         // cancel all queries that contain the key "issues"
         await queryClient.cancelQueries([["paginate", currentPage], "sort"]);
-        queryClient.removeQueries(["paginate", currentPage]);
+        // queryClient.removeQueries(["paginate", currentPage]);
       },
     }
   );

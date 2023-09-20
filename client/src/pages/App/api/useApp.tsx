@@ -57,28 +57,14 @@ const useApp = () => {
 
   const setLen = (e: boolean) => {
     setIslen(e);
-    if (result) {
-      setSetoflen({ ...result?.data.obj });
-    }
-    refetch();
-    console.log(
-      "setoflen po przypisaniu    " +
-        JSON.stringify(setoflen) +
-        "  ######################       result.data.obj po usunieciu   " +
-        JSON.stringify(result && result.data.obj)
-    );
   };
   const { result, isLoading, isFetching, refetch } = useLength(islen, set1);
 
   useEffect(() => {
-    console.log("=updating setsetoflen", result?.data.obj);
     if (result) {
       setSetoflen({ ...result.data.obj });
 
-      console.log(
-        " dlugosc poczatkowa " + JSON.stringify(result && result.data.obj.new)
-      );
-
+      refetch();
       //refetch();
       setIslen(false);
     }

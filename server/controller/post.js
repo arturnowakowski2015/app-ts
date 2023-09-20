@@ -135,6 +135,9 @@ export const remove = async (req, res) => {
 
     let obj = {};
     for (var k in baza[database]) {
+      console.log(
+        k + ":::::::::::::::::::::::::::::" + baza[database][k].length
+      );
       obj = { ...obj, [k]: baza[database][k].length };
     }
     res.status(200).json({ data: y, obj });

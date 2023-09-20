@@ -16,7 +16,7 @@ const useHome = (
   const location = useLocation();
   const [cross, setCross] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
@@ -84,11 +84,16 @@ const useHome = (
     setf();
   }, []);
   useEffect(() => {
-    setLens({ ...lens, [actcategory]: 11 });
+    // setLens({
+    //   ...lens,
+    //   [actcategory]: mutator.context?.currentPage1?.obj[actcategory] - 1,
+    // });
+    setCross(false);
+    setIsDeleting(false);
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
-  }, [fetching, setoflen]);
+  }, [fetching]);
   useEffect(() => {
     let t: any;
     setFetching(true);
@@ -127,7 +132,6 @@ const useHome = (
 
   useEffect(() => {
     setResult(mutator.context?.currentPage1.data);
-    setR1(true);
     setRef(false);
   }, [ref]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -135,6 +139,7 @@ const useHome = (
     mutator.mutate(id);
     console.log(id);
     setCross(true);
+    setIsDeleting(true);
     setRef(true);
   };
   return {
@@ -145,7 +150,7 @@ const useHome = (
     paginated_data,
     lens,
     mutator,
-    isLoading,
+    isDeleting,
     fetching,
     onSort,
     showChevron,
