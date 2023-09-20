@@ -1,6 +1,6 @@
-import { Set, Column, DataAny } from "../../../../model/Interface";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { Set } from "../../../../model/Interface";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { getRec } from "../../../../utils/rest";
 
 const useGetPaginatedData = (
@@ -50,7 +50,7 @@ const useGetPaginatedData = (
 
       return getRec(url);
     };
-    f();
+    f(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     let url: string =

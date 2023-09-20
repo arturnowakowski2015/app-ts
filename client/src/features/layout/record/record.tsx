@@ -1,6 +1,5 @@
 import { DataTable, Column, Set } from "../../../model/Interface";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useRec } from "./api/useRec";
 import { useDeleteRow } from "../table/api/useDeleteRow";
 import { useUpdateRec } from "./api/useUpdateRec";
@@ -18,18 +17,15 @@ interface IProps {
 }
 export const Rec = ({
   setLen,
-  url,
   id,
   record,
   columns,
   currentPage,
   set,
-  deleteRec,
-  update,
 }: IProps) => {
   const navigate = useNavigate();
   const { data, setData } = useRec(record as DataTable[], columns);
-  const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
+  const { mutator } = useDeleteRow(set, currentPage);
   const { mutator: updateMutator } = useUpdateRec(set, data);
   const updateRecord = () => {
     updateMutator.mutate(id);
@@ -53,9 +49,8 @@ export const Rec = ({
         {updateMutator.isSuccess && <div>Successfully updated !!!</div>}
       </div>
       <input type="text" value={id} />
-      {"    " + "    id"}
-      <br></br> <br />
-      <br></br>
+      <br /> <br />
+      <br />
       <input
         type="text"
         value={

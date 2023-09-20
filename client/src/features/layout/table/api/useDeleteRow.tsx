@@ -18,7 +18,6 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
           }
         );
         return await r.json();
-        return r;
       } catch (error) {
         alert("dd " + error);
       }
@@ -42,15 +41,15 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
               Number(currentPage) + 1,
             ]) as DataAny
           )["data"];
-        let data: any =
-          (currentPage1 as DataAny) &&
+
+        (currentPage1 as DataAny) &&
           (currentPage1 as DataAny)["data"].splice(
             (currentPage1 as DataAny) &&
               (currentPage1 as DataAny)["data"].findIndex((t) => {
                 return t.id === id1 && t;
               }),
             1
-          );
+          ); // eslint-disable-next-line
 
         // there might not be any issues left to add if a user clicks fast
         // and/or the internet connection is slow

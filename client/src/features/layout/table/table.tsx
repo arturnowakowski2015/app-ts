@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 import { Column } from "../../../model/Interface";
-import { useLocation } from "react-router-dom";
 
 import { Pagination } from "./components/pagination";
 import { useBuildChevron } from "./api/useBuildChevron";
@@ -43,15 +42,6 @@ export function Table({
     showSelectedColumn(-1); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chevron]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  /*
-      const current = queryClient.getQueryData<{ items:any }>([
-          "paginate",
-          currentPage,
-        ]);
-        alert(JSON.stringify(current));
-*/
   return (
     <div className="pagecontainer">
       <div className="paginationContainer">

@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useLength } from "./useGetlength";
 import { useConvertTree } from "../../../api/useConvertTree";
 import { useTreeSettings } from "../../../features/layout/tree-settings/api/useTreeSettings";
-import { useNavigate, Routes, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { tree } from "../../../data/dummy";
 import { DataLengths, Set } from "../../../model/Interface";
 
@@ -22,17 +22,7 @@ const useApp = () => {
   const location = useLocation();
   let { flattenarr, zerotreetoarr } = useConvertTree();
   const { update, deleteRec } = useRecord();
-  const {
-    columns,
-
-    selectedRecord,
-
-    tableflag,
-    loadDatabase,
-    filterData,
-
-    setTableflag,
-  } = useTable(actcategory);
+  const { selectedRecord } = useTable(actcategory);
   const [pageSize, setPageSize] = useState(10);
   const [datalength, setDatalength] = useState<number>(0);
 
@@ -50,7 +40,7 @@ const useApp = () => {
   };
 
   const onmouseover = (str: string) => {
-    if (str == "") setOverItem("");
+    if (str === "") setOverItem("");
     else setOverItem(str);
   };
   const [islen, setIslen] = useState<boolean>(false);
@@ -58,7 +48,7 @@ const useApp = () => {
   const setLen = (e: boolean) => {
     setIslen(e);
   };
-  const { result, isLoading, isFetching, refetch } = useLength(islen, set1);
+  const { result, refetch } = useLength(islen, set1);
 
   useEffect(() => {
     if (result) {
@@ -68,7 +58,7 @@ const useApp = () => {
       //refetch();
       setIslen(false);
     }
-  }, [result]);
+  }, [result, refetch]);
 
   const setLength = (e: number) => {
     setDatalength(e);
@@ -94,8 +84,8 @@ const useApp = () => {
       else selectedMenu.push("item");
       return t;
     });
-    setSelectedMenu(selectedMenu);
-  }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
+    setSelectedMenu(selectedMenu); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const onChange = (str: string) => {
     setQuery(str);
   };

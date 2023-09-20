@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { IMenuItems, Set, DataLengths } from "../../../model/Interface";
 import { useTempTable } from "../../../features/layout/table/api/useTempTable";
 import { useGetPaginatedData } from "../../../features/layout/table/api/useGetPaginatedData";
@@ -20,22 +20,16 @@ const useHome = (
   const [result, setResult] = useState<any[] | undefined>([] as any[]);
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
-  const [ref, setRef] = useState<boolean>(false);
   const [lens, setLens] = useState<DataLengths>();
 
   const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
   useEffect(() => {
     if (mutator.context?.nextPage.data.length < 2) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((currentPage) => currentPage + 1);
     }
     // alert(currentPage + ":::" + mutator.context?.nextPage.data.length);
-  }, [mutator.context?.nextPage]);
-  const {
-    isLoading,
-    isFetching,
-    isSuccess,
-    data: paginated_data,
-  } = useGetPaginatedData(
+  }, [currentPage, mutator.context?.nextPage.data.length]);
+  const { data: paginated_data } = useGetPaginatedData(
     location.pathname.split("/")[1],
     pageSize,
     direction,
@@ -59,7 +53,7 @@ const useHome = (
     treedata
   );
 
-  const { sorted_data, r } = useGetSortedData(
+  const { sorted_data, refetchSorted } = useGetSortedData(
     pageSize,
     sort,
     set,
@@ -69,19 +63,14 @@ const useHome = (
     selectedColumn,
     chevron
   );
-  const [r1, setR1] = useState<boolean>(false);
   const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
-  const setf = () => {
-    r();
-    setResult(
-      paginated_data &&
-        paginated_data["data"] &&
-        (paginated_data["data"]["data"] as unknown as any[])
-    );
-  };
+  const setf = useCallback(() => {
+    refetchSorted();
+    setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
+  }, [paginated_data, refetchSorted]);
   useEffect(() => {
-    setf();
+    setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     // setLens({
@@ -93,7 +82,7 @@ const useHome = (
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
-  }, [fetching]);
+  }, [fetching, setoflen]);
   useEffect(() => {
     let t: any;
     setFetching(true);
@@ -113,34 +102,23 @@ const useHome = (
     return () => {
       clearTimeout(t);
     }; //if (fetching) setoffetched.push(currentPage);
-  }, [paginated_data]);
+  }, [paginated_data, currentPage, setoffetched, setf]);
   useEffect(() => {
-    setLen(
-      sorted_data &&
-        sorted_data["data"] &&
-        sorted_data["data"]["obj"] &&
-        (sorted_data["data"]["obj"][actcategory] as unknown as number)
-    );
+    setLen(sorted_data?.["data"]?.["obj"]?.[actcategory] as unknown as number);
 
-    setResult(
-      sorted_data &&
-        sorted_data["data"] &&
-        (sorted_data["data"]["data"] as unknown as any[])
-    );
+    setResult(sorted_data?.["data"]?.["data"] as unknown as any[]);
     //console.log(3333333333333);
-  }, [sorted_data]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sorted_data, actcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setResult(mutator.context?.currentPage1.data);
-    setRef(false);
-  }, [ref]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutator.context]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const deleteRow = (id: number) => {
     mutator.mutate(id);
     console.log(id);
     setCross(true);
     setIsDeleting(true);
-    setRef(true);
   };
   return {
     cross,

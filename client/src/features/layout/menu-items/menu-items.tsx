@@ -1,10 +1,7 @@
 import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
 import { TreeNode } from "../../ui/tree-node";
 import { useMenuItems } from "./api/useMenuItems";
-import {
-  useGlobalContext,
-  AppStateContext,
-} from "../../../ctx/useThemeContext";
+import { AppStateContext } from "../../../ctx/useThemeContext";
 import { useContext } from "react";
 import "../../../styles/MenuItems.scss";
 interface IProps {
@@ -26,7 +23,6 @@ export const MenuItems = ({
   onmouseover,
 }: IProps) => {
   const { itemsonlevel, flag, set } = useMenuItems(0, treedata);
-  const { sets, i } = useGlobalContext();
   const { state } = useContext(AppStateContext);
 
   const findLen = (str: string): number | undefined => {

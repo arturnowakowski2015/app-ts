@@ -36,7 +36,6 @@ export function Home({
     result,
     currentPage,
     lens,
-    mutator,
     isDeleting,
     fetching,
     onSort,
