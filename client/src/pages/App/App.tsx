@@ -1,6 +1,7 @@
 import { Home } from "../home/Home";
 import { Nav } from "../../features/layout/nav";
-import { Route, useLocation, Routes } from "react-router-dom";
+import { Route, useLocation, Routes, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { Settings } from "../settings";
 import { SearchPage } from "../search";
 import { Recordpage } from "../record";
@@ -53,7 +54,10 @@ function App() {
     setState: {},
   };
   const [state, setState] = useState(initialState);
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/new");
+  }, []);
   return (
     <AppStateContext.Provider value={{ state, setState }}>
       {" "}

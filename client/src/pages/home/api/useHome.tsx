@@ -106,8 +106,8 @@ const useHome = (
   }, [sorted_data, actcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setResult(mutator.context?.currentPage1.data); // eslint-disable-next-line react-hooks/exhaustive-deps
-    setCross(false);
+    setResult(mutator.context?.currentPage1.data);
+    setCross(false); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cross]);
 
   const deleteRow = (id: number) => {
