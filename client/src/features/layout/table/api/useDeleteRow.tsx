@@ -88,7 +88,7 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         // flag the query with key ["issues"] as invalidated
         // this causes a refetch of the issues data
         len1 = res.obj[set.actcategory];
-        queryClient.invalidateQueries(["paginate", 5]);
+        queryClient.invalidateQueries(["paginate"]);
       },
     }
   );
