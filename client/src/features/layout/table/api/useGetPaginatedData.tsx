@@ -80,7 +80,7 @@ const useGetPaginatedData = (
     queryClient.prefetchQuery(
       ["paginate", Number(currentPage) + 1],
       async () => {
-        //console.log("prefetch 1+1");
+        console.log("prefetch 1+1");
         return getRec(url1);
       }
     );

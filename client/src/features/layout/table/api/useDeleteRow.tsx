@@ -72,7 +72,11 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
             },
           });
         }
-        nextPage && nextPage.data.shift();
+        nextPage?.data.shift();
+        console.log(
+          "oooooooooooooooooooooooooooooooo",
+          JSON.stringify(nextPage)
+        );
 
         // save the current data in the mutation context to be able to
         // restore the previous state in case of an error
@@ -84,6 +88,7 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         // flag the query with key ["issues"] as invalidated
         // this causes a refetch of the issues data
         len1 = res.obj[set.actcategory];
+        queryClient.invalidateQueries(["paginate", 5]);
       },
     }
   );

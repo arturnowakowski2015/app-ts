@@ -73,11 +73,6 @@ const useHome = (
     setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    // setLens({
-    //   ...lens,
-    //   [actcategory]: mutator.context?.currentPage1?.obj[actcategory] - 1,
-    // });
-    setCross(false);
     setIsDeleting(false);
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
@@ -111,8 +106,9 @@ const useHome = (
   }, [sorted_data, actcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setResult(mutator.context?.currentPage1.data);
-  }, [mutator.context]); // eslint-disable-next-line react-hooks/exhaustive-deps
+    setResult(mutator.context?.currentPage1.data); // eslint-disable-next-line react-hooks/exhaustive-deps
+    setCross(false);
+  }, [cross]);
 
   const deleteRow = (id: number) => {
     mutator.mutate(id);

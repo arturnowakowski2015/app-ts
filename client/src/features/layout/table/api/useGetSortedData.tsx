@@ -24,7 +24,7 @@ const useGetSortedData = (
           "/sort/" +
           actcategory +
           "/" +
-          columns?.[selectedColumn].col.title +
+          columns?.[selectedColumn]?.col?.title +
           "/" +
           (chevron ? "DESC" : "ASC") +
           "/" +
