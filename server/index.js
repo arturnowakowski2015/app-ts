@@ -28,6 +28,7 @@ app.use(
     origin: [
       "http://localhost:3001",
       "http://localhost:3000",
+      "https://xydxrz-3001.csb.app",
       "http://127.0.0.1:3002",
     ],
   })
