@@ -101,6 +101,7 @@ export const paginate = async (req, res) => {
   }
 
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.status(200).json({ data: p, obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -168,6 +169,7 @@ export const dataLength = async (req, res) => {
       obj = { ...obj, [k]: baza[database][k].length };
     }
     ///console.log("llllll   " + JSON.stringify(obj));
+    res.header("Access-Control-Allow-Origin", "*");
     res.status(200).json({ obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
