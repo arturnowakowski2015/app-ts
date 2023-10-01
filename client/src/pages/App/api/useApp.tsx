@@ -25,9 +25,10 @@ const useApp = () => {
   const { selectedRecord } = useTable(actcategory);
   const [pageSize, setPageSize] = useState(10);
   const [datalength, setDatalength] = useState<number>(0);
+ 
 
   const [set1, setSet1] = useState<Set>({
-    host: "https://xydxrz-3000.csb.app/",
+    host: "https://xydxrz-3000.csb.app/https://xydxrz-3000.csb.app/",
     actcategory: "new",
     database: "comments",
   });
