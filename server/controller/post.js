@@ -21,6 +21,7 @@ export const load = async (req, res) => {
   const { database } = req.params;
   try {
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     res.status(200).json(baza[database]);
   } catch (err) {
@@ -54,7 +55,7 @@ export const sortData = (req, res) => {
       obj = { ...obj, [k]: baza[database][k].length };
     }
     res.header("Access-Control-Allow-Origin", "*");
-
+     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.status(200).json({ data: p, obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -104,7 +105,8 @@ export const paginate = async (req, res) => {
   }
 
   try {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*");     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     res.status(200).json({ data: p, obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -172,7 +174,8 @@ export const dataLength = async (req, res) => {
       obj = { ...obj, [k]: baza[database][k].length };
     }
     ///console.log("llllll   " + JSON.stringify(obj));
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*");     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     res.status(200).json({ obj });
   } catch (err) {
     res.status(404).json({ message: err.message });
