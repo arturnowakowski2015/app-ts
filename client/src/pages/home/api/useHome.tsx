@@ -66,9 +66,9 @@ const useHome = (
   const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
   const setf = useCallback(() => {
-    refetchSorted();
+   // refetchSorted();
     alert(paginated_data?.["data"]?.["data"].length)
-    setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
+    //setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
   }, [paginated_data, refetchSorted]);
   useEffect(() => {
     setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
