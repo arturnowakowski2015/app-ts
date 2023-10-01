@@ -28,8 +28,7 @@ const useApp = () => {
  
 
   const [set1, setSet1] = useState<Set>({
-    host: "https://xydxrz-3000.csb.app/https://xydxrz-3000.csb.app/",
-    actcategory: "new",
+host:"oo",    actcategory: "new",
     database: "comments",
   });
   const changeSize = (i: number) => {
