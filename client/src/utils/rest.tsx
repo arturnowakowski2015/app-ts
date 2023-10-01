@@ -13,8 +13,8 @@ const getRec = async (url: string) => {
   let y: any = await api.get<DataAny>(url, {
     method: "GET",
   });
-  alert(y);
-  return y.json();
+
+  return y;
 };
 
 const getLength = async (url: string) => {
