@@ -78,7 +78,7 @@ const useHome = (
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
-  // }, [fetching, setoflen]);
+   }, [fetching, setoflen]);
   // useEffect(() => {
   //   let t: any;
   //   setFetching(true);
