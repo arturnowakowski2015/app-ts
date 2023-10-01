@@ -17,7 +17,7 @@ const useGetPaginatedData = (
     async () => {
       let url: string =
         set &&
-      
+        set.host +
           set.database +
           "/paginate/" +
           actcategory +
@@ -37,7 +37,7 @@ const useGetPaginatedData = (
     const f = async () => {
       let url: string =
         set &&
-      
+        set.host +
           set.database +
           "/paginate/" +
           actcategory +
@@ -55,7 +55,7 @@ const useGetPaginatedData = (
   useEffect(() => {
     let url: string =
       set &&
-    
+      set.host +
         set.database +
         "/paginate/" +
         actcategory +
@@ -69,7 +69,7 @@ const useGetPaginatedData = (
     });
     let url1: string =
       set &&
-
+      set.host +
         set.database +
         "/paginate/" +
         actcategory +
