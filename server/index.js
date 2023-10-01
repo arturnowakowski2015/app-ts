@@ -30,7 +30,9 @@ app.use(
       "http://localhost:3001",
       "http://localhost:3000",
       "http://127.0.0.1:3002",
-      "http://xydxrz-3000.csb.app"
+      "http://xydxrz-3000.csb.app",
+      "https://xydxrz-3000.csb.app"
+
     ],    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'
   ,"Access-Control-Allow-Origin"],
