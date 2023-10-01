@@ -22,10 +22,21 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(express.json());
+app.use((req,res, next)=>{
+  res.setHeader('Access-Control-Allow-Origin',"http://localhost:3000");
+  res.setHeader('Access-Control-Allow-Headers',"*");
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+});
 app.use(
   cors({
     credentials: true,
-    origin: true,
+    origin: [
+      "http://localhost:3001",
+      "http://localhost:3000",
+      "http://127.0.0.1:3002",
+      "https://xydxrz-3000.csb.app"
+    ],
   })
 );
 increase();
