@@ -12,8 +12,9 @@ import { api } from "./api";
 const getRec = async (url: string) => {
   let y: any = await api.get<DataAny>(url, {
     method: "GET",
-    'Access-Control-Allow-Origin' : '*',
-  });
+    headers:{
+      'Access-Control-Allow-Origin' : '*',
+  }  });
 
   return y;
 };
@@ -21,8 +22,9 @@ const getRec = async (url: string) => {
 const getLength = async (url: string) => {
   let y: any = await api.get<Lenghts>(url, {
     method: "GET",
+    headers:{
     'Access-Control-Allow-Origin' : '*',
-  });
+}});
 
   return y;
 };
