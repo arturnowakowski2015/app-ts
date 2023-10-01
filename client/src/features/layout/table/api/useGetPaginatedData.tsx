@@ -65,8 +65,7 @@ const useGetPaginatedData = (
         pageSize;
     queryClient.prefetchQuery(["paginate", currentPage], async () => {
       //console.log("prefetch 1");
-      alert(99)
-      return getRec(url);
+       return getRec(url);
     });
     let url1: string =
       set &&
