@@ -67,7 +67,7 @@ const useHome = (
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
   const setf = useCallback(() => {
     refetchSorted();
-    alert(paginated_data?.["data"]?.["data"].length)
+    //alert(paginated_data?.["data"]?.["data"].length)
     setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
   }, [paginated_data, refetchSorted]);
   useEffect(() => {
