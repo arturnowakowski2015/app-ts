@@ -29,6 +29,7 @@ const useLength = (isLen: boolean, set: Set) => {
         set.host + set.database + "/" + set.actcategory + "/len";
       //"http://localhost:3001/comments/new/len";
       let y: any = await api.get<Lenghts>(url, {
+        mode: 'cors',
         method: "GET",
       });
       return await y;
