@@ -22,16 +22,14 @@ const getRec = async (url: string) => {
 const getLength = async (url: string) => {
   let y: any = await api.get<Lenghts>(url, {
     method: "GET",
-    mode:"no-cors"
-  });
+   });
 
   return y;
 };
 const getRecord = async (url: string) => {
   let y: any = await api.get<any>(url, {
     method: "GET",
-    mode:"no-cors"
-
+ 
   });
 
   return y;

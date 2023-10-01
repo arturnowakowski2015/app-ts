@@ -20,6 +20,8 @@ export const increase = async (req, res) => {
 export const load = async (req, res) => {
   const { database } = req.params;
   try {
+    res.header("Access-Control-Allow-Origin", "*");
+
     res.status(200).json(baza[database]);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -51,6 +53,7 @@ export const sortData = (req, res) => {
     for (var k in baza[database]) {
       obj = { ...obj, [k]: baza[database][k].length };
     }
+    res.header("Access-Control-Allow-Origin", "*");
 
     res.status(200).json({ data: p, obj });
   } catch (err) {
