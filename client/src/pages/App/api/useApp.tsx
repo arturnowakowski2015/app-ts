@@ -30,7 +30,7 @@ const useApp = () => {
 
   
   const [set1, setSet1] = useState<Set>({
-    host: "https://xydxrz-3000.csb.app/",
+    host: "//https://xydxrz-3000.csb.app/",
     actcategory: "new",
     database: "comments",
   });
