@@ -18,16 +18,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
-const server = http.createServer(app);
-
-app.use(express.json());
-app.use((req,res, next)=>{
+app.use((req,res)=>{
   res.setHeader('Access-Control-Allow-Origin',"http://localhost:3000");
   res.setHeader('Access-Control-Allow-Headers',"*");
   res.header('Access-Control-Allow-Credentials', true);
-  next();
 });
+const server = http.createServer(app);
+
+app.use(express.json());
+
 app.use(
   cors({
     credentials: true,
