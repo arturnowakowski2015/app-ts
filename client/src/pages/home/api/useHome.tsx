@@ -70,8 +70,8 @@ const useHome = (
     alert(paginated_data?.["data"]?.["data"].length)
     //setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
   }, [paginated_data, refetchSorted]);
-  useEffect(() => {
-    setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {alert(999);
+   // setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     setIsDeleting(false);
