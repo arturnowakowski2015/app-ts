@@ -27,7 +27,7 @@ const useApp = () => {
   const [datalength, setDatalength] = useState<number>(0);
 
   const [set1, setSet1] = useState<Set>({
-    host: "http://localhost:3001/",
+    host: "https://xydxrz-3000.csb.app/",
     actcategory: "new",
     database: "comments",
   });
