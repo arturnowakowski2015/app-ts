@@ -14,7 +14,7 @@ const getRec = async (url: string) => {
     method: "GET",
   });
 
-  return y;
+  return y.json();
 };
 
 const getLength = async (url: string) => {
