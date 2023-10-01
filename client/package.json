@@ -1,4 +1,5 @@
 {
+  "proxy": "https://xydxrz-3000.csb.app",
   "name": "client",
   "version": "0.1.0",
   "private": true,
