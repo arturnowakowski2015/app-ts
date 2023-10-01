@@ -66,39 +66,38 @@ const useHome = (
   const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
   const setf = useCallback(() => {
-   // refetchSorted();
-    alert(paginated_data?.["data"]?.["data"].length)
-    //setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
+    refetchSorted();
+    setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
   }, [paginated_data, refetchSorted]);
-  useEffect(() => {alert(999);
-   // setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     setIsDeleting(false);
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
-   }, [fetching, setoflen]);
-  // useEffect(() => {
-  //   let t: any;
-  //   setFetching(true);
-  //   if (setoffetched.indexOf(currentPage) === -1) {
-  //     t = setTimeout(() => {
-  //       setf();
-  //       setFetching(false);
-  //       setoffetched.push(currentPage);
-  //       setSetoffetched(setoffetched);
-  //     }, 1000);
+  }, [fetching, setoflen]);
+  useEffect(() => {
+    let t: any;
+    setFetching(true);
+    if (setoffetched.indexOf(currentPage) === -1) {
+      t = setTimeout(() => {
+        setf();
+        setFetching(false);
+        setoffetched.push(currentPage);
+        setSetoffetched(setoffetched);
+      }, 1000);
 
-  //     // setSetoffetched(setoffetched);
-  //   } else {
-  //     setFetching(false);
-  //     setf();
-  //   }
-  //   return () => {
-  //     clearTimeout(t);
-  //   }; //if (fetching) setoffetched.push(currentPage);
-  // }, [paginated_data, currentPage, setoffetched, setf]);
+      // setSetoffetched(setoffetched);
+    } else {
+      setFetching(false);
+      setf();
+    }
+    return () => {
+      clearTimeout(t);
+    }; //if (fetching) setoffetched.push(currentPage);
+  }, [paginated_data, currentPage, setoffetched, setf]);
   useEffect(() => {
     setLen(sorted_data?.["data"]?.["obj"]?.[actcategory] as unknown as number);
 
