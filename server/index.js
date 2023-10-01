@@ -30,7 +30,7 @@ app.use(
       "http://localhost:3001",
       "http://localhost:3000",
       "http://127.0.0.1:3002",
-      "https://xydxrz-3000.csb.app"
+      "https://xydxrz-3000.csb.app/"
     ],
   })
 );
