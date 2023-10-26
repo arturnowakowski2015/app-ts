@@ -8,7 +8,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",
-      "url": "https://3chphk-3000.csb.appp",
+      "url": "https://nfw8h4-3001.csb.app",
       "webRoot": "${workspaceFolder}"
     }
   ]
