@@ -24,7 +24,7 @@ const useLength = (isLen: boolean, set: Set) => {
     refetch,
   } = useQuery(
     ["l", isLen],
-    async () => {alert(set.host)
+    async () => { 
       let url: string =
         set.host + set.database + "/" + set.actcategory + "/len";
       //"http://localhost:3001/comments/new/len";

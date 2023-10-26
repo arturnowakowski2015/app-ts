@@ -5,7 +5,7 @@ const useUpdateRec = (set: Set, data: DataTable) => {
   const queryClient = useQueryClient();
   const mutator = useMutation(
     async (id1: number) => {
-      let url: string = "//nfw8h4-3001.csb.app/comments/new/update/" + id1;
+      let url: string = "https://nfw8h4-3001.csb.app/comments/new/update/" + id1;
       try {
         return await updateRecord(url, { data: data });
       } catch (error) {
