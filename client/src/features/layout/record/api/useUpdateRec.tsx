@@ -9,7 +9,7 @@ const useUpdateRec = (set: Set, data: DataTable) => {
       try {
         return await updateRecord(url, { data: data });
       } catch (error) {
-        alert("dd " + error);
+        console.log("dd " + error);
       }
     },
     {

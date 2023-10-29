@@ -1,9 +1,12 @@
-import { Set, DataAny } from "../../../../model/Interface";
+import { useEffect } from "react";
+import { Set, DataAny, Data1 } from "../../../../model/Interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { len } from "./useGetSortedData";
+import { getRec } from "../../../../utils/rest";
 let len1 = len;
 export const useDeleteRow = (set: Set, currentPage: number) => {
   const queryClient = useQueryClient();
+
   const mutator = useMutation(
     async (id1: number) => {
       let r;
@@ -19,37 +22,43 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         );
         return await r.json();
       } catch (error) {
-        alert("dd " + error);
+        console.log("dd " + error);
       }
     },
     {
       onMutate: async (id1) => {
         // cancel all queries that contain the key "issues"
-        await queryClient.cancelQueries(["paginate", "sort"]);
+        await queryClient.cancelQueries([`paginate_${currentPage}`, "sort"]);
 
-        const currentPage1: any = (
-          queryClient.getQueryData(["paginate", currentPage]) as DataAny
-        )["data"];
-        const nextPage: any =
-          (queryClient.getQueryData([
-            "paginate",
-            Number(currentPage) + 1,
-          ]) as DataAny) &&
-          (
-            queryClient.getQueryData([
-              "paginate",
-              Number(currentPage) + 1,
-            ]) as DataAny
-          )["data"];
+        const currentPage1: any | undefined = (
+          queryClient.getQueryData([
+            `paginate_${currentPage}`,
+            currentPage,
+            "new",
+          ]) as DataAny
+        )?.["data"];
+        let nextPage: any | undefined = undefined;
 
-        (currentPage1 as DataAny) &&
-          (currentPage1 as DataAny)["data"].splice(
-            (currentPage1 as DataAny) &&
-              (currentPage1 as DataAny)["data"].findIndex((t) => {
-                return t.id === id1 && t;
-              }),
-            1
-          ); // eslint-disable-next-line
+        nextPage = (queryClient.getQueryData([`paginate_100`, 1]) as DataAny)[
+          "data"
+        ];
+
+        // const nextPage: any | undefined = (
+        //   queryClient.getQueryData([
+        //     `paginate_${currentPage + 1}`,
+        //     Number(currentPage) + 2,
+        //   ]) as DataAny
+        // )["data"];
+        let row: any = await nextPage?.data?.filter((t: any) => {
+          return t.id === id1 && t;
+        })[0];
+
+        (currentPage1 as Data1)["data"].splice(
+          (currentPage1 as Data1)["data"].findIndex((t) => {
+            return t.id === id1 && t;
+          }),
+          1
+        ); // eslint-disable-next-line
 
         // there might not be any issues left to add if a user clicks fast
         // and/or the internet connection is slow
@@ -63,32 +72,33 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
           });
   */
 
-        //alert(JSON.stringify(currentPage1));
-        if (currentPage1 && currentPage1["data"]) {
-          queryClient.setQueryData(["paginate", id1], {
-            ...currentPage1,
-            data: {
-              data: currentPage1.data.push(nextPage.data[0]),
-            },
+        // alert(JSON.stringify(row));
+        let choise = prompt("are You sure to delete ?", JSON.stringify(row));
+        if (currentPage1 && currentPage1["data"] && choise !== null) {
+          await queryClient.setQueryData(
+            [`paginate_${currentPage}`, currentPage],
+            {
+              ...currentPage1,
+              data: {
+                data: currentPage1.data.push(row),
+              },
+            }
+          );
+          nextPage.data = nextPage?.data?.filter((t: any) => {
+            return t.id !== id1 && t;
           });
+          // save the current data in the mutation context to be able to
+          // restore the previous state in case of an error
+
+          len1 = currentPage1.obj[set.actcategory];
         }
-        nextPage?.data.shift();
-        console.log(
-          "oooooooooooooooooooooooooooooooo",
-          JSON.stringify(nextPage)
-        );
 
-        // save the current data in the mutation context to be able to
-        // restore the previous state in case of an error
-
-        len1 = currentPage1.obj[set.actcategory];
         return { currentPage1, nextPage };
       },
       onSettled: async (res) => {
         // flag the query with key ["issues"] as invalidated
         // this causes a refetch of the issues data
         len1 = res.obj[set.actcategory];
-        queryClient.invalidateQueries(["paginate"]);
       },
     }
   );

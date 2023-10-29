@@ -55,10 +55,9 @@ const useApp = () => {
       setSetoflen({ ...result.data.obj });
 
       refetch();
-      //refetch();
       setIslen(false);
     }
-  }, [result, refetch]);
+  }, [result?.data?.obj]);
 
   const setLength = (e: number) => {
     setDatalength(e);

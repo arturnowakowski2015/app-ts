@@ -21,15 +21,17 @@ const useHome = (
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [lens, setLens] = useState<DataLengths>();
-
+  const [paginateFlag, setPaginateFlag] = useState<number>(0);
   const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
   useEffect(() => {
-    if (mutator.context?.nextPage.data.length < 2) {
-      setCurrentPage((currentPage) => currentPage + 1);
+    setPaginateFlag((paginateFlag) => paginateFlag + 1);
+    if (paginateFlag === 10) {
+      setCurrentPage(currentPage);
+      setPaginateFlag(0);
     }
     // alert(currentPage + ":::" + mutator.context?.nextPage.data.length);
   }, [currentPage, mutator.context?.nextPage.data.length]);
-  const { data: paginated_data } = useGetPaginatedData(
+  const { data: paginated_data, refetch } = useGetPaginatedData(
     location.pathname.split("/")[1],
     pageSize,
     direction,
@@ -49,7 +51,7 @@ const useHome = (
     showSelectedColumn,
   } = useTempTable(
     set && set.actcategory,
-    paginated_data && paginated_data["data"] && paginated_data["data"]["data"],
+    paginated_data?.["data"]?.["data"],
     treedata
   );
 
@@ -65,15 +67,19 @@ const useHome = (
   );
   const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
+  const [paginatedFlag, setPaginatedFlag] = useState<boolean>(false);
   const setf = useCallback(() => {
     refetchSorted();
     setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
+    refetch();
+    setPaginatedFlag(false);
   }, [paginated_data, refetchSorted]);
   useEffect(() => {
     setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     setIsDeleting(false);
+    setPaginatedFlag(true);
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
@@ -99,16 +105,20 @@ const useHome = (
     }; //if (fetching) setoffetched.push(currentPage);
   }, [paginated_data, currentPage, setoffetched, setf]);
   useEffect(() => {
-    setLen(sorted_data?.["data"]?.["obj"]?.[actcategory] as unknown as number);
+    if (paginatedFlag === false) {
+      setLen(
+        sorted_data?.["data"]?.["obj"]?.[actcategory] as unknown as number
+      );
+      //alert(sorted_data?.["data"]?.["data"] as unknown as any[]);
 
-    setResult(sorted_data?.["data"]?.["data"] as unknown as any[]);
+      setResult(sorted_data?.["data"]?.["data"] as unknown as any[]);
+    } else setPaginatedFlag(false);
     //console.log(3333333333333);
   }, [sorted_data, actcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
-
   useEffect(() => {
-    setResult(mutator.context?.currentPage1.data);
+    setf();
     setCross(false); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cross]);
+  }, [cross, mutator.context?.currentPage1.data]);
 
   const deleteRow = (id: number) => {
     mutator.mutate(id);

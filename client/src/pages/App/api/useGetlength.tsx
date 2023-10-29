@@ -23,7 +23,7 @@ const useLength = (isLen: boolean, set: Set) => {
     isLoading,
     refetch,
   } = useQuery(
-    ["l", isLen],
+    ["length", isLen],
     async () => {
       let url: string =
         set.host + set.database + "/" + set.actcategory + "/len";

@@ -2,7 +2,7 @@ import { Set } from "../../../../model/Interface";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { getRec } from "../../../../utils/rest";
-
+import { useLength } from "../../../../pages/App/api/useGetlength";
 const useGetPaginatedData = (
   changeLocation: string,
   pageSize: number,
@@ -12,8 +12,9 @@ const useGetPaginatedData = (
   set: Set,
   actcategory: string
 ) => {
+  const { result } = useLength(true, set);
   let { data, isFetching, isLoading, isSuccess, refetch } = useQuery(
-    ["paginate", currentPage, changeLocation],
+    [`paginate_${currentPage}`, currentPage, changeLocation],
     async () => {
       let url: string =
         set &&
@@ -30,7 +31,7 @@ const useGetPaginatedData = (
 
       return getRec(url);
     },
-    { keepPreviousData: true, staleTime: 10000 }
+    { keepPreviousData: true, staleTime: 1 }
   );
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -50,43 +51,25 @@ const useGetPaginatedData = (
 
       return getRec(url);
     };
-    f(); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    let url: string =
+
+    f();
+    let url: string = "";
+    url =
       set &&
       set.host +
         set.database +
         "/paginate/" +
         actcategory +
         "/" +
-        currentPage +
+        1 +
         "/" +
-        pageSize;
-    queryClient.prefetchQuery(["paginate", currentPage], async () => {
+        result.data.obj?.[actcategory];
+    queryClient.prefetchQuery([`paginate_${100}`, 1], async () => {
       //console.log("prefetch 1");
       return getRec(url);
     });
-    let url1: string =
-      set &&
-      set.host +
-        set.database +
-        "/paginate/" +
-        actcategory +
-        "/" +
-        (Number(currentPage) + 1) +
-        "/" +
-        pageSize;
-    queryClient.prefetchQuery(
-      ["paginate", Number(currentPage) + 1],
-      async () => {
-        console.log("prefetch 1+1");
-        return getRec(url1);
-      }
-    );
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, queryClient]);
+  }, [currentPage]);
 
   return { isLoading, isFetching, isSuccess, data, refetch } as const;
 };

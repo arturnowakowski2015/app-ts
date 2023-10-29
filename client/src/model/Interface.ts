@@ -6,8 +6,11 @@ export interface fetchActionSet {
   token?: string;
   data?: Data;
 }
+export interface Data1 {
+  data: any[];
+}
 export interface DataAny {
-  [id: string]: any[];
+  [id: string]: Data1;
 }
 interface ColumnsHeader {
   title: string;

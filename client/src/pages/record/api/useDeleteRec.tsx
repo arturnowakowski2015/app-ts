@@ -19,7 +19,7 @@ export const useDeleteRec = (set: Set, currentPage: number) => {
 
         return y;
       } catch (error) {
-        alert("dd " + error);
+        console.log("dd11 " + error);
       }
     },
     {
