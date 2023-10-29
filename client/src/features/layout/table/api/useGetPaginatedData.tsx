@@ -1,6 +1,6 @@
 import { Set } from "../../../../model/Interface";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getRec } from "../../../../utils/rest";
 import { useLength } from "../../../../pages/App/api/useGetlength";
 const useGetPaginatedData = (
@@ -12,7 +12,11 @@ const useGetPaginatedData = (
   set: Set,
   actcategory: string
 ) => {
-  const { result } = useLength(true, set);
+  const [st, setSt] = useState<boolean>(false);
+  useEffect(() => {
+    setSt(true);
+  }, []);
+  const { result } = useLength(st, set);
   let { data, isFetching, isLoading, isSuccess, refetch } = useQuery(
     [`paginate_${currentPage}`, currentPage, changeLocation],
     async () => {
@@ -51,7 +55,6 @@ const useGetPaginatedData = (
 
       return getRec(url);
     };
-
     f();
     let url: string = "";
     url =
@@ -63,7 +66,7 @@ const useGetPaginatedData = (
         "/" +
         1 +
         "/" +
-        result.data.obj?.[actcategory];
+        130000;
     queryClient.prefetchQuery([`paginate_${100}`, 1], async () => {
       //console.log("prefetch 1");
       return getRec(url);

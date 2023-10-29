@@ -83,13 +83,13 @@ const useHome = (
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
+    setf();
   }, [fetching, setoflen]);
   useEffect(() => {
     let t: any;
     setFetching(true);
     if (setoffetched.indexOf(currentPage) === -1) {
       t = setTimeout(() => {
-        setf();
         setFetching(false);
         setoffetched.push(currentPage);
         setSetoffetched(setoffetched);
@@ -98,12 +98,11 @@ const useHome = (
       // setSetoffetched(setoffetched);
     } else {
       setFetching(false);
-      setf();
     }
     return () => {
       clearTimeout(t);
     }; //if (fetching) setoffetched.push(currentPage);
-  }, [paginated_data, currentPage, setoffetched, setf]);
+  }, [paginated_data, currentPage, setoffetched]);
   useEffect(() => {
     if (paginatedFlag === false) {
       setLen(

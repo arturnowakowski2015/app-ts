@@ -73,8 +73,7 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
   */
 
         // alert(JSON.stringify(row));
-        let choise = prompt("are You sure to delete ?", JSON.stringify(row));
-        if (currentPage1 && currentPage1["data"] && choise !== null) {
+        if (currentPage1 && currentPage1["data"]) {
           await queryClient.setQueryData(
             [`paginate_${currentPage}`, currentPage],
             {
