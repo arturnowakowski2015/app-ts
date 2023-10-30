@@ -37,7 +37,7 @@ const useSettings = (
     treedata
   );
   useEffect(() => {
-    refetch();
+    refetch(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [database]);
 
   return {
@@ -45,6 +45,7 @@ const useSettings = (
     columns,
     setDirection,
     showSelectedColumn,
+    setLen,
     paginated_data,
     onSort,
     showChevron,

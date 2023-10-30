@@ -35,7 +35,7 @@ const useGetPaginatedData = (
 
       return getRec(url);
     },
-    { keepPreviousData: true, staleTime: 1 }
+    { keepPreviousData: true, staleTime: 10000 }
   );
   const queryClient = useQueryClient();
   useEffect(() => {

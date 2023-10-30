@@ -1,13 +1,4 @@
-import {
-  Set,
-  Column,
-  DataAny,
-  Lenghts,
-  RecordData,
-  DataTable,
-} from "../model/Interface";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { DataAny, Lenghts, RecordData } from "../model/Interface";
 import { api } from "./api";
 const getRec = async (url: string) => {
   let y: any = await api.get<DataAny>(url, {

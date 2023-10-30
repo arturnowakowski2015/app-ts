@@ -24,10 +24,8 @@ const useHome = (
   const [paginateFlag, setPaginateFlag] = useState<number>(0);
   const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
   useEffect(() => {
-    setPaginateFlag((paginateFlag) => paginateFlag + 1);
     if (paginateFlag === 10) {
       setCurrentPage(currentPage);
-      setPaginateFlag(0);
     }
     // alert(currentPage + ":::" + mutator.context?.nextPage.data.length);
   }, [currentPage, mutator.context?.nextPage.data.length]);
@@ -68,12 +66,15 @@ const useHome = (
   const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
   const [paginatedFlag, setPaginatedFlag] = useState<boolean>(false);
+  const [t, setT] = useState<boolean>(false);
   const setf = useCallback(() => {
     refetchSorted();
     setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
-    refetch();
+    //
     setPaginatedFlag(false);
-  }, [paginated_data, refetchSorted]);
+    if (cross) refetch();
+  }, [paginated_data, refetchSorted, cross]);
+
   useEffect(() => {
     setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,13 +84,13 @@ const useHome = (
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
     setLens(setoflen);
-    setf();
   }, [fetching, setoflen]);
   useEffect(() => {
     let t: any;
     setFetching(true);
     if (setoffetched.indexOf(currentPage) === -1) {
       t = setTimeout(() => {
+        setf();
         setFetching(false);
         setoffetched.push(currentPage);
         setSetoffetched(setoffetched);
@@ -98,7 +99,9 @@ const useHome = (
       // setSetoffetched(setoffetched);
     } else {
       setFetching(false);
+      setf();
     }
+
     return () => {
       clearTimeout(t);
     }; //if (fetching) setoffetched.push(currentPage);
