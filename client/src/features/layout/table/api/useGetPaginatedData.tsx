@@ -12,11 +12,7 @@ const useGetPaginatedData = (
   set: Set,
   actcategory: string
 ) => {
-  const [st, setSt] = useState<boolean>(false);
-  useEffect(() => {
-    setSt(true);
-  }, []);
-  const { result } = useLength(st, set);
+
   let { data, isFetching, isLoading, isSuccess, refetch } = useQuery(
     [`paginate_${currentPage}`, currentPage, changeLocation],
     async () => {

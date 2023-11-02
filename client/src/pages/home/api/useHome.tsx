@@ -72,7 +72,7 @@ const useHome = (
     setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
     //
     setPaginatedFlag(false);
-    if (cross) refetch();
+    refetch();
   }, [paginated_data, refetchSorted, cross]);
 
   useEffect(() => {
@@ -101,11 +101,10 @@ const useHome = (
       setFetching(false);
       setf();
     }
-
     return () => {
       clearTimeout(t);
     }; //if (fetching) setoffetched.push(currentPage);
-  }, [paginated_data, currentPage, setoffetched]);
+  }, [sorted_data, currentPage, setoffetched]);
   useEffect(() => {
     if (paginatedFlag === false) {
       setLen(

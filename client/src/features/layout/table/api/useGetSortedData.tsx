@@ -26,7 +26,7 @@ const useGetSortedData = (
           "/" +
           columns?.[selectedColumn]?.col?.title +
           "/" +
-          (chevron ? "DESC" : "ASC") +
+          (chevron ? "ASC" : "DESC") +
           "/" +
           currentPage +
           "/" +
