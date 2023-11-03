@@ -32,7 +32,7 @@ const useBuildChevron = (columns: Column[]) => {
       });
     setChevron({
       atall: true,
-      down: true,
+      down: !chevron.down,
       title: "",
       class: [...chevron.class],
     });

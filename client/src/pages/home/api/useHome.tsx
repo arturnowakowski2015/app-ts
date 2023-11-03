@@ -67,13 +67,13 @@ const useHome = (
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
   const [paginatedFlag, setPaginatedFlag] = useState<boolean>(false);
   const [t, setT] = useState<boolean>(false);
-  const setf = useCallback(() => {
+  const setf = () => {
     refetchSorted();
     setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
     //
     setPaginatedFlag(false);
     refetch();
-  }, [paginated_data, refetchSorted, cross]);
+  };
 
   useEffect(() => {
     setf(); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,14 +106,15 @@ const useHome = (
     }; //if (fetching) setoffetched.push(currentPage);
   }, [sorted_data, currentPage, setoffetched]);
   useEffect(() => {
-    if (paginatedFlag === false) {
-      setLen(
-        sorted_data?.["data"]?.["obj"]?.[actcategory] as unknown as number
-      );
-      //alert(sorted_data?.["data"]?.["data"] as unknown as any[]);
+    setLen(sorted_data?.["data"]?.["obj"]?.[actcategory] as unknown as number);
+    //alert(sorted_data?.["data"]?.["data"] as unknown as any[]);
 
+    if (
+      sorted_data?.["data"]?.["data"][0].id ===
+      mutator.context?.currentPage1.data[0].id
+    )
       setResult(sorted_data?.["data"]?.["data"] as unknown as any[]);
-    } else setPaginatedFlag(false);
+
     //console.log(3333333333333);
   }, [sorted_data, actcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {

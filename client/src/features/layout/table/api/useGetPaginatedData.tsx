@@ -12,7 +12,6 @@ const useGetPaginatedData = (
   set: Set,
   actcategory: string
 ) => {
-
   let { data, isFetching, isLoading, isSuccess, refetch } = useQuery(
     [`paginate_${currentPage}`, currentPage, changeLocation],
     async () => {
@@ -26,7 +25,6 @@ const useGetPaginatedData = (
           currentPage +
           "/" +
           pageSize;
-
       // console.log("paginate 1");
 
       return getRec(url);
