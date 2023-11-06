@@ -4,7 +4,6 @@ import { Chevron, Column } from "../../../../model/Interface";
 
 const useBuildChevron = (columns: Column[]) => {
   let ch: string[] = [];
-  const chevron1 = useRef<Function>();
   const [chevron, setChevron] = useState<Chevron>({
     atall: true,
     down: true,
@@ -20,9 +19,8 @@ const useBuildChevron = (columns: Column[]) => {
       class: [...ch],
     });
   };
-  chevron1.current = createChevron;
   useEffect(() => {
-    if (chevron1.current) chevron1.current();
+    createChevron(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns]);
   const buildchevron = (fc: Column[]) => {
     fc &&

@@ -46,6 +46,7 @@ export function Home({
     setCurrentPage,
     deleteRow,
   } = useHome(set, setoflen, pageSize, treedata, actcategory);
+
   return (
     <div className="container">
       <div className="left">

@@ -19,28 +19,15 @@ const useTempTable = (
   treedata: IMenuItems[]
 ) => {
   let columns: Column[] = [];
-
-  const navigate = useNavigate();
-  const [tableflag, setTableflag] = useState(1);
-  /*const filterData = (str: string): DataTable[] | undefined => {
-    if (data && (actualcategory === "new" || actualcategory === "postponed")) {
-      return data[actualcategory].filter((t) => {
-        return typeof t.name === "string" && t.name.includes(str);
-      });
-    }
-  };
- 
-  
-  */
   const [chevron, setChevron] = useState<Boolean>(false);
   const [enabled, setEnabled] = useState<Enabled>({
     e: [false, false],
   } as Enabled);
 
-  const showChevron = (str: Boolean) => {
-    setChevron(str);
+  const showChevron = (flag: Boolean) => {
+    setChevron(!chevron);
   };
-  const [sort, setSort] = useState<boolean>(false);
+  const [sort, setSort] = useState<boolean>(true);
   const [selectedColumn, setSelectedColumn] = useState<number>(0);
   const showSelectedColumn = (i: number) => {
     setSelectedColumn(i);
