@@ -55,7 +55,7 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
 
         (currentPage1 as Data1)["data"].splice(
           (currentPage1 as Data1)["data"].findIndex((t) => {
-            return t.id === id1 && t;
+            return t?.id === id1 && t;
           }),
           1
         ); // eslint-disable-next-line

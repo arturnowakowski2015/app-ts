@@ -1,21 +1,40 @@
 import { baza } from "../model/baza1.js";
-export const increase = async (req, res) => {
-  for (let i = baza["comments"]["new"].length; i < 130000; i++)
-    baza["comments"]["new"].push({
+const multiplyComments = (category, max) => {
+  for (let i = baza["comments"][category]?.length; i < max; i++)
+    baza["comments"][category]?.push({
       postId: 1,
-      id: baza["comments"]["new"].length + i,
+      id: baza["comments"][category]?.length + i,
       name: "id labore ex et quam laborum",
       email: "Eliseo@gardner.biz",
       body: "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",
     });
-  for (let i = baza["photos"]["new"].length; i < 130000; i++)
-    baza["photos"]["new"].push({
+};
+const multiplyPhotos = (actcategory, max) => {
+  for (let i = baza["photos"][actcategory]?.length; i < 130000; i++)
+    baza["photos"][actcategory]?.push({
       albumId: 100,
-      id: baza["photos"]["new"].length + i,
+      id: baza["photos"][actcategory]?.length + i,
       title: "officiis exercitationem quia",
       url: "https://via.placeholder.com/600/34ac70",
       thumbnailUrl: "https://via.placeholder.com/150/34ac70",
     });
+};
+export const increase = async (req, res) => {
+  multiplyComments("new", 130000);
+  multiplyComments("root", 4300);
+  multiplyComments("labels", 900);
+  multiplyComments("postponed", 2000);
+  multiplyComments("selected", 9000);
+
+  multiplyComments("removed", 4000);
+
+  multiplyPhotos("new", 76000);
+  multiplyPhotos("root", 4300);
+  multiplyPhotos("labels", 3900);
+  multiplyPhotos("postponed", 1000);
+  multiplyPhotos("selected", 3000);
+
+  multiplyPhotos("removed", 2000);
 };
 export const load = async (req, res) => {
   const { database } = req.params;
