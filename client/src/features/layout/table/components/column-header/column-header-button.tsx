@@ -38,7 +38,7 @@ export function ColumnHeaderButton({
           ^
         </div>
       )}
-      <div>{title}</div>
+      <div className="string">{title}</div>
     </div>
   );
 }

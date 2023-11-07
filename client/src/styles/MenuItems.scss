@@ -26,14 +26,14 @@ span {
 }
 @mixin basic-menuitem($v, $f) {
   background-color: nth(map.get(set.$colors, "selected-#{$v}"), $f);
-  width: 100%;
+  width: 110%;
   transition: background-color 1s;
   cursor: pointer;
 
   border-radius: 20px 1px 4px 20px;
 }
 .node {
-  padding: 5px;
+  padding-top: 3px;
   text-align: left;
   @each $v in 1, 2, 3 {
     .selected-#{$v} {
