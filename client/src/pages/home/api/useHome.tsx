@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { IMenuItems, Set, DataLengths } from "../../../model/Interface";
 import { useTempTable } from "../../../features/layout/table/api/useTempTable";
 import { useGetPaginatedData } from "../../../features/layout/table/api/useGetPaginatedData";
@@ -21,14 +21,8 @@ const useHome = (
   const [len, setLen] = useState<number | undefined>(0);
   const [direction, setDirection] = useState<boolean>(true);
   const [lens, setLens] = useState<DataLengths>();
-  const [paginateFlag, setPaginateFlag] = useState<number>(0);
   const { mutator, len1: mutatedLen } = useDeleteRow(set, currentPage);
-  useEffect(() => {
-    if (paginateFlag === 10) {
-      setCurrentPage(currentPage);
-    }
-    // alert(currentPage + ":::" + mutator.context?.nextPage.data.length);
-  }, [currentPage, mutator.context?.nextPage.data.length]);
+
   const { data: paginated_data, refetch } = useGetPaginatedData(
     location.pathname.split("/")[1],
     pageSize,
@@ -65,13 +59,10 @@ const useHome = (
   );
   const [fetching, setFetching] = useState<boolean | undefined>(undefined);
   const [setoffetched, setSetoffetched] = useState<number[]>([] as number[]);
-  const [paginatedFlag, setPaginatedFlag] = useState<boolean>(false);
-  const [t, setT] = useState<boolean>(false);
   const setf = () => {
     refetchSorted();
     setResult(paginated_data?.["data"]?.["data"] as unknown as any[]);
     //
-    setPaginatedFlag(false);
     refetch();
   };
 
@@ -80,10 +71,10 @@ const useHome = (
   }, []);
   useEffect(() => {
     setIsDeleting(false);
-    setPaginatedFlag(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutator.context?.nextPage, setoflen]);
   useEffect(() => {
-    setLens(setoflen);
+    setLens(setoflen); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetching, setoflen]);
   useEffect(() => {
     let t: any;
@@ -95,28 +86,24 @@ const useHome = (
         setoffetched.push(currentPage);
         setSetoffetched(setoffetched);
       }, 1000);
-
-      // setSetoffetched(setoffetched);
     } else {
       setFetching(false);
       setf();
     }
     return () => {
       clearTimeout(t);
-    }; //if (fetching) setoffetched.push(currentPage);
+    }; // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sorted_data, currentPage, setoffetched]);
   useEffect(() => {
     setLen(sorted_data?.["data"]?.["obj"]?.[actcategory] as unknown as number);
-    //alert(sorted_data?.["data"]?.["data"] as unknown as any[]);
 
     if (
       sorted_data?.["data"]?.["data"][0].id ===
       mutator.context?.currentPage1.data[0].id
     )
       setResult(sorted_data?.["data"]?.["data"] as unknown as any[]);
-
-    //console.log(3333333333333);
-  }, [sorted_data, actcategory]); // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sorted_data, actcategory]);
   useEffect(() => {
     setf();
     setCross(false); // eslint-disable-next-line react-hooks/exhaustive-deps

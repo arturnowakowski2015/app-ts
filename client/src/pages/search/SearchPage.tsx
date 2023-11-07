@@ -42,7 +42,6 @@ export const SearchPage = ({
     query,
     filteredOptions,
     setQuery,
-    reset,
     lens,
     setDirection,
     showSelectedColumn,
@@ -51,17 +50,11 @@ export const SearchPage = ({
     setCurrentPage,
     currentPage,
     onSort,
-    cross,
   } = useSearch(
-    url,
-    setoflen,
     treedata,
-    length,
-    overItem,
-    set,
-    pageSize,
 
-    set && set.actcategory
+    set,
+    pageSize
   );
   const [op, setOp] = useState<boolean>(false);
   return (

@@ -1,6 +1,5 @@
-import { Set, Column, DataAny } from "../../../model/Interface";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { Set } from "../../../model/Interface";
+import { useQuery } from "@tanstack/react-query";
 import { getFilteredStr } from "../../../utils/rest";
 
 export const useFilterData = (

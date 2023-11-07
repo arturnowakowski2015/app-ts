@@ -1,8 +1,6 @@
-import { useEffect } from "react";
 import { Set, DataAny, Data1 } from "../../../../model/Interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { len } from "./useGetSortedData";
-import { getRec } from "../../../../utils/rest";
 let len1 = len;
 export const useDeleteRow = (set: Set, currentPage: number) => {
   const queryClient = useQueryClient();
@@ -60,19 +58,6 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
           1
         ); // eslint-disable-next-line
 
-        // there might not be any issues left to add if a user clicks fast
-        // and/or the internet connection is slow
-
-        // remove resolved issue from the cache so it immediately
-        // disappears from the UI
-
-        /*       queryClient.setQueryData(["issues"], {
-            ...currentPage,
-            items: currentPage.items.filter(({ id }) => id !== issueId),
-          });
-  */
-
-        // alert(JSON.stringify(row));
         if (currentPage1 && currentPage1["data"]) {
           await queryClient.setQueryData(
             [`paginate_${currentPage}`, currentPage],
@@ -95,8 +80,6 @@ export const useDeleteRow = (set: Set, currentPage: number) => {
         return { currentPage1, nextPage };
       },
       onSettled: async (res) => {
-        // flag the query with key ["issues"] as invalidated
-        // this causes a refetch of the issues data
         len1 = res.obj[set.actcategory];
       },
     }

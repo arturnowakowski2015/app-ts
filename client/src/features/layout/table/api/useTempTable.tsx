@@ -1,16 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useMemo } from "react";
 
-import {
-  Column,
-  DataTable,
-  Enabled,
-  IMenuItems,
-} from "../../../../model/Interface";
-
-interface Lenghts {
-  [id: string]: number;
-}
+import { Column, Enabled, IMenuItems } from "../../../../model/Interface";
 
 const useTempTable = (
   actualcategory: string,

@@ -1,7 +1,7 @@
 .root {
   height: 50px;
   width: 300px;
-  margin-left: 180px;
+
   background-color: rgb(219, 206, 234);
 }
 .menuHome {
@@ -11,31 +11,41 @@
 .menu {
   background-color: rgb(231, 226, 237);
   width: 300px;
-  margin-left: 180px;
 }
 .menu1 {
   background-color: rgb(231, 226, 237);
   width: 410px;
 }
+
 .settings1 {
   padding-left: 300px;
   padding-top: 50px;
-
   .div {
     background-color: antiquewhite;
     text-decoration: underline;
     position: relative;
     left: -10px;
-    top: -120px;
-  }
-  .div1 {
-    position: relative;
-    left: -10px;
     top: -80px;
+  }
+  container {
+    display: flex;
+    flex-direction: row;
+    .pagesize {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .changedatabase {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  .table {
+    margin-top: 85px;
   }
 }
 
-.label1 {
+.labelq {
   position: absolute;
   top: 160px;
   left: 480px;

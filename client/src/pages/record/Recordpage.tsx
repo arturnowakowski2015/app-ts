@@ -55,11 +55,7 @@ export function Recordpage({
 }: IProps) {
   const location = useLocation();
 
-  const [result, setResult] = useState<any[] | undefined>([] as any[]);
-  const [len, setLen] = useState<number | undefined>(0);
-  const [direction, setDirection] = useState<boolean>(true);
-  const [ref, setRef] = useState<boolean>(false);
-  const { currentPage, setLen: s } = useHome(
+  const { currentPage } = useHome(
     set,
     setoflen,
     pageSize,
@@ -69,8 +65,8 @@ export function Recordpage({
   const { data: paginated_data } = useGetPaginatedData(
     location.pathname.split("/")[1],
     1,
-    direction,
-    len as number,
+    true,
+    0,
     currentPage,
     set,
     actcategory
@@ -85,7 +81,7 @@ export function Recordpage({
   const data = useGetRecord(id, set);
   const mutator = useDeleteRec(set, currentPage);
   useEffect(() => {
-    setId(Number(location.pathname.split("/")[2]));
+    setId(Number(location.pathname.split("/")[2])); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="container">

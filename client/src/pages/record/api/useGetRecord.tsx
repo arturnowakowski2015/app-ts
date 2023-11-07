@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { Lenghts, Set } from "../../../model/Interface";
-import { api } from "../../../utils/api";
+import { Set } from "../../../model/Interface";
 import { getRecord } from "../../../utils/rest";
 
 const useGetRecord = (id: number, set: Set) => {

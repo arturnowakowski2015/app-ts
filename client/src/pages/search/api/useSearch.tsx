@@ -5,31 +5,22 @@ import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
 import { useEffect } from "react";
 let data1 = ["a", "aa", "aaa"];
 const useSearch = (
-  url: string,
-  setoflen: DataLengths,
   treedata: IMenuItems[],
-  length: number,
-  overItem: string,
+
   set: Set,
-  pageSize: number,
-  actcategory: string
+  pageSize: number
 ) => {
   const [options, setOptions] = useState<string[]>([""]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [len, setLen] = useState<number | undefined>(0);
-  const [direction, setDirection] = useState<boolean>(true);
+  const [direction, setDirection] = useState<boolean>();
   const [cross, setCross] = useState<boolean>(false);
   const [lens, setLens] = useState<DataLengths>();
   const [query, setQuery] = useState(" ");
   useEffect(() => {
     setCurrentPage(1);
+    setCross(false);
   }, []);
-  const {
-    isLoading,
-    isFetching,
-    isSuccess,
-    data: filtered_data,
-  } = useFilterData(
+  const { data: filtered_data } = useFilterData(
     pageSize,
 
     currentPage,
@@ -42,9 +33,7 @@ const useSearch = (
     filtered_data && filtered_data["data"] && filtered_data["data"]["data"];
   const {
     columns,
-    chevron,
-    selectedColumn,
-    sort,
+
     onSort,
     showChevron,
     showSelectedColumn,
@@ -63,8 +52,8 @@ const useSearch = (
     setOptions([""]);
   };
   useEffect(() => {
-    console.log(JSON.stringify(filtered_data && filtered_data["data"]));
-    setLens(filtered_data && filtered_data["data"]["len"]);
+    console.log(direction);
+    setLens(filtered_data && filtered_data["data"]["len"]); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   return {
     data,

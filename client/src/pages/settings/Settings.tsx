@@ -1,9 +1,6 @@
 import { Route, useNavigate, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
 import TreeSettings from "../../features/layout/tree-settings/tree-settings";
 import { IMenuItems, Set } from "../../model/Interface";
-import { useTempTable } from "../../features/layout/table/api/useTempTable";
-import { useGetPaginatedData } from "../../features/layout/table/api/useGetPaginatedData";
 
 import { Element } from "../../model/Interface";
 
@@ -58,7 +55,6 @@ export const Settings = ({
   const {
     len,
     columns,
-    setDirection,
     showSelectedColumn,
     paginated_data,
     onSort,
@@ -83,55 +79,61 @@ export const Settings = ({
           path="tablesettings"
           element={
             <div className="settings1">
-              <div className="settingtable">
-                <div className="div" onClick={preview}>
-                  preview
+              <div className="div" onClick={preview}>
+                preview
+              </div>
+              <div className="div" onClick={() => navigate("treesettings")}>
+                tree settings
+              </div>
+              <div className="container">
+                <div className="changedatabase">
+                  <div style={{ whiteSpace: "nowrap" }}>change database</div>
+                  <select
+                    onChange={(e) => {
+                      loadDatabase(e.target.value as string);
+                      setDatabase(e.target.value as string);
+                    }}
+                  >
+                    <option value="comments">comments</option>
+                    <option value="photos">photos</option>
+                  </select>
                 </div>
-                <div className="div" onClick={() => navigate("treesettings")}>
-                  tree settings
+                <div className="pagesize">
+                  <div>{pageSize}</div>
+                  <div>
+                    <input
+                      type="range"
+                      name="quantity"
+                      min="1"
+                      max={120}
+                      value={pageSize}
+                      onChange={(q) => {
+                        changeSize(q);
+                        refetch();
+                      }}
+                    />
+                  </div>
                 </div>
-                <label className="div1">change database</label>
-                <select
-                  className="div1"
-                  onChange={(e) => {
-                    loadDatabase(e.target.value as string);
-                    setDatabase(e.target.value as string);
-                  }}
-                >
-                  <option value="comments">comments</option>
-                  <option value="photos">photos</option>
-                </select>
-                {pageSize}
-                <input
-                  className="div1"
-                  type="range"
-                  name="quantity"
-                  min="1"
-                  max={120}
-                  value={pageSize}
-                  onChange={(q) => {
-                    changeSize(q);
-                    refetch();
-                  }}
+              </div>
+              <div className="table">
+                <Table
+                  iflen={false}
+                  cross={true}
+                  sort={() => onSort()}
+                  showChevron={(e: Boolean) => showChevron(e)}
+                  columns={columns}
+                  pageSize={pageSize}
+                  result={
+                    paginated_data &&
+                    paginated_data["data"] &&
+                    (paginated_data["data"]["data"] as unknown as any[])
+                  }
+                  showSelectedColumn={showSelectedColumn}
+                  showQuery={(i) => {}}
+                  deleteRow={(i) => {}}
+                  len={len as number}
                 />
               </div>
-              <Table
-                iflen={false}
-                cross={true}
-                sort={() => onSort()}
-                showChevron={(e: Boolean) => showChevron(e)}
-                columns={columns}
-                pageSize={pageSize}
-                result={
-                  paginated_data &&
-                  paginated_data["data"] &&
-                  (paginated_data["data"]["data"] as unknown as any[])
-                }
-                showSelectedColumn={showSelectedColumn}
-                showQuery={(i) => {}}
-                deleteRow={(i) => {}}
-                len={len as number}
-              />
             </div>
           }
         />
@@ -176,7 +178,7 @@ export const Settings = ({
                   handleDragEnd={handleDragEnd}
                 />
               </div>
-              <div className="label1">1. drag'n'drop tree menu items</div>
+              <div className="labelq">1. drag'n'drop tree menu items</div>
             </div>
           }
         />

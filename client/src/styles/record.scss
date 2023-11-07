@@ -1,4 +1,13 @@
 .recordcontainer {
-  margin-left: 100px;
   margin-top: 20px;
+  position: relative;
+  left: -350px;
+}
+@each $v in 1, 2, 3, 4 {
+  .label#{$v} {
+    background-color: bisque;
+    padding-top: 10 + $v + "px";
+    margin-left: 460px;
+    width: 100px;
+  }
 }

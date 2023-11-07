@@ -43,14 +43,20 @@ export const Rec = ({
   return (
     <div className="recordcontainer">
       <div style={{ height: "20px" }}>
-        {mutator.isLoading && <div>...loading</div>}
+        {mutator.isLoading && <div>...deleting</div>}
         {mutator.isSuccess && <div>Successfully deleted !!!</div>}
         {updateMutator.isLoading && <div>...updating</div>}
         {updateMutator.isSuccess && <div>Successfully updated !!!</div>}
+      </div>{" "}
+      <div className="label1">
+        {"  >  " + data && Object.entries(data) && Object.keys(data)[1]}
       </div>
       <input type="text" value={id} />
       <br /> <br />
-      <br />
+      <br />{" "}
+      <div className="label2">
+        {"  >  " + data && Object.entries(data) && Object.keys(data)[2]}
+      </div>
       <input
         type="text"
         value={
@@ -63,9 +69,12 @@ export const Rec = ({
           })
         }
       />
-      {"  >  " + data && Object.entries(data) && Object.keys(data)[2]}
       <br /> <br />
       <br />
+      <div className="label3">
+        {" "}
+        {"  >  " + data && Object.entries(data) && Object.keys(data)[3]}
+      </div>
       <input
         type="text"
         value={
@@ -78,9 +87,11 @@ export const Rec = ({
           })
         }
       />
-      {"  >  " + data && Object.entries(data) && Object.keys(data)[3]}
       <br></br> <br />
-      <br />
+      <br />{" "}
+      <div className="label4">
+        {"  >  " + data && Object.entries(data) && Object.keys(data)[4]}
+      </div>
       <input
         type="text"
         value={
@@ -93,7 +104,6 @@ export const Rec = ({
           })
         }
       />
-      {"  >  " + data && Object.entries(data) && Object.keys(data)[4]}
       <br />
       <br />
       <br />
