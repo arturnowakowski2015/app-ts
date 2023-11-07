@@ -56,7 +56,7 @@ const useApp = () => {
 
       refetch();
       setIslen(false);
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result?.data?.obj]);
 
   const setLength = (e: number) => {

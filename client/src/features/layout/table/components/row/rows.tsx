@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useBuildRows } from "./useBuildRows";
-import { Column, Record } from "../../../../../model/Interface";
+import { Column } from "../../../../../model/Interface";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AppStateContext } from "../../../../../ctx/useThemeContext";
@@ -20,8 +20,8 @@ export const Rows = ({ cross, columns, result, deleteRow }: IProps) => {
   const { state } = useContext(AppStateContext);
 
   useEffect(() => {
-    if (ref.current) ref.current(result, columns);
-  }, [result]); // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (ref.current) ref.current(result, columns); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
   return (
     <>
       {rows?.map((row, ii) => {

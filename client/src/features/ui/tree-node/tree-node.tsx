@@ -1,13 +1,9 @@
 import { DataLengths, IMenuItems, Set } from "../../../model/Interface";
 import { useContext } from "react";
 import { useMenuItems } from "../../layout/menu-items/api/useMenuItems";
-import { useEffect, useRef } from "react";
-import { useState } from "react";
+
 import "../../../styles/MenuItems.scss";
-import {
-  useGlobalContext,
-  AppStateContext,
-} from "../../../ctx/useThemeContext";
+import { AppStateContext } from "../../../ctx/useThemeContext";
 interface IProps {
   setoflen: DataLengths;
   treedata: IMenuItems[];
@@ -29,7 +25,7 @@ export const TreeNode = ({
   onmouseover,
   onClick,
 }: IProps) => {
-  const { itemsonlevel, flag, set, findLen } = useMenuItems(0, treedata);
+  const { flag, set, findLen } = useMenuItems(0, treedata);
   const { state } = useContext(AppStateContext);
 
   return (

@@ -13,11 +13,9 @@ import "./App.css";
 
 function App() {
   const {
-    query,
     display,
     idroot,
     treedata,
-    setTreedata,
     el,
     handleDragStart,
     enableDropping,
@@ -42,7 +40,6 @@ function App() {
     actcategory,
     preview,
     setSet1,
-    checknav,
   } = useApp();
   const location = useLocation();
 
@@ -56,7 +53,7 @@ function App() {
   const [state, setState] = useState(initialState);
   const navigate = useNavigate();
   useEffect(() => {
-    navigate("/new");
+    navigate("/new"); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <AppStateContext.Provider value={{ state, setState }}>

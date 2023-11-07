@@ -1,5 +1,4 @@
 import "./PossibleLabel.css";
-import { useState } from "react";
 interface IPossibleLabel {
   title: string | undefined;
   level: number;

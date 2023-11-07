@@ -1,4 +1,3 @@
-import React from "react";
 import { usePagination, DOTS } from "./usePagination";
 import "../../../../../styles/pagination.scss";
 interface IProps {
